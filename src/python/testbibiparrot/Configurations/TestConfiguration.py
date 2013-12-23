@@ -32,12 +32,12 @@ class TestConfiguration(unittest.TestCase):
         self.conf_file.close()
 
     def tearDown(self):
-        with open (self.conf_file.name, "r") as conf_file:
-            data = conf_file.readlines()
+        # with open (self.conf_file.name, "r") as conf_file:
+        #     data = conf_file.readlines()
 #         print ""
 #         for line in data:
 #             print line.replace("\n","")
-        os.remove(self.conf_file.name)
+        os.remove(self.conf.CONF_FILE)
 #         print self.conf.dump()
 
     def test_getConf(self):
