@@ -1,8 +1,16 @@
 #!/usr/bin/env python
 
+
+
+import sys, os , time, inspect, imp, platform, logging
 import wx
 
 
+if sys.version_info < (2, 6):
+    import warnings
+    warnings.warn("This BibiParrot Version is Unsupported on Python Versions Older Than 2.6", ImportWarning)
+
+log = logging.getLogger(__package__)
 
 class BibiParrotFrame(wx.Frame):
     def __init__(self, parent, title):

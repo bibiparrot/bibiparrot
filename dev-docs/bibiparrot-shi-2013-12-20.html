@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+    <meta charset="utf-8" />
+    <head>
+    <title>Python As Web Services</title>    
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>             
+    <style>      
+        body, p, td, pre {
+            font-size: 14pt; }
+        
+        body {  
+            background-color:lightyellow; 
+            counter-reset: section subsection figure;}
+        
+        h1 {
+            text-align:center }
+        
+        h2 {
+            counter-increment: section; }    
+
+        h3 {
+            counter-increment: subsection; }
+        
+        h4 {
+            counter-increment: figure; }
+        
+        h2:before {
+            content:counter(section) ". "; }
+        
+        h3:before {
+            content:counter(section) "." counter(subsection) " "; }
+        
+        h4:before{
+            content:"Fig. " counter(section) "." counter(figure) " - ";}
+        
+        .reset {
+            counter-reset:subsection figure;}
+        
+        .nav-bar{
+            list-style-type:none;
+            margin:0;
+            padding:0; }
+        
+        img {
+            margin-left: 10pt;
+            border: thin solid gray; }
+        
+        .sample { 
+            background-color: black;
+            font-size: 12pt;
+            color:white;
+            padding: 4pt;
+            margin-left: 10pt;
+            margin-right: 30pt; 
+            display: block;
+            white-space: pre-line;}
+        
+        .code { 
+            padding: 4pt;
+            font-size: 12pt;
+            background-color: whitesmoke;
+            border: thin dotted gray;
+            margin-left: 10pt;
+            margin-right: 30pt; 
+            display: block; 
+            white-space: pre;}
+        
+        .author {
+            font-size: 16pt; 
+            text-align:center;}
+
+        
+        </style></head>
+<body>
+    <a name="_top_" />
+    <nav class="nav-bar">
+        <a href="#install-wxpython">install wxpython</a>
+        | 
+        <a href="#naive-bayes">naive bayes</a>
+        |
+        <a href="#java-interface">java interface</a>
+        |
+        <a href="#python-implement">python implement</a>
+        |
+        <a href="#service-wrapping">Service Wrapping</a>
+        
+        </nav>
+    
+    <h1>Problem Fixes for BibiParrot</h1>
+    <p class="author">
+ Version <var>0.01</var>, <ruby>史 春奇 <rt> Chunqi Shi</rt></ruby>,  Dec. 2013</p>  
+    
+    
+  
+    
+    
+<a name="install-wxpython" />
+<h2>Install WxPython  <a href="#_top_" style="text-decoration: none;">^</a></h2>
+<h3>WxPython 2.8 Under Macbook Air 13</h3>     
+<samp class="sample"> /usr/bin/python "$@"
+import wx 
+    
+  File "/var/tmp/wxWidgets/wxWidgets-13~231/2.6/DSTROOT
+  /System/Library/Frameworks/Python.framework/Versions/2.6/Extras/lib
+  /python/wx-2.8-mac-unicode/wx/_core.py", line 4, in module
+  ImportError:/System/Library/Frameworks
+  /Python.framework/Versions/2.6/Extras/lib/python
+  /wx-2.8-mac-unicode/wx/_core_.so: no appropriate 64-bit architecture 
+  (see "man python" for running in 32-bit mode)
+</samp>
+<p>The problem is that WxPython is only available on the Mac in 32-bit mode; however, by default, Python will start up in 64-bit mode. To fix this problem, create the following shell script named python_32:
+    </p>    
+    
+<samp class="sample">#  <a href="http://stackoverflow.com/questions/2565201/wxpython-incompatible-with-snow-leopard">WxPython Incompatible With Snow Leopard?</a>
+    #! /bin/bash
+export VERSIONER_PYTHON_PREFER_32_BIT=yes
+# 
+defaults write com.apple.versioner.python Prefer-32-Bit -bool no
+# If you decide you want to switch back into 64-bit mode, you can then use the following command:
+defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
+    
+    </samp> 
+    
+<p>
+    since you might not have enough shell scripting knowledge (you need to use "./python_32" or place it in a folder that is listed in your "$PATH" environment variable and invoke it as "python_32") to follow the former option, you might want to simply execute the following command which will make 32-bit mode the default:</p>    
+<!--
+    
+<figure>
+    <img src="img_pulpit.jpg" alt="The Pulpit Rock" width="304" height="228">
+    <figcaption><h4> A view of the pulpit rock in Norway.</h4></figcaption></figure>
+    
+    <h3/>
+    <h3/>
+    <h4/>
+    <h2></h2>
+    <h3 class="reset"/>
+    <h3/>
+    <h4 class="reset" />
+    <h4/>
+-->    
+    
+<footer><hr/> 
+<p>
+    Progress: 
+    <progress value="60" max="100"></progress></p>
+<p>
+    Contacts: 
+    <nonsense>shi</nonsense>cq@<nonsense>cs.</nonsense>brandeis.<nonsense></nonsense>edu </p></footer>
+    
+    </body></html>
