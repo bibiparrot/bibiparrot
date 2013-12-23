@@ -27,3 +27,28 @@ def funcname():
     stack = traceback.extract_stack()
     filename, lineno, name, text = stack[-2]
     return name
+
+
+def split2array(str, sep):
+    if str == None or str.strip() == "":
+        return []
+    else:
+        return str.strip().split(sep)
+
+
+def split2intarray(str, sep):
+    res = []
+    if not str == None and not str.strip() == "" and \
+       not str == None and not str.strip() == "" and \
+       sep in str:
+        for item in str.strip().split(sep):
+            res.append(int(item))
+    return res
+
+
+def split2pair(str, sep):
+    if sep in str:
+        pair = str.split(sep)
+        return (pair[0].strip(), pair[1].strip())
+    else:
+        return ()

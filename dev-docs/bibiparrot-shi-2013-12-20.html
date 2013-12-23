@@ -74,7 +74,7 @@
 <body>
     <a name="_top_" />
     <nav class="nav-bar">
-        <a href="#install-wxpython">install wxpython</a>
+        <a href="#ui-design">ui design</a>
         | 
         <a href="#naive-bayes">naive bayes</a>
         |
@@ -86,7 +86,7 @@
         
         </nav>
     
-    <h1>Problem Fixes for BibiParrot</h1>
+    <h1>Configuration Design for BibiParrot</h1>
     <p class="author">
  Version <var>0.01</var>, <ruby>史 春奇 <rt> Chunqi Shi</rt></ruby>,  Dec. 2013</p>  
     
@@ -94,20 +94,24 @@
   
     
     
-<a name="install-wxpython" />
-<h2>Install WxPython  <a href="#_top_" style="text-decoration: none;">^</a></h2>
-<h3>WxPython 2.8 Under Macbook Air 13</h3>     
-<samp class="sample"> /usr/bin/python "$@"
-import wx 
-    
-  File "/var/tmp/wxWidgets/wxWidgets-13~231/2.6/DSTROOT
-  /System/Library/Frameworks/Python.framework/Versions/2.6/Extras/lib
-  /python/wx-2.8-mac-unicode/wx/_core.py", line 4, in module
-  ImportError:/System/Library/Frameworks
-  /Python.framework/Versions/2.6/Extras/lib/python
-  /wx-2.8-mac-unicode/wx/_core_.so: no appropriate 64-bit architecture 
-  (see "man python" for running in 32-bit mode)
-</samp>
+<a name="ui-design" />
+<h2>UI Design<a href="#_top_" style="text-decoration: none;">^</a></h2>
+<h3>UI Elements Types</h3>
+<ul>
+    <li>MainFrame:</li>
+    <li>MainMenu:</li>
+    <li>MainToolbar:</li>
+    <li>MainTabs:</li>
+    <li>MainStatusbar:</li>
+    <li>RecordsList:</li>
+    <li>RecordControl:</li>
+    <li>EditControl:</li>
+    <li>BreakControl:</li>
+    <li>BreaksList:</li>
+    <li>Editor:</li>
+</ul>
+<p>Each <b>element</b> has full screen version (<em>resize</em>, <em>dynamically display</em>, <em>repaint</em>)</p>
+
 <p>The problem is that WxPython is only available on the Mac in 32-bit mode; however, by default, Python will start up in 64-bit mode. To fix this problem, create the following shell script named python_32:
     </p>    
     

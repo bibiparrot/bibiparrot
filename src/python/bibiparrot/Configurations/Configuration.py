@@ -45,7 +45,7 @@ class Configuration(object):
         self.CONF_FILE = ""
         self.isConfLoaded = False
         self.config = ConfigParser.ConfigParser()
-        self.config.optionxform=str
+        self.config.optionxform = str
 
     def asDict(self):
         result={}
@@ -94,7 +94,7 @@ class Configuration(object):
         if not self.isConfLoaded:
             self.loadConf()
         try:
-            val = self.config.get(section, key)
+            val = self.config.get(section, key).strip()
         except ConfigParser.NoSectionError:
             val = None
         except ConfigParser.NoOptionError:

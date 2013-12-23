@@ -8,4 +8,5 @@ cd $HOME/..
 python -m python.testbibiparrot.Configurations.TestBibiException
 python -m python.testbibiparrot.Configurations.TestConfiguration
 python -m python.testbibiparrot.UIElements.TestMainFrame
+python -m python.testbibiparrot.UIElements.TestUIElement
 cd $HOME

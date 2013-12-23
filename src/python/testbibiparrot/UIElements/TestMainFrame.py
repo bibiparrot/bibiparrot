@@ -12,7 +12,7 @@ from ...bibiparrot.Configurations.Configuration import log
 class TestMainFrame(unittest.TestCase):
     def setUp(self):
         self.app = wx.App(False)
-        self.MainFrame = MainFrame(None, "MainFrame")
+        self.MainFrame = MainFrame(None)
 
     def test(self):
         log().debug("%s: val=%s", "s",  "s")
