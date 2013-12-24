@@ -30,10 +30,11 @@ def funcname():
 
 
 def split2array(str, sep):
-    if str == None or str.strip() == "":
-        return []
-    else:
-        return str.strip().split(sep)
+    arr = []
+    if not str is None and not str.strip() == "":
+        for s in str.strip().split(sep):
+            arr.append(s.strip())
+    return arr
 
 
 def split2intarray(str, sep):
@@ -52,3 +53,25 @@ def split2pair(str, sep):
         return (pair[0].strip(), pair[1].strip())
     else:
         return ()
+
+
+
+class Bean(object):
+    def __init__(self):
+        self.clear()
+
+    def clear(self):
+        pass
+
+    def asDict(self):
+        result={}
+        for item in self.__slots__:
+            result[item] = getattr(self,item)
+        return result
+
+    def dump(self):
+        result = []
+        dict = self.asDict()
+        for n in dict.iterkeys():
+             result.append("%s = %s" % (n, dict.get(n)))
+        return "{\n\t\t"+"\n\t\t".join(result)+"\n}"
