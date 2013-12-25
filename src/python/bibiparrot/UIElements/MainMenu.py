@@ -13,6 +13,17 @@ from ...bibiparrot.Configurations.configurations import *
 from ...bibiparrot.Constants.constants import __default_ui_element_sep__
 from ...bibiparrot.UIElements.UIElement import UIElement
 
+__default_menu_type_separator__ = "Separator"
+__default_menu_type_radioitem__ = "RadioItem"
+__default_menu_type_item__ = "Item"
+
+
+def withShortCut(title, shortcut):
+    ret = "&" + title
+    if shortcut is not None and  not shortcut.strip() == "":
+        ret = ret + "\t" + shortcut
+    return ret
+
 
 def dataFuncMenu(ele, val):
     data = []
@@ -26,8 +37,9 @@ def dataFuncMenu(ele, val):
     return data
 
 
+
 class MenuBean(Bean):
-    __slots__ = ["__conf__", "Section", "Id", "Title", "Text", "Help", "Kind", "Data"]
+    __slots__ = ["__conf__", "Section", "Id", "Title", "Text", "Shortcut", "Help", "Kind", "Data"]
     def __init__(self, sec, conf, func):
         self.Section = sec
         self.__conf__ = conf
@@ -37,8 +49,11 @@ class MenuBean(Bean):
                 log().debug("%s: %s=%s", funcname(), key, val)
             if key in ["Data"] and not func is None:
                 setattr(self, key, func(self, val))
-            elif key in ["Id", "Title", "Help", "Kind","Text"]:
+            elif key in ["Title", "Shortcut", "Help", "Kind","Text"]:
                 setattr(self, key, val)
+            elif key in ["Id"] and not val is None:
+                setattr(self, key, str2int(val))
+
             # elif key in ["Texts"]:
             #     setattr(self, key, split2array(val, __default_ui_element_sep__))
         if LOGWIRE:
@@ -51,12 +66,22 @@ class Menu(wx.Menu):
         self.MenuBean = bean
         if LOGWIRE:
             log().debug("%s: MenuBean=%s", funcname(), self.MenuBean.dump())
-        assert len(self.MenuBean.Texts) > 0
-        wx.Menu.__init__(self, self.MenuBean.Texts[0])
 
-        if len(self.MenuBean.Texts) > 1:
-            for more in self.MenuBean.Texts[1:]:
-               wx.Menu.Append(self, 1, text=more)
+        ''' Each Menu Must Has Items'''
+        assert len(self.MenuBean.Data) > 0
+        wx.Menu.__init__(self)
+        for subMenuBean in self.MenuBean.Data:
+            if subMenuBean.Kind == __default_menu_type_separator__:
+                wx.Menu.AppendSeparator(self)
+            elif subMenuBean.Kind == __default_menu_type_item__:
+                item = wx.MenuItem(self, subMenuBean.Id, help = subMenuBean.Help)
+                # item.SetBitmap(wx.Bitmap('exit.png'))
+                wx.Menu.AppendItem(self, item)
+                # wx.Menu.Bind(self, wx.EVT_MENU, self.onRefresh, refreshMenuItem)
+            else:
+
+               wx.Menu.Append(self, subMenuBean.Id, text= withShortCut(subMenuBean.Title, subMenuBean.Shortcut), help = subMenuBean.Help)
+
     pass
 
 

@@ -55,6 +55,13 @@ def split2pair(str, sep):
         return ()
 
 
+def str2int(str):
+    if str is None or str.strip == "":
+        return None
+    else:
+        str = str.replace(",", "")
+        return int(str)
+
 
 class Bean(object):
     def __init__(self):
@@ -66,7 +73,8 @@ class Bean(object):
     def asDict(self):
         result={}
         for item in self.__slots__:
-            result[item] = getattr(self,item)
+            if hasattr(self,item):
+                result[item] = getattr(self,item)
         return result
 
     def dump(self):
