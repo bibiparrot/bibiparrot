@@ -27,7 +27,7 @@ def dataFuncMenu(ele, val):
 
 
 class MenuBean(Bean):
-    __slots__ = ["__conf__", "Section", "Id", "Title", "Texts", "Help", "Kind", "Data"]
+    __slots__ = ["__conf__", "Section", "Id", "Title", "Text", "Help", "Kind", "Data"]
     def __init__(self, sec, conf, func):
         self.Section = sec
         self.__conf__ = conf
@@ -37,12 +37,10 @@ class MenuBean(Bean):
                 log().debug("%s: %s=%s", funcname(), key, val)
             if key in ["Data"] and not func is None:
                 setattr(self, key, func(self, val))
-            elif key in ["Id", "Title", "Help", "Kind"]:
+            elif key in ["Id", "Title", "Help", "Kind","Text"]:
                 setattr(self, key, val)
-            elif key in ["Texts"]:
-                setattr(self, key, split2array(val, __default_ui_element_sep__))
-
-
+            # elif key in ["Texts"]:
+            #     setattr(self, key, split2array(val, __default_ui_element_sep__))
         if LOGWIRE:
             log().debug("%s: Bean=%s", funcname(), self.dump())
 
