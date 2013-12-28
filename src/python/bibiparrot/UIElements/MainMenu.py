@@ -1,3 +1,11 @@
+################################################################################
+# Name     : MainMenu.py                                                       #
+# Brief    : Read menu from ui.cfg and display the menus.                      #
+#                                                                              #
+# Url      : http://www.wxpython.org/docs/api/wx.Frame-class.html              #
+# Author   : Chunqi SHI <diligence.cs@gmail.com>                               #
+# Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
+################################################################################
 
 
 import sys, os , time, inspect, imp, platform, logging
@@ -61,13 +69,14 @@ class MenuBean(Bean):
 
     pass
 
+
 class Menu(wx.Menu):
     def __init__(self, bean):
         self.MenuBean = bean
         if LOGWIRE:
             log().debug("%s: MenuBean=%s", funcname(), self.MenuBean.dump())
 
-        ''' Each Menu Must Has Items'''
+        ''' Each Menu Must Has Items '''
         assert len(self.MenuBean.Data) > 0
         wx.Menu.__init__(self)
         for subMenuBean in self.MenuBean.Data:
@@ -81,7 +90,6 @@ class Menu(wx.Menu):
             else:
 
                wx.Menu.Append(self, subMenuBean.Id, text= withShortCut(subMenuBean.Title, subMenuBean.Shortcut), help = subMenuBean.Help)
-
     pass
 
 

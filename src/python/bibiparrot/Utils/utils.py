@@ -13,6 +13,7 @@ import sys, os , time, inspect, imp, platform, logging, traceback
 import wx
 import ConfigParser
 
+from ...bibiparrot.Constants.constants import __default_size_splitter__
 
 ##
 # @url: http://stackoverflow.com/questions/1095543/get-name-of-calling-functions-module-in-python
@@ -55,12 +56,33 @@ def split2pair(str, sep):
         return ()
 
 
+def str2dim(str):
+    res = (0, 0)
+    if type(str) == type(""):
+        arr = split2intarray(str.lower(), __default_size_splitter__)
+        if len(arr) == 2:
+            res = (arr[0], arr[1])
+    return res
+
+
 def str2int(str):
     if str is None or str.strip == "":
         return None
     else:
         str = str.replace(",", "")
         return int(str)
+
+def str2bool(str):
+    if str is None or type(str) == type(""):
+        return None
+    else:
+        if str.strip().lower() in ("yes", "y", "true",  "t", "1"):
+            return True
+        elif str.strip().lower() in ("no",  "n", "false", "f", "0", ""):
+            return False
+        else:
+            raise Exception('Invalid value for boolean: ' + str)
+
 
 
 class Bean(object):
@@ -76,6 +98,9 @@ class Bean(object):
             if hasattr(self,item):
                 result[item] = getattr(self,item)
         return result
+
+    def hasAttr(self, name):
+        return hasattr(self, name)
 
     def dump(self):
         result = []
