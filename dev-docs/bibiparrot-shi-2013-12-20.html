@@ -2,74 +2,74 @@
 <html>
     <meta charset="utf-8" />
     <head>
-    <title>Python As Web Services</title>    
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>             
-    <style>      
+    <title>Python As Web Services</title>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <style>
         body, p, td, pre {
             font-size: 14pt; }
-        
-        body {  
-            background-color:lightyellow; 
+
+        body {
+            background-color:lightyellow;
             counter-reset: section subsection figure;}
-        
+
         h1 {
             text-align:center }
-        
+
         h2 {
-            counter-increment: section; }    
+            counter-increment: section; }
 
         h3 {
             counter-increment: subsection; }
-        
+
         h4 {
             counter-increment: figure; }
-        
+
         h2:before {
             content:counter(section) ". "; }
-        
+
         h3:before {
             content:counter(section) "." counter(subsection) " "; }
-        
+
         h4:before{
             content:"Fig. " counter(section) "." counter(figure) " - ";}
-        
+
         .reset {
             counter-reset:subsection figure;}
-        
+
         .nav-bar{
             list-style-type:none;
             margin:0;
             padding:0; }
-        
+
         img {
             margin-left: 10pt;
             border: thin solid gray; }
-        
-        .sample { 
+
+        .sample {
             background-color: black;
             font-size: 12pt;
             color:white;
             padding: 4pt;
             margin-left: 10pt;
-            margin-right: 30pt; 
+            margin-right: 30pt;
             display: block;
             white-space: pre-line;}
-        
-        .code { 
+
+        .code {
             padding: 4pt;
             font-size: 12pt;
             background-color: whitesmoke;
             border: thin dotted gray;
             margin-left: 10pt;
-            margin-right: 30pt; 
-            display: block; 
+            margin-right: 30pt;
+            display: block;
             white-space: pre;}
-        
+
         .author {
-            font-size: 16pt; 
+            font-size: 16pt;
             text-align:center;}
 
-        
+
         </style></head>
 <body>
     <a name="_top_" />
@@ -77,23 +77,24 @@
         <a href="#dev-env">develop environment</a>
         |
         <a href="#ui-design">ui design</a>
-        | 
+        |
         <a href="#java-interface">java interface</a>
         |
         <a href="#python-implement">python implement</a>
         |
         <a href="#service-wrapping">Service Wrapping</a>
-        
+
         </nav>
-    
+
     <h1>Configuration Design for BibiParrot</h1>
     <p class="author">
  Version <var>0.01</var>, <ruby>史 春奇 <rt> Chunqi Shi</rt></ruby>, <ruby>夏 驷杰 <rt> Sijie Xia</rt></ruby>,  Dec. 2013</p>
-    
-    
+
+
 <a name="dev-env" />
 <h2>Development Environment<a href="#_top_" style="text-decoration: none;">^</a></h2>
-<h3><a href="http://www.python.org/download/releases/2.7/" target="_blank">Python 2.7+</a> </h3> <p> We suggested to use the python version above 2.7.5+ and below 3.0-. It seems that the python version 2.7.2 has compatible issues with wxWidgets. </p> 
+<h3><a href="http://www.python.org/download/releases/2.7/" target="_blank">Python 2.7+</a> </h3>
+<p> Note: There is a known compatibile issue about python 2.7.2. As when try to import the wxWidgets, the "Dll load error" will occur, and the program will abort. <br /> To solve this issue, we suggested to use the python version above 2.7.5+ and below 3.0-. It seems that python version 2.7.2 has compatible issues loading wxWidgets graphic dlls. </p>
 <h3><a href="http://wxpython.org/" target="_blank">wxPython 2.8.8+ (32bit)</a> </h3>
  <p> The <a href="http://sourceforge.net/projects/wxpython/files/wxPython/2.8.10.1/" target="_blank">wxPython demo package</a>  of 2.8 is also very important.
 </p>
@@ -101,7 +102,7 @@
 <p>
     Of course, any editor will be fine. Only pyCharm is perfect for function reference and friendly for newbies (that's us).
 </p>
-    
+
 <a name="ui-design" />
 <h2>UI Design<a href="#_top_" style="text-decoration: none;">^</a></h2>
 <h3>UI Elements Types</h3>
@@ -121,26 +122,26 @@
 <p>Each <b>element</b> has full screen version (<em>resize</em>, <em>dynamically display</em>, <em>repaint</em>)</p>
 
 <p>The problem is that WxPython is only available on the Mac in 32-bit mode; however, by default, Python will start up in 64-bit mode. To fix this problem, create the following shell script named python_32:
-    </p>    
-    
+    </p>
+
 <samp class="sample">#  <a href="http://stackoverflow.com/questions/2565201/wxpython-incompatible-with-snow-leopard">WxPython Incompatible With Snow Leopard?</a>
     #! /bin/bash
 export VERSIONER_PYTHON_PREFER_32_BIT=yes
-# 
+#
 defaults write com.apple.versioner.python Prefer-32-Bit -bool no
 # If you decide you want to switch back into 64-bit mode, you can then use the following command:
 defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
-    
-    </samp> 
-    
+
+    </samp>
+
 <p>
-    since you might not have enough shell scripting knowledge (you need to use "./python_32" or place it in a folder that is listed in your "$PATH" environment variable and invoke it as "python_32") to follow the former option, you might want to simply execute the following command which will make 32-bit mode the default:</p>    
+    since you might not have enough shell scripting knowledge (you need to use "./python_32" or place it in a folder that is listed in your "$PATH" environment variable and invoke it as "python_32") to follow the former option, you might want to simply execute the following command which will make 32-bit mode the default:</p>
 <!--
-    
+
 <figure>
     <img src="img_pulpit.jpg" alt="The Pulpit Rock" width="304" height="228">
     <figcaption><h4> A view of the pulpit rock in Norway.</h4></figcaption></figure>
-    
+
     <h3/>
     <h3/>
     <h4/>
@@ -149,14 +150,14 @@ defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
     <h3/>
     <h4 class="reset" />
     <h4/>
--->    
-    
-<footer><hr/> 
+-->
+
+<footer><hr/>
 <p>
-    Progress: 
+    Progress:
     <progress value="60" max="100"></progress></p>
 <p>
-    Contacts: 
+    Contacts:
     <nonsense>shi</nonsense>cq@<nonsense>cs.</nonsense>brandeis.<nonsense></nonsense>edu </p></footer>
-    
+
     </body></html>
