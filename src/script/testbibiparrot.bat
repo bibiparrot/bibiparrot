@@ -1,4 +1,8 @@
 @echo off
+REM @TIME: 2014-01-07 
+REM @AUTHOR: Chunqi SHI (diligence.cs@gmail.com)
+REM @INF: start test the modules of python
+REM
 
 set HOME=%~dp0
 cd %HOME%/..
