@@ -1,4 +1,5 @@
-
+import wxversion
+wxversion.select('2.8-unicode')
 import sys, os , time, inspect, imp, platform, logging
 import wx
 

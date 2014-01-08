@@ -2,6 +2,8 @@
 
 import unittest
 import logging
+import wxversion
+wxversion.select('2.8-unicode')
 import wx
 
 
