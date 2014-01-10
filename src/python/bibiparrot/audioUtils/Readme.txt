@@ -16,4 +16,6 @@ Just follow the instructions of the apple install package, and you can import th
 
 ** Note: Windows 64 platform might not be compatibile with the pygame library.
 
-Last Updated: Jan 09, 2014  4:34PM EST
+** Note: The test musics are in testMusics for testing.
+
+Last Updated: Jan 09, 2014  8:02PM EST
