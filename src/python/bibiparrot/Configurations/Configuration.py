@@ -1,3 +1,12 @@
+################################################################################
+# Name     : Configuration.py                                                  #
+# Brief    : define reading class Configuration for .cfg files.                #
+#            e.g. ui.cfg                                                       #
+# Url      :                                                                   #
+# Author   : Chunqi SHI <diligence.cs@gmail.com>                               #
+# Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
+################################################################################
+
 '''
 
 
@@ -14,13 +23,18 @@ from ..Constants.constants import __configuration_file_encoding__, __project__, 
 from configurations import LOGWIRE, log
 
 
-
+###
+##   Brief  : read file with first line encoding description.
+#             e.g. "# Encoding=UTF-8"
+#
+#
 def cfgEncoding(filename):
     if not os.path.exists(filename):
         raise BibiException("%s, filename=%s not exist!" %(funcname(), filename))
     try:
         fil = open(filename, 'r')
         line = fil.readline()
+        fil.close()
     except Exception as e:
         raise BibiException("%s, filename=%s read line error!" %(funcname(), filename))
 
@@ -33,7 +47,11 @@ def cfgEncoding(filename):
     return None
 
 
-
+###
+##   Brief  : Configuration class read encoded .cfg file.
+#             First line will be "# Encoding=UTF-8"
+#
+#
 class Configuration(object):
     ''' http://stackoverflow.com/questions/472000/python-slots '''
     __slots__=("CONF_FILE", "isConfLoaded", "config")
@@ -82,7 +100,9 @@ class Configuration(object):
             if enc == None:
                 self.config.read(config_file)
             else:
-                self.config.readfp(codecs.open(config_file, "r", enc))
+                fp = codecs.open(config_file, "r", enc)
+                self.config.readfp(fp)
+                fp.close()
             self.CONF_FILE = config_file
             self.isConfLoaded = True
         else:
@@ -115,4 +135,5 @@ class Configuration(object):
             self.CONF_FILE = config_file
         with open(self.CONF_FILE, 'wb') as configfile:
             self.config.write(configfile)
+            configfile.close()
         return value

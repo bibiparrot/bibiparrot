@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
+from ...bibiparrot.UIElements.MainFrame import MainFrame
+from ...bibiparrot.Configurations.Configuration import log
+from ...bibiparrot.Constants.constants import *
 import unittest
 import logging
 import wxversion
-wxversion.select('2.8-unicode')
+wxversion.select(__required_wx_version__)
 import wx
 
-from ...bibiparrot.UIElements.MainFrame import MainFrame
-
-from ...bibiparrot.Configurations.Configuration import log
 #
 #
 # class Frame(wx.Frame):

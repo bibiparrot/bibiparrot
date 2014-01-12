@@ -1,5 +1,11 @@
-
-import logging
+################################################################################
+# Name     : BibiException.py                                                  #
+# Brief    : define the base Exception class for Bibi Parrot project.          #
+#                                                                              #
+# Url      :                                                                   #
+# Author   : Chunqi SHI <diligence.cs@gmail.com>                               #
+# Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
+################################################################################
 
 
 class BibiException(Exception):

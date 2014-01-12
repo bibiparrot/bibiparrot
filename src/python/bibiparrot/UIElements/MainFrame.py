@@ -7,9 +7,11 @@
 # Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
 ################################################################################
 
-import wxversion
-wxversion.select('2.8-unicode')
+
 import sys, os , time, inspect, imp, platform, logging
+
+import wxversion
+wxversion.select(__required_wx_version__)
 import wx
 import wx.grid
 import wx.html

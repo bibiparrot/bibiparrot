@@ -1,3 +1,12 @@
+################################################################################
+# Name     : configurations.py                                                 #
+# Brief    : define the necessary settings for the bibiparrot.                 #
+#                                                                              #
+# Url      :                                                                   #
+# Author   : Chunqi SHI <diligence.cs@gmail.com>                               #
+# Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
+################################################################################
+
 '''
 
 
@@ -19,9 +28,16 @@ logging.basicConfig(filename=__default_logging_file__, filemode='w', level=loggi
 # log.addHandler(handler)
 LOGWIRE = True
 
-
+##
+#  logger dictionary
+#
 logs = {}
 
+###
+##   Brief  : return the reference of new logger,
+#             logger's name is the python file name.
+#             all the logs will be cashed into logs dictionary.
+#
 
 def log():
     stack = traceback.extract_stack()
@@ -31,9 +47,15 @@ def log():
         logs[key] = logging.getLogger(key)
     return logs[key]
 
-
+##
+#  configurations dictionary
+#
 confs = {}
 
+###
+##   Brief  : return the reference of new ui configuration.
+#
+#
 
 def uiconf():
     key = funcname()

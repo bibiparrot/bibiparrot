@@ -5,8 +5,8 @@
 #HOME=$(dirname $FILE)
 HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $HOME/..
-python -m python.testbibiparrot.Configurations.TestBibiException
-python -m python.testbibiparrot.Configurations.TestConfiguration
+#python -m python.testbibiparrot.Configurations.TestBibiException
+#python -m python.testbibiparrot.Configurations.TestConfiguration
 #python -m python.testbibiparrot.UIElements.TestMainFrame
 #python -m python.testbibiparrot.UIElements.TestUIElement
 #python -m python.testbibiparrot.UIElements.TestMainMenu

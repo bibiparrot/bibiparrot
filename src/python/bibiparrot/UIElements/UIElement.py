@@ -1,13 +1,16 @@
-import wxversion
-wxversion.select('2.8-unicode')
 import sys, os , time, inspect, imp, platform, logging
-import wx
+
 
 from ..Configurations import configurations
 from ..Constants import constants
 
 from ...bibiparrot.Configurations.configurations import *
-from ...bibiparrot.Constants.constants import __default_size_splitter__
+from ...bibiparrot.Constants.constants import *
+
+
+import wxversion
+wxversion.select(__required_wx_version__)
+import wx
 
 # Name=MainFrame
 # Title=Bibiparrot

@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 
-import unittest
-import logging
-import wxversion
-wxversion.select('2.8-unicode')
-import wx
 
 from ...bibiparrot.UIElements.MainFrame import MainFrame
 from ...bibiparrot.UIElements.MainMenu import MainMenu
-
-
+from ...bibiparrot.Constants.constants import *
 from ...bibiparrot.Configurations.Configuration import log
+
+
+import unittest
+import logging
+import wxversion
+wxversion.select(__required_wx_version__)
+import wx
 
 
 class TestMainMenu(unittest.TestCase):

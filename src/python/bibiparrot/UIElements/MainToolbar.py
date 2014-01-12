@@ -1,29 +1,31 @@
 ################################################################################
 # Name     : MainToolbar.py                                                    #
-# Brief    : #
+# Brief    : Define the necessary Toolbar for Bibi Parrot project              #
 #                                                                              #
 # Url      : http://www.wxpython.org/docs/api/wx.ToolBar-class.html            #
 # Author   : Chunqi SHI <diligence.cs@gmail.com>                               #
 # Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
 ################################################################################
 
-import wxversion
-wxversion.select('2.8-unicode')
+from ..Configurations import configurations
+from ..Constants import constants
+
+from ...bibiparrot.Configurations.configurations import *
+from ...bibiparrot.Constants.constants import *
+from ...bibiparrot.UIElements.UIElement import UIElement
+
+from ...bibiparrot import images
+
 
 import sys, os , time, inspect, imp, platform, logging
+
+import wxversion
+wxversion.select(__required_wx_version__)
 import wx
 import wx.grid
 import wx.html
 import wx.aui
 
-from ..Configurations import configurations
-from ..Constants import constants
-
-from ...bibiparrot.Configurations.configurations import *
-from ...bibiparrot.Constants.constants import __default_ui_element_sep__
-from ...bibiparrot.UIElements.UIElement import UIElement
-
-from ...bibiparrot import images
 
 def dataFuncToolbar(ele, val):
     data = []
