@@ -7,14 +7,7 @@
 # Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
 ################################################################################
 
-from ..Configurations import configurations
-from ..Constants import constants
-
-from ...bibiparrot.Configurations.configurations import *
-from ...bibiparrot.Constants.constants import *
-from ...bibiparrot.UIElements.UIElement import UIElement
-
-
+from ...bibiparrot.Constants.constants import __required_wx_version__
 import sys, os , time, inspect, imp, platform, logging
 
 import wxversion
@@ -23,6 +16,12 @@ import wx
 import wx.grid
 import wx.html
 import wx.aui
+
+from ...bibiparrot.UIElements.UIElement import UIElement
+from ...bibiparrot.Configurations.configurations import *
+from ..Configurations import configurations
+from ..Constants import constants
+
 
 
 __default_menu_type_separator__ = "Separator"

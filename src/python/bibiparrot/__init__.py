@@ -10,10 +10,8 @@ __all__ = ['UIElements']
 
 
 import sys, os , time, inspect, imp, platform, logging
-import wx
 import ConfigParser
 import cPickle as pickle
-
 
 
 if sys.version_info < (2, 6):

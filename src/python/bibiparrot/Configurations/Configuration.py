@@ -14,7 +14,6 @@
 
 import sys, os , time, inspect, imp, platform, codecs
 import logging
-import wx
 import ConfigParser
 
 from ..Utils.utils import *

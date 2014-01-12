@@ -2,16 +2,18 @@
 
 
 
-from ...bibiparrot.UIElements.MainFrame import MainFrame
-from ...bibiparrot.UIElements.UIElement import UIElement
-from ...bibiparrot.Constants.constants import *
-from ...bibiparrot.Configurations.Configuration import log
+from ...bibiparrot.Constants.constants import __required_wx_version__
 
 import unittest
 import logging
 import wxversion
 wxversion.select(__required_wx_version__)
 import wx
+
+from ...bibiparrot.UIElements.MainFrame import MainFrame
+from ...bibiparrot.UIElements.UIElement import UIElement
+from ...bibiparrot.Configurations.Configuration import log
+
 
 class TestUIElement(unittest.TestCase):
     def setUp(self):

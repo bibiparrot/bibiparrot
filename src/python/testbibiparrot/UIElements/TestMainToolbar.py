@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 
-from ...bibiparrot.UIElements.MainFrame import MainFrame
-from ...bibiparrot.UIElements.MainMenu import MainMenu
-from ...bibiparrot.UIElements.MainToolbar import MainToolbar
-from ...bibiparrot.Constants.constants import *
-from ...bibiparrot.Configurations.Configuration import log
 
 
+from ...bibiparrot.Constants.constants import __required_wx_version__
 
 import unittest
 import logging
 import wxversion
 wxversion.select(__required_wx_version__)
 import wx
+
+from ...bibiparrot.Configurations.Configuration import log
+from ...bibiparrot.UIElements.MainFrame import MainFrame
+from ...bibiparrot.UIElements.MainMenu import MainMenu
+from ...bibiparrot.UIElements.MainToolbar import MainToolbar
 
 
 class TestMainToolbar(unittest.TestCase):

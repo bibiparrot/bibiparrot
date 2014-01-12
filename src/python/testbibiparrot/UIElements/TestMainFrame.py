@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
-from ...bibiparrot.UIElements.MainFrame import MainFrame
-from ...bibiparrot.Configurations.Configuration import log
-from ...bibiparrot.Constants.constants import *
+
+from ...bibiparrot.Constants.constants import __required_wx_version__
 import unittest
 import logging
 import wxversion
 wxversion.select(__required_wx_version__)
 import wx
+
+from ...bibiparrot.UIElements.MainFrame import MainFrame
+from ...bibiparrot.Configurations.Configuration import log
 
 #
 #
