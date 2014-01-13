@@ -13,6 +13,9 @@
 import os
 from subprocess import call
 
+##
+#   unittest module by name
+#
 def test_module(name):
     '''
         1. change directory to module root $ProjectHome/src;
