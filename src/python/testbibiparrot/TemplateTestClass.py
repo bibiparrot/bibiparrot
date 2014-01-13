@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 ################################################################################
-# Name     : TestClassTemplate.py                                              #
+# Name     : TemplateTestClass.py                                              #
 # Brief    : The template python file using unittest                           #
 #                                                                              #
 # Url      :                                                                   #
@@ -12,7 +12,7 @@
 
 import unittest
 
-class TestClassTemplate(unittest.TestCase):
+class TemplateTestClass(unittest.TestCase):
     def setUp(self):
         pass
 
