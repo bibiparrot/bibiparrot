@@ -18,6 +18,7 @@ import wx
 import wx.grid
 import wx.html
 import wx.aui
+import wx.richtext
 
 from ..Configurations import configurations
 from ..Constants import constants

@@ -19,8 +19,9 @@ import wx.aui
 
 from ...bibiparrot.UIElements.UIElement import UIElement
 from ...bibiparrot.Configurations.configurations import *
-from ..Configurations import configurations
-from ..Constants import constants
+from ...bibiparrot.Constants.constants import __default_ui_element_sep__
+# from ..Configurations import configurations
+# from ..Constants import constants
 
 
 
