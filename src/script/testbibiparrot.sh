@@ -1,6 +1,15 @@
 #!/bin/sh
 
 
+################################################################################
+# Name     : testbibiparrot.sh                                                 #
+# Brief    : Running the unittest module                                       #
+#                                                                              #
+# Url      :                                                                   #
+# Author   : Chunqi SHI <diligence.cs@gmail.com>                               #
+# Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
+################################################################################
+
 #FILE=$(readlink -f "$0")
 #HOME=$(dirname $FILE)
 HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
