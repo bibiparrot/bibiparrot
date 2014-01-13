@@ -26,5 +26,9 @@ def test_module(name):
     call(["python","-m", name])
 
 if __name__ == '__main__':
+    test_module("python.testbibiparrot.Configurations.TestBibiException")
+    test_module("python.testbibiparrot.Configurations.TestConfiguration")
+    test_module("python.testbibiparrot.UIElements.TestUIElement")
+    test_module("python.testbibiparrot.UIElements.TestMainMenu")
     test_module("python.testbibiparrot.UIElements.TestMainToolbar")
     test_module("python.testbibiparrot.UIElements.TestEditor")
