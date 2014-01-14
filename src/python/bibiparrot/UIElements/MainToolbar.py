@@ -95,6 +95,12 @@ class MainToolbar (wx.ToolBar):
         # wx.ToolBar.SetMargins(self, (20, 20))
         wx.ToolBar.Realize(self)
 
+        # if hasattr(parent, "mgr"):
+        #     parent.mgr.AddPane(self, wx.aui.AuiPaneInfo().
+        #                   Name("Toolbar").Caption("Toolbar").
+        #                   ToolbarPane().Top().Row(1).Position(1).
+        #                   LeftDockable(False).RightDockable(False))
+        #
         # parent.SetToolBar(self)
         # tbar = self.CreateToolBar()
         # doBind( tbar.AddTool(-1, images._rt_open.GetBitmap(),
