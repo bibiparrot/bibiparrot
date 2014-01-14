@@ -742,7 +742,12 @@ overview = """<html><body>
 
 
 if __name__ == '__main__':
-    import sys,os
-    import run
-    run.main(['', os.path.basename(sys.argv[0])] + sys.argv[1:])
-
+    # import sys,os
+    # import run
+    # run.main(['', os.path.basename(sys.argv[0])] + sys.argv[1:])
+    app = wx.App(False)
+    win = RichTextFrame(None, -1, "wx.richtext.RichTextCtrl",
+                size=(700, 500),
+                style = wx.DEFAULT_FRAME_STYLE)
+    win.Show(True)
+    app.MainLoop()

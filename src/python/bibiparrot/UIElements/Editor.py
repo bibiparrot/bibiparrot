@@ -25,7 +25,7 @@ from ..Constants import constants
 from ...bibiparrot.UIElements.UIElement import UIElement
 from ...bibiparrot.UIElements.EditControl import EditControl
 from ...bibiparrot.UIElements.MainMenu import MainMenu
-from ...bibiparrot.UIElements.MainToolbar import MainToolbar
+from ...bibiparrot.UIElements.MainToolbar import MainToolbar, EditorToolbar
 
 from ...bibiparrot.Configurations.configurations import *
 #
@@ -69,15 +69,14 @@ class Editor(wx.Panel, UIElement):
         self.element.loadSect("Editor")
         wx.Panel.__init__(self, parent, size = self.element.Size, *args, **kwargs)
         self.control = EditControl(self, size = self.element.Size)
-        self.Toolbar = MainToolbar(self)
+        self.Toolbar = EditorToolbar(self)
 
-        self._mgr = wx.aui.AuiManager()
-        self._mgr.SetManagedWindow(self)
-        self._mgr.AddPane(self.control, wx.aui.AuiPaneInfo().
+        self.uiman = wx.aui.AuiManager()
+        self.uiman.SetManagedWindow(self)
+        self.uiman.AddPane(self.control, wx.aui.AuiPaneInfo().
                           CenterPane())
-        self._mgr.AddPane(self.Toolbar, wx.aui.AuiPaneInfo().
+        self.uiman.AddPane(self.Toolbar, wx.aui.AuiPaneInfo().
                           Name("Toolbar").Caption("Toolbar").
                           ToolbarPane().Top().Row(1).Position(1).
                           LeftDockable(False).RightDockable(False))
-        self._mgr.Update()
-        pass
+        self.uiman.Update()

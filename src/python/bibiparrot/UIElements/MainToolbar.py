@@ -26,8 +26,8 @@ from ..Constants import constants
 
 from ...bibiparrot.Configurations.configurations import *
 from ...bibiparrot.UIElements.UIElement import UIElement
-from ...bibiparrot import images
-
+# from ...bibiparrot import images
+from Images import bitmap
 
 
 def dataFuncToolbar(ele, val):
@@ -43,7 +43,7 @@ def dataFuncToolbar(ele, val):
 
 
 class ToolbarBean(Bean):
-    __slots__ = ["__conf__", "Section", "Id", "Position", "Size", "Style", "Enabled", "Name", "Icon", "Help", "Data"]
+    __slots__ = ["__conf__", "Section", "Id", "Position", "Size", "Style", "Enabled", "Name", "Icon", "Help", "More"]
     def __init__(self, sec, conf, func):
         self.Section = sec
         self.__conf__ = conf
@@ -51,10 +51,15 @@ class ToolbarBean(Bean):
             val = conf.getConf(self.Section, key)
             if LOGWIRE:
                 log().debug("%s: section=%s, %s=%s", funcname(), self.Section, key, val)
+
+            ###  default value is required ###
+            if key in ["Enabled"]:
+                setattr(self, key, False)
+
             if not val is None and not val == "":
-                if key in ["Data"] and not func is None:
+                if key in ["More"] and not func is None:
                     setattr(self, key, func(self, val))
-                elif key in ["Name", "Help", "Style"]:
+                elif key in ["Name", "Help", "Style", "Icon"]:
                     setattr(self, key, val)
                 elif key in ["Id"] and not val is None:
                     setattr(self, key, str2int(val))
@@ -68,32 +73,42 @@ class ToolbarBean(Bean):
         if LOGWIRE:
             log().debug("%s: Bean=%s", funcname(), self.dump())
 
-    pass
+    def hasMore(self):
+        return self.hasAttr("More")
 
+    def isSeparator(self):
+        return self.hasAttr("Style") and self.Style.lower() == "separator"
 
-class MainToolbar (wx.ToolBar):
-    def __init__(self, parent):
+### @End class ToolbarBean
+
+class Toolbar (wx.ToolBar):
+    def __init__(self, parent, sect, *args, **kwargs):
         self.element = UIElement()
         self.element.dataFunc = dataFuncToolbar
-        self.element.loadSect("MainToolbar")
-
+        self.element.loadSect(sect)
         if LOGWIRE:
             log().debug("%s: element=%s", funcname(), self.element.dump())
-        wx.ToolBar.__init__(self, parent)
+        wx.ToolBar.__init__(self, parent, *args, **kwargs)
+
         for toolbar in self.element.Data:
             if LOGWIRE:
                 log().debug("%s: menu=%s", funcname(), toolbar.dump())
-            # self.Append(Menu(menu), menu.Title)
-            # wx.ToolBar.AddTool(self, toolbar.Id)
-            wx.ToolBar.AddLabelTool(self, toolbar.Id, label=toolbar.Name, bitmap=images.WXPdemo.GetBitmap())
-            if toolbar.hasAttr("Data"):
-                for subToolbar in toolbar.Data:
-                    wx.ToolBar.AddLabelTool(self, subToolbar.Id, label=subToolbar.Name,
-                                            bitmap=images.WXPdemo.GetBitmap())
-            wx.ToolBar.AddSeparator(self)
-
-        # wx.ToolBar.SetMargins(self, (20, 20))
+            self.add(toolbar)
+        ###  add space to toolbar ###
+        wx.ToolBar.AddLabelTool(self, -1, label="END", bitmap=wx.NullBitmap)
         wx.ToolBar.Realize(self)
+
+    def add(self, toolbar):
+        if toolbar.isSeparator():
+            wx.ToolBar.AddSeparator(self)
+        if toolbar.Enabled:
+            wx.ToolBar.AddLabelTool(self, toolbar.Id, label=toolbar.Name, bitmap=bitmap(toolbar.Icon))
+        if toolbar.hasMore():
+            for subToolbar in toolbar.More:
+                self.add(subToolbar)
+
+### @End class Toolbar
+
 
         # if hasattr(parent, "mgr"):
         #     parent.mgr.AddPane(self, wx.aui.AuiPaneInfo().
@@ -109,3 +124,13 @@ class MainToolbar (wx.ToolBar):
         #                     shortHelpString="Save"), self.OnFileSave)
         # tbar.AddSeparator()
         # tbar.Realize()
+
+
+class MainToolbar (Toolbar):
+    def __init__(self, parent, *args, **kwargs):
+        Toolbar.__init__(self, parent, sect="MainToolbar", *args, **kwargs)
+
+class EditorToolbar (Toolbar):
+    def __init__(self, parent, *args, **kwargs):
+        Toolbar.__init__(self, parent, sect="EditorToolbar", *args, **kwargs)
+### @End class MainToolbar

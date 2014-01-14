@@ -3,11 +3,20 @@
 #
 from wx.lib.embeddedimage import PyEmbeddedImage
 
+# ***************** Catalog starts here *******************
+
+catalog = {}
+index = []
+
+
 Mondrian = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAHFJ"
     "REFUWIXt1jsKgDAQRdF7xY25cpcWC60kioI6Fm/ahHBCMh+BRmGMnAgEWnvPpzK8dvrFCCCA"
     "coD8og4c5Lr6WB3Q3l1TBwLYPuF3YS1gn1HphgEEEABcKERrGy0E3B0HFJg7C1N/f/kTBBBA"
     "+Vi+AMkgFEvBPD17AAAAAElFTkSuQmCC")
+
+index.append('Mondrian')
+catalog['Mondrian'] = Mondrian
 
 #----------------------------------------------------------------------
 Background = PyEmbeddedImage(
@@ -665,6 +674,9 @@ Background = PyEmbeddedImage(
     "Ck2GhFRbTfJtW8Hm173lVLUINplzxuTs87XCJC2iRQAlmWQrkgAh3bFENncfo/fBlFOCQ4P/"
     "ndTk/wDWjbRY8zgTJQAAAABJRU5ErkJggg==")
 
+index.append('Background')
+catalog['Background'] = Background
+
 #----------------------------------------------------------------------
 TestStar = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAABHNCSVQICAgIfAhkiAAAChNJ"
@@ -718,6 +730,8 @@ TestStar = PyEmbeddedImage(
     "g7bS/KfSG9WGAHu0IcAebQiwRxsC7NGGAHu0IcAebQiwRxsC7NH+B9lU5vQMoztoAAAAAElF"
     "TkSuQmCC")
 
+index.append('TestStar')
+catalog['TestStar'] = TestStar
 #----------------------------------------------------------------------
 TestStar2 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAIAAAABc2X6AAAAA3NCSVQICAjb4U/gAAAJSElE"
@@ -767,6 +781,9 @@ TestStar2 = PyEmbeddedImage(
     "nHO5GU1uWHHXrx9r5o72f2Jf/PkPGrnPsA7i37D2pvuveAvA890WgOe7LQDPd1sAnu/2XyhV"
     "zwAumKtrAAAAAElFTkSuQmCC")
 
+index.append('TestStar2')
+catalog['TestStar2'] = TestStar2
+
 #----------------------------------------------------------------------
 TestMask = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAIAAAABc2X6AAAAA3NCSVQICAjb4U/gAAADgElE"
@@ -787,6 +804,9 @@ TestMask = PyEmbeddedImage(
     "fg7LvyrcfrHtqSeogtDI1I9rzocdOJUzk3D+zUOxyZU30HSspAfiwluTerjzwQV7K12p4TaM"
     "j9sIsJUGpo1DFHbFK9yS0szWVGr/AaeFdXV/CgOpJv338et5twSHEEuX2kVrYS5SuVvHhuZ9"
     "SqxuaevuOLWf9jyJA+2Ht7P/L+rdcfh/8UDamPANIgqdxHdWF6wAAAAASUVORK5CYII=")
+
+index.append('TestMask')
+catalog['TestMask'] = TestMask
 
 #----------------------------------------------------------------------
 Test2 = PyEmbeddedImage(
@@ -834,6 +854,9 @@ Test2 = PyEmbeddedImage(
     "AFhgQBH5J6+n3hwGUAWJIKMhkgrhAFqAZ2YXKtQrD9drcBXQoapEAMKgIt4DC07lIA9ZWIOq"
     "fvKFicOKKHetd36bA8VRJvFCoxZMhyJQD70ERg17B3yRdgahFQE8tga9k21POSM8OmDbUJ3u"
     "KHua9e8aCGibRKfZN8X/AG65ainoKqzxAAAAAElFTkSuQmCC")
+
+index.append('Test2')
+catalog['Test2'] = Test2
 
 #----------------------------------------------------------------------
 Test2m = PyEmbeddedImage(
@@ -884,6 +907,10 @@ Test2m = PyEmbeddedImage(
     "xmaFNSACGKDeRgg5t4JUZ5eBdaRQWYjLw8fQVf6Q4/6vV5C9naS1iw337UKZgx+NVUApmBlE"
     "GiVOVm6jcoOLVVA1AdAYEtTZ3TmRlh237CDHfna1OrxbxkPwM0++BNSzw7tpfCX4H2fUgfM/"
     "Mpi6AAAAAElFTkSuQmCC")
+
+index.append('Test2m')
+catalog['Test2m'] = Test2m
+
 
 #----------------------------------------------------------------------
 Robin = PyEmbeddedImage(
@@ -1331,6 +1358,8 @@ Robin = PyEmbeddedImage(
     "V7t+huRaWfMpGth13Wq1OpsVPuQSbmZd1zV2qmPjroGZIYdP3vn5c/0yjPWGacLxnQNAjKlt"
     "L2b2/wO95SbBGokj2QAAAABJRU5ErkJggg==")
 
+index.append('Robin')
+catalog['Robin'] = Robin
 #----------------------------------------------------------------------
 Bulb1 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAIAAAADnC86AAAAA3NCSVQICAjb4U/gAAAAuklE"
@@ -1339,6 +1368,8 @@ Bulb1 = PyEmbeddedImage(
     "AFq45/Z/M86E5Woz9yOZsWCTtzJfasrm3wLSGjv2ey+Qli2pAfjaVtUY/EykwXKJaq9zaOME"
     "/yRuHvRCjIzpXheT+QB+IPrbx2nwAhZDRFVKSaXBAAAAAElFTkSuQmCC")
 
+index.append('Bulb1')
+catalog['Bulb1'] = Bulb1
 #----------------------------------------------------------------------
 Bulb2 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAIAAAADnC86AAAAA3NCSVQICAjb4U/gAAABZ0lE"
@@ -1350,6 +1381,8 @@ Bulb2 = PyEmbeddedImage(
     "qGywwS59hfs5qfbqQ1LMlQjDEDbsauC3vq7J78x1DaxfIaqUVpCzu+Zx5kbDDwGU6z/DdaGX"
     "FWI8jAqh2k4jGDXW2QE3EI+Qx3U6zeM28Af0e8fi34LvHAyFYho2A4MAAAAASUVORK5CYII=")
 
+index.append('Bulb2')
+catalog['Bulb2'] = Bulb2
 #----------------------------------------------------------------------
 DbDec = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAAcUlE"
@@ -1357,6 +1390,8 @@ DbDec = PyEmbeddedImage(
     "OoASSR8HmO1BQIBjYl1xQMeh8cmRKleiOwTX84XUp4hV+2jXNMnoHlqGIX//RQQIECBAgACB"
     "2zoBmUYswftQP5gAAAAASUVORK5CYII=")
 
+index.append('DbDec')
+catalog['DbDec'] = DbDec
 #----------------------------------------------------------------------
 Dec = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAAaklE"
@@ -1364,12 +1399,16 @@ Dec = PyEmbeddedImage(
     "3ZHoNxRNCbSzE8Df6b6oHlHMOfaRpGRtDn5NhYzlQ1MxSAdadX+RAQYYYIABBhjw6AbsOBx9"
     "les1zAAAAABJRU5ErkJggg==")
 
+index.append('Dec')
+catalog['Dec'] = Dec
 #----------------------------------------------------------------------
 Pt = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAAQElE"
     "QVRIiWM8cOAAAy0BE01NHxYWsECoAwcciNTg4HCAJAuGfhCNWjDwFjCOFhWjFoxaMGrBqAWj"
     "FoxaMDIsAABPtQfBbeinLQAAAABJRU5ErkJggg==")
 
+index.append('Pt')
+catalog['Pt'] = Pt
 #----------------------------------------------------------------------
 DbInc = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAAcUlE"
@@ -1377,6 +1416,8 @@ DbInc = PyEmbeddedImage(
     "YCXgdJbJUuWSJRJoqeObOy2yWbM32O2Buyfv0zH1yAvpHlDFraU3gah0AOmHv0iAAAECBAgQ"
     "YOsCx7AqwchhZKwAAAAASUVORK5CYII=")
 
+index.append('DbInc')
+catalog['DbInc'] = DbInc
 #----------------------------------------------------------------------
 Inc = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAAZElE"
@@ -1384,18 +1425,24 @@ Inc = PyEmbeddedImage(
     "G2gafMP0OAKYBjn9B+OVmfRoG5DpDcCn7wBJeqzeQDhHW2TAgAEDBgwYeAGQuBx9fpoCrwAA"
     "AABJRU5ErkJggg==")
 
+index.append('Inc')
+catalog['Inc'] = Inc
 #----------------------------------------------------------------------
 Tog1 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAFdJ"
     "REFUKJFjZGRiZqAEMFGkm4GBgQXG+P/v739SNDIyMTNS5IL6utr/KC6AmYgMYK5qaGjAaRAL"
     "Thk00NjUjGEBAwMVAnHUgMFgAN50gJS4cCZzRkpzIwAQgA63kzHTVAAAAABJRU5ErkJggg==")
 
+index.append('Tog1')
+catalog['Tog1'] = Tog1
 #----------------------------------------------------------------------
 Tog2 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAD5J"
     "REFUKJFjZGRiZqAEMFGkmxoGsCBz/v/7858UzYxMLIwUu4CRUCDCXMXIxMKITX7gA3HUgMFg"
     "AMGERAgAAPsqCDCpcwplAAAAAElFTkSuQmCC")
 
+index.append('Tog2')
+catalog['Tog2'] = Tog2
 #----------------------------------------------------------------------
 Smiles = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAolJ"
@@ -1413,6 +1460,8 @@ Smiles = PyEmbeddedImage(
     "w9gYzM6CX3HwKzaz71cYu/uV7rMvcLb2Mf3srbURi81WNJdLK5HYLuMi46LEng7lMlc2Xec/"
     "xiMt8QU2mDwAAAAASUVORK5CYII=")
 
+index.append('Smiles')
+catalog['Smiles'] = Smiles
 #----------------------------------------------------------------------
 GridBG = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAAFQAAABUCAYAAAAcaxDBAAAABHNCSVQICAgIfAhkiAAAAX9J"
@@ -1425,18 +1474,24 @@ GridBG = PyEmbeddedImage(
     "KMygMIPCDApzbIK9ddrU8hSnt4s/x6ZGDAozKMygMIPCHJtg3b1tan2CRf8+tzzMoDCDwgwK"
     "MyjsCUFtsOQdiq21AAAAAElFTkSuQmCC")
 
+index.append('GridBG')
+catalog['GridBG'] = GridBG
 #----------------------------------------------------------------------
 SmallUpArrow = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAADxJ"
     "REFUOI1jZGRiZqAEMFGke2gY8P/f3/9kGwDTjM8QnAaga8JlCG3CAJdt2MQxDCAUaOjyjKMp"
     "cRAYAABS2CPsss3BWQAAAABJRU5ErkJggg==")
 
+index.append('SmallUpArrow')
+catalog['SmallUpArrow'] = SmallUpArrow
 #----------------------------------------------------------------------
 SmallDnArrow = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAEhJ"
     "REFUOI1jZGRiZqAEMFGke9QABgYGBgYWdIH///7+J6SJkYmZEacLkCUJacZqAD5DsInTLhDR"
     "bcPlKrwugGnCFy6Mo3mBAQChDgRlP4RC7wAAAABJRU5ErkJggg==")
 
+index.append('SmallDnArrow')
+catalog['SmallDnArrow'] = SmallDnArrow
 #----------------------------------------------------------------------
 NoIcon = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAIxJ"
@@ -1444,6 +1499,8 @@ NoIcon = PyEmbeddedImage(
     "0Z7XXwWIHlVLWtZa74kH/wICDOdAZCUPvN99l7OAAFMD1K33C4NXQbMP+J4e1fmV5vVbABHI"
     "meb9kcE0dxL+AqArB6Jh82QAHWKjyxD+BQQgABxgB0zmRH3prALAAAAAAElFTkSuQmCC")
 
+index.append('NoIcon')
+catalog['NoIcon'] = NoIcon
 #----------------------------------------------------------------------
 WizTest1 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAAHQAAAEECAIAAAB2rYcFAAAAA3NCSVQICAjb4U/gAAAGBklE"
@@ -1476,6 +1533,9 @@ WizTest1 = PyEmbeddedImage(
     "azIXpGlzzcyiLEzdmiRSLdzkPVhDqCyAVC4LY+90pNXDY3y9DTIXxEFD61vSSAl+PL4WXcyi"
     "yFwQB+ZO4e6gKwqZC+LU3OAU0VflYfPqf1KWuSAKF8RpWYjEaX2QuSAKF8RBWchr+p5HBpkL"
     "UtncHO1cfVwTROaC6ONnEJkLonBBFC6IwgX5G6ER8eI/rtY0AAAAAElFTkSuQmCC")
+
+index.append('WizTest1')
+catalog['WizTest1'] = WizTest1
 
 #----------------------------------------------------------------------
 WizTest2 = PyEmbeddedImage(
@@ -1622,6 +1682,10 @@ WizTest2 = PyEmbeddedImage(
     "mn/Aioq3F2dPlv+RrtofQqhYHgRYRHRV3RkcAfDhb8JOll9gdJXv15tyUftTmNv9dNUPAXLS"
     "Ve8q+mR5QAQoIlgVPWC1UdW+SgYVU3WF7kCALglW/CFxFv8P3yIaZaXHbBEAAAAASUVORK5C"
     "YII=")
+
+index.append('WizTest2')
+catalog['WizTest2'] = WizTest2
+
 
 #----------------------------------------------------------------------
 Vippi = PyEmbeddedImage(
@@ -2301,6 +2365,11 @@ Vippi = PyEmbeddedImage(
     "DqNkkt3wAgL1kVHCTz1xfL4kW2Q5vOcSzLeVZOyc4u446Q5leC+IO+aoko5dClPZMRWDMrx3"
     "TFXQVDBL942CZ6o2ZXif3DNwU8Uq0elW16ob/QI4wK5TNZ1MWgAAAABJRU5ErkJggg==")
 
+index.append('Vippi')
+catalog['Vippi'] = Vippi
+
+
+
 #----------------------------------------------------------------------
 LB01 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAACu0lE"
@@ -2319,6 +2388,8 @@ LB01 = PyEmbeddedImage(
     "kt3CxhiPx+MHKZrjQMu5Khd41XfyhA74y2WHKVdq2zjn2qG9/Azhwy76H+SvrM/Fb1QY3j5A"
     "lgwhAAAAAElFTkSuQmCC")
 
+index.append('LB01')
+catalog['LB01'] = LB01
 #----------------------------------------------------------------------
 LB02 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAECUlE"
@@ -2343,6 +2414,8 @@ LB02 = PyEmbeddedImage(
     "9/DwcDweZ+j391mWvY6OQNFLDxC4uJqBWFu1mChDKfXu3S8fPr99HT38V/Hy0l9l/9/berX+"
     "zzGX9g/BE1Gzc614hwAAAABJRU5ErkJggg==")
 
+index.append('LB02')
+catalog['LB02'] = LB02
 #----------------------------------------------------------------------
 LB03 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAD30lE"
@@ -2366,6 +2439,8 @@ LB03 = PyEmbeddedImage(
     "UDWX8wUAEO2DPKTv+fl5VVUvRIfG4OHhIVeQxwNDamnH1oI6lNUQqvVu/Sz6fianICOb5vqZ"
     "wj66mY+a5XL5Pwp+6OKvyn+2lmdb7GZzQAAAAABJRU5ErkJggg==")
 
+index.append('LB03')
+catalog['LB03'] = LB03
 #----------------------------------------------------------------------
 LB04 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAACUUlE"
@@ -2382,6 +2457,8 @@ LB04 = PyEmbeddedImage(
     "xO/LuEnRCgZMnmM0XuH/CwQzfHmoZhnajhcunH8z+nfRG6CX1/2Ju8KD/vUAV9jwtuMvbsIk"
     "t9g4CtEAAAAASUVORK5CYII=")
 
+index.append('LB04')
+catalog['LB04'] = LB04
 #----------------------------------------------------------------------
 LB05 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAClElE"
@@ -2399,6 +2476,8 @@ LB05 = PyEmbeddedImage(
     "CYDARPkOsgO2RSsBgC2wSwpyY4ypDGT8ncrELq2cZEDDG1iByewAutyLC2CLVQt23ugqgtYD"
     "W2AxCm0K/y/Jb6NFiKLVxRI/AAAAAElFTkSuQmCC")
 
+index.append('LB05')
+catalog['LB05'] = LB05
 #----------------------------------------------------------------------
 LB06 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAD1klE"
@@ -2422,6 +2501,8 @@ LB06 = PyEmbeddedImage(
     "whSxVlgMn/GORB5h9pxfLZcdZMnDPb+aY++9917G8m3HW/2CGG0ZyezgdYgAlM4xkbmJMeaE"
     "/s+/xx8r/wFXh3rTELfZNgAAAABJRU5ErkJggg==")
 
+index.append('LB06')
+catalog['LB06'] = LB06
 #----------------------------------------------------------------------
 LB07 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAADyElE"
@@ -2445,6 +2526,8 @@ LB07 = PyEmbeddedImage(
     "xSiXX1cnoci0lqfTmw8vxgNRctyB3nKsHRDoaw4EuvTOy+5nLDgCHRuhQqJfbv8BP7qkTc4J"
     "UvYAAAAASUVORK5CYII=")
 
+index.append('LB07')
+catalog['LB07'] = LB07
 #----------------------------------------------------------------------
 LB08 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAADYUlE"
@@ -2466,6 +2549,8 @@ LB08 = PyEmbeddedImage(
     "Jv39B4Bfrje4xvL29h1l+PvnH29f/wLg59f+ildJp9qDWGAeXujupbH0l7NeL4/qtL26fwHi"
     "Q5sXlpUuEwAAAABJRU5ErkJggg==")
 
+index.append('LB08')
+catalog['LB08'] = LB08
 #----------------------------------------------------------------------
 LB09 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAADoklE"
@@ -2488,6 +2573,8 @@ LB09 = PyEmbeddedImage(
     "9gCI6MBsQ9jtdu/3/j4AIJY4EDHAIt9FEd7WAECwrPe4JLk8yN6092kQSwiJiFal8R32jgz+"
     "hdnNrc/W/8b+AWuuNm4mLOApAAAAAElFTkSuQmCC")
 
+index.append('LB09')
+catalog['LB09'] = LB09
 #----------------------------------------------------------------------
 LB10 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAACG0lE"
@@ -2503,6 +2590,8 @@ LB10 = PyEmbeddedImage(
     "eAxHxVC6D78Mg36pBEeUAXYx7dHX2aWlZ7iU9h15RZAYbSre+Q4bqquCcagV+QONz+0Phw4J"
     "ZHiPPT8AAAAASUVORK5CYII=")
 
+index.append('LB10')
+catalog['LB10'] = LB10
 #----------------------------------------------------------------------
 LB11 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAADPUlE"
@@ -2523,6 +2612,9 @@ LB11 = PyEmbeddedImage(
     "YlleownXP64ATsPQzjcTVN342s4it9lPlR7uNAy999SNh70SBxSEZar0PHruXNNa/TzS0xp5"
     "mgM+iObBpxa+w2ymy/+x/gWtyv3j8QyAFwAAAABJRU5ErkJggg==")
 
+
+index.append('LB11')
+catalog['LB11'] = LB11
 #----------------------------------------------------------------------
 LB12 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAA3NCSVQICAjb4U/gAAAFeklE"
@@ -2554,6 +2646,8 @@ LB12 = PyEmbeddedImage(
     "ZDJH4zi21mrnqCe01mNjY5/8tnCeHJCc8+SkTHqK/mgIm3owMc/zarXFAEgOlf/D/gW/qPIS"
     "0EwqYgAAAABJRU5ErkJggg==")
 
+index.append('LB12')
+catalog['LB12'] = LB12
 #----------------------------------------------------------------------
 FloatCanvas = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAAfAAAAFACAIAAADMBLnEAAAAA3NCSVQICAjb4U/gAAAgAElE"
@@ -4768,30 +4862,48 @@ WXPdemo = PyEmbeddedImage(
     "vClJoLpIC8gi+VwwfDecEiEtT/WZTJDf94uk1Ru8vbz0cvoF7S2DnpeVL9UAAAAASUVORK5C"
     "YII=")
 
+index.append('WXPdemo')
+catalog['WXPdemo'] = WXPdemo
 #----------------------------------------------------------------------
 _rt_alignleft = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAEJJ"
     "REFUOI1jZGRiZqAEMFGkm4GBgYWBgYHBx9vrPzmat2zdxshIqRdIcsGWrdsY0cXo6wJsLhoN"
     "g2ERBhRnJooNAACQdhhQZbXeGAAAAABJRU5ErkJggg==")
 
+index.append('_rt_alignleft')
+catalog['_rt_alignleft'] = _rt_alignleft
+index.append('alignleft.ico')
+catalog['alignleft.ico'] = _rt_alignleft
 #----------------------------------------------------------------------
 _rt_alignright = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAADxJ"
     "REFUOI1jZGRiZqAEMFGkm4GBgYWBgYHBx9vrPzmat2zdxshIqRdYsAkS6yLquWA0DEZ8GFCc"
     "mSg2AADQZxhQFG0xxgAAAABJRU5ErkJggg==")
 
+index.append('_rt_alignright')
+catalog['_rt_alignright'] = _rt_alignright
+index.append('alignright.ico')
+catalog['alignright.ico'] = _rt_alignright
 #----------------------------------------------------------------------
 _rt_bold = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAEtJ"
     "REFUOI3NUkEKACAMyq3//7jWNQwWY0HzKNOJCIi2DCSlfmHQmbA5zBNAFG4CPoAodo4fFOyA"
     "wZGvHTDqdwCecnQHh0EU/ztIGyy1dBRJuH/9MwAAAABJRU5ErkJggg==")
 
+index.append('_rt_bold')
+catalog['_rt_bold'] = _rt_bold
+index.append('bold.ico')
+catalog['bold.ico'] = _rt_bold
 #----------------------------------------------------------------------
 _rt_centre = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAEJJ"
     "REFUOI1jZGRiZqAEMFGkm4GBgYWBgYHBx9vrPzmat2zdxshIqRdYkDnEumTL1m2MMDZ1XDAa"
     "BiM+DCjOTBQbAAAwdhhQDziCqAAAAABJRU5ErkJggg==")
 
+index.append('_rt_centre')
+catalog['_rt_centre'] = _rt_centre
+index.append('centre.ico')
+catalog['centre.ico'] = _rt_centre
 #----------------------------------------------------------------------
 _rt_colour = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAPZJ"
@@ -4801,6 +4913,10 @@ _rt_colour = PyEmbeddedImage(
     "jBV84mX4572WgekzL8O/v5hBxoRXMwMDw/+3QgwM/3CHNeFY+MvMwMDyE6vtRBnAKPqWgUH2"
     "OQUu4P/IwGh8HrcFBAORgYFhF/NZRhetP1jVAACsCFJPHjA77wAAAABJRU5ErkJggg==")
 
+index.append('_rt_colour')
+catalog['_rt_colour'] = _rt_colour
+index.append('colour.ico')
+catalog['colour.ico'] = _rt_colour
 #----------------------------------------------------------------------
 _rt_copy = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAATlJ"
@@ -4812,6 +4928,10 @@ _rt_copy = PyEmbeddedImage(
     "xoWQ7NFbgF8F+ZAU4PLuKbMopYBJXAhxwH5ZgPW5ZkH+tdC8eShyZ+IHUNNZHhrzal0AAAAA"
     "SUVORK5CYII=")
 
+index.append('_rt_copy')
+catalog['_rt_copy'] = _rt_copy
+index.append('copy.ico')
+catalog['copy.ico'] = _rt_copy
 #----------------------------------------------------------------------
 _rt_cut = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAbBJ"
@@ -4825,6 +4945,10 @@ _rt_cut = PyEmbeddedImage(
     "rtG2HPx9u6bGI4CuqXHShs12NqfalhNtIGSMn8cnaiczpnYyY6paKHb8jdVCMdA0Tz4Gmr9P"
     "zKg0oZ3GfwAAAABJRU5ErkJggg==")
 
+index.append('_rt_cut')
+catalog['_rt_cut'] = _rt_cut
+index.append('cut.ico')
+catalog['cut.ico'] = _rt_cut
 #----------------------------------------------------------------------
 _rt_font = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAIpJ"
@@ -4832,6 +4956,10 @@ _rt_font = PyEmbeddedImage(
     "T835HgY4V99DADqV24IF5Kk+WOht0QTkabm5twW03kHPeQoVIFV1EDFqjZHmtU55xLp2k8Bp"
     "NaZdrwCcdhqlF5cHVHcJ4TzxwULTxJH4/zM9xQmi7UCACkKFWgAAAABJRU5ErkJggg==")
 
+index.append('_rt_font')
+catalog['_rt_font'] = _rt_font
+index.append('font.ico')
+catalog['font.ico'] = _rt_font
 #----------------------------------------------------------------------
 _rt_idea = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAVtJ"
@@ -4843,6 +4971,10 @@ _rt_idea = PyEmbeddedImage(
     "Bn3XGBv0gTzPASyYR/JvwT7J6UQDOOdaYxq4fwcogPuHhQHQOuF8xilRHyaxspfnA8jodqz6"
     "KvoWgC/fDwDG9n4f4FT60ZHsTwB8AA6FjDfFEDh8AAAAAElFTkSuQmCC")
 
+index.append('_rt_idea')
+catalog['_rt_idea'] = _rt_idea
+index.append('idea.ico')
+catalog['idea.ico'] = _rt_idea
 #----------------------------------------------------------------------
 _rt_indentless = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAHRJ"
@@ -4850,6 +4982,10 @@ _rt_indentless = PyEmbeddedImage(
     "dZldbBh7Ir3LaSTB7ozdEJstBOyL3xJA9bgVpyTVBmAJBK1PMPYMefx0YpagR7/6B2WCeGnD"
     "CbhmfrKDC/GuLg9MR0atAAAAAElFTkSuQmCC")
 
+index.append('_rt_indentless')
+catalog['_rt_indentless'] = _rt_indentless
+index.append('indentless.ico')
+catalog['indentless.ico'] = _rt_indentless
 #----------------------------------------------------------------------
 _rt_indentmore = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAHlJ"
@@ -4857,6 +4993,10 @@ _rt_indentmore = PyEmbeddedImage(
     "zbrMQRtOPOZnVxpJYIOTDbXZQ0BpwN4GciHzXoRykmaBOIPYXYdrT3DizzuUGv2dC4Kn+tU/"
     "qBPooQ0noJb5yQwOwa4uD/KzgEcAAAAASUVORK5CYII=")
 
+index.append('_rt_indentmore')
+catalog['_rt_indentmore'] = _rt_indentmore
+index.append('indentmore.ico')
+catalog['indentmore.ico'] = _rt_indentmore
 #----------------------------------------------------------------------
 _rt_italic = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAGdJ"
@@ -4864,6 +5004,10 @@ _rt_italic = PyEmbeddedImage(
     "mOTDPEThJekAHIBHmhQwzCTfAyrpKaCSHgKq6SGgmi5qkHmVV3Nfzf5S+/9faANOrocplI0e"
     "xSoAAAAASUVORK5CYII=")
 
+index.append('_rt_italic')
+catalog['_rt_italic'] = _rt_italic
+index.append('italic.ico')
+catalog['italic.ico'] = _rt_italic
 #----------------------------------------------------------------------
 _rt_open = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAbpJ"
@@ -4877,6 +5021,10 @@ _rt_open = PyEmbeddedImage(
     "KKpKEfkZW09DnMWFxNW7Av9Oz6wAhz0XXUuhkB2SiCehEFBhcm2LzYmgAJCcBXZ2j/9nJD1l"
     "tZUu0xfP/Y230rSdugX3RssAAAAASUVORK5CYII=")
 
+index.append('_rt_open')
+catalog['_rt_open'] = _rt_open
+index.append('open.ico')
+catalog['open.ico'] = _rt_open
 #----------------------------------------------------------------------
 _rt_paste = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAXNJ"
@@ -4889,6 +5037,10 @@ _rt_paste = PyEmbeddedImage(
     "McRVmNpTIA5U6J3ZC3r3AZz6IroV3j8wYCFn4532cN/OZeA/uAC98weRN/ynL78NdulpYuMM"
     "AAAAAElFTkSuQmCC")
 
+index.append('_rt_paste')
+catalog['_rt_paste'] = _rt_paste
+index.append('paste.ico')
+catalog['paste.ico'] = _rt_paste
 #----------------------------------------------------------------------
 _rt_redo = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAg5J"
@@ -4904,6 +5056,10 @@ _rt_redo = PyEmbeddedImage(
     "mI5HxPCbT6yW1rni7ybo954YwHUcmY5HRNxOKmm1nrgZaOzgf/AXUUy2DjrCDG0AAAAASUVO"
     "RK5CYII=")
 
+index.append('_rt_redo')
+catalog['_rt_redo'] = _rt_redo
+index.append('redo.ico')
+catalog['redo.ico'] = _rt_redo
 #----------------------------------------------------------------------
 _rt_sample = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAMNJ"
@@ -4912,6 +5068,10 @@ _rt_sample = PyEmbeddedImage(
     "RQD4RiCaJi8q3mSWHRVhSSDr5MtyPgTAPQJEOftOBFpq4OlIbElKbsOaIT5vO203uafAHcB0"
     "Ej7UNjk6isBO/7dI48IsBdI3YBXg/7PrxfE1GwDeAHen2yjnZJXsxQAAAABJRU5ErkJggg==")
 
+index.append('_rt_sample')
+catalog['_rt_sample'] = _rt_sample
+index.append('sample.ico')
+catalog['sample.ico'] = _rt_sample
 #----------------------------------------------------------------------
 _rt_save = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAQ1J"
@@ -4922,6 +5082,10 @@ _rt_save = PyEmbeddedImage(
     "hq9/WBh+/f2LVR7DC3KifAwrGhMZhKXkGTQVJAiZz8DIyMTMEJeSRXKOXDRnGiMDAwMDALeo"
     "P7cp9rvcAAAAAElFTkSuQmCC")
 
+index.append('_rt_save')
+catalog['_rt_save'] = _rt_save
+index.append('save.ico')
+catalog['save.ico'] = _rt_save
 #----------------------------------------------------------------------
 _rt_smiley = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAATpJ"
@@ -4933,12 +5097,20 @@ _rt_smiley = PyEmbeddedImage(
     "/sZYHi1HkxyM5s1OKOUY6YQR8hIbvBvim5H6PvNmhMSMkH4tYKZdfhw/Ad89rp/htXYGAAAA"
     "AElFTkSuQmCC")
 
+index.append('_rt_smiley')
+catalog['_rt_smiley'] = _rt_smiley
+index.append('smiley.ico')
+catalog['smiley.ico'] = _rt_smiley
 #----------------------------------------------------------------------
 _rt_underline = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAFdJ"
     "REFUOI1jZGRiZqAEMFGkmxoGsKAL/P/39z8yn5GJmRGbGE4XIEvC2NjEcBpAKhg1gIABS5cs"
     "/o9MYwOMuJIyetwzMGBGIV4DiAUEUyI2gJKwBjw3AgDOdhYrghF5ggAAAABJRU5ErkJggg==")
 
+index.append('_rt_underline')
+catalog['_rt_underline'] = _rt_underline
+index.append('underline.ico')
+catalog['underline.ico'] = _rt_underline
 #----------------------------------------------------------------------
 _rt_undo = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAABHNCSVQICAgIfAhkiAAAAhVJ"
@@ -4954,6 +5126,10 @@ _rt_undo = PyEmbeddedImage(
     "hKJj4iBGrnV7yO/lrL+dfHGD4RcfSI70H4q25hdME0vlDZ7f6TtE/i8P/lW/AfYJsF99ZciZ"
     "AAAAAElFTkSuQmCC")
 
+index.append('_rt_undo')
+catalog['_rt_undo'] = _rt_undo
+index.append('undo.ico')
+catalog['undo.ico'] = _rt_undo
 #----------------------------------------------------------------------
 _rt_zebra = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAAMgAAACnCAIAAADbmIRGAAAAA3NCSVQICAjb4U/gAAAgAElE"
@@ -6067,6 +6243,10 @@ _rt_zebra = PyEmbeddedImage(
     "f+C4q5x2RTHMqxGAw0NdIDv8Axa6xJsBYHk3Le94ticLdUlq8Hc1gfxKKrUPhv8LbUGJApjO"
     "OwcAAAAASUVORK5CYII=")
 
+index.append('_rt_zebra')
+catalog['_rt_zebra'] = _rt_zebra
+index.append('zebra.ico')
+catalog['zebra.ico'] = _rt_zebra
 #----------------------------------------------------------------------
 _bp_btn1 = PyEmbeddedImage(
     "iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABHNCSVQICAgIfAhkiAAABLpJ"
@@ -6223,10 +6403,6 @@ _book_blue = PyEmbeddedImage(
     "AABJRU5ErkJggg==")
 
 
-# ***************** Catalog starts here *******************
-
-catalog = {}
-index = []
 
 #----------------------------------------------------------------------
 book = PyEmbeddedImage(

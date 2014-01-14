@@ -25,15 +25,16 @@ class TestEditor(unittest.TestCase):
         self.MainMenu = MainMenu(self.MainFrame)
         self.MainToolbar = MainToolbar(self.MainFrame)
 
-        self._mgr = wx.aui.AuiManager()
-        self._mgr.SetManagedWindow(self.MainFrame)
-        self._mgr.AddPane(self.Editor, wx.aui.AuiPaneInfo().CaptionVisible(True).Caption(self.Editor.element.Title).CloseButton(False))
-        self._mgr.AddPane(self.MainToolbar, wx.aui.AuiPaneInfo().
+        self.uiman = wx.aui.AuiManager()
+        self.uiman.SetManagedWindow(self.MainFrame)
+        self.uiman.AddPane(self.MainToolbar, wx.aui.AuiPaneInfo().
                       Name("Toolbar").Caption("Toolbar").
                       ToolbarPane().Top().Row(1).Position(1).
                       LeftDockable(False).RightDockable(False))
+        self.uiman.AddPane(self.Editor, wx.aui.AuiPaneInfo().CenterPane().CaptionVisible(True).Caption(self.Editor.element.Title).CloseButton(False))
 
-        self._mgr.Update()
+
+        self.uiman.Update()
         self.MainFrame.Show()
 
     def test(self):
