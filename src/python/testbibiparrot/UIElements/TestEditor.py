@@ -20,9 +20,15 @@ class TestEditor(unittest.TestCase):
     def setUp(self):
         self.app = wx.App(False)
         self.MainFrame = MainFrame(None)
-        self.MainMenu = MainMenu(self.MainFrame)
-        self.MainToolbar = MainToolbar(self.MainFrame)
         self.Editor = Editor(self.MainFrame)
+        self._mgr = wx.aui.AuiManager()
+        self._mgr.SetManagedWindow(self.MainFrame)
+        self._mgr.AddPane(self.Editor, wx.aui.AuiPaneInfo().
+                          Name("Editor").Caption("Editor").Top().
+                          CloseButton(True).MaximizeButton(True))
+        # self.MainMenu = MainMenu(self.MainFrame)
+        # self.MainToolbar = MainToolbar(self.MainFrame)
+        self._mgr.Update()
         self.MainFrame.Show()
 
     def test(self):

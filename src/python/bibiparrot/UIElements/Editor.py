@@ -24,9 +24,64 @@ from ..Configurations import configurations
 from ..Constants import constants
 from ...bibiparrot.UIElements.UIElement import UIElement
 from ...bibiparrot.Configurations.configurations import *
+#
+#
+# class Editor(wx.Panel):
+#     def __init__(self, parent):
+#         wx.Panel.__init__(self, -1, size=(300,300))
+#         # self._mgr = wx.aui.AuiManager()
+#         # self._mgr.SetManagedWindow(self)
+#         self.element = UIElement()
+#         self.element.loadSect("Editor")
+#         print "XXXX", self.GetSizeTuple
+#         self.rtc = wx.richtext.RichTextCtrl(self, style=wx.VSCROLL|wx.HSCROLL|wx.NO_BORDER, size=(300,300))
+#         # sizer = wx.BoxSizer(wx.VERTICAL)
+#         # sizer.Add(self.rtc)
+#         # self.SetSizer(sizer)
+#
+#         wx.CallAfter(self.rtc.SetFocus)
+#
+#         self.rtc.Freeze()
+#         self.rtc.BeginSuppressUndo()
+#
+#         self.rtc.BeginParagraphSpacing(0, 20)
+#
+#         self.rtc.BeginAlignment(wx.richtext.TEXT_ALIGNMENT_CENTRE)
+#         self.rtc.BeginBold()
+#
+#         self.rtc.BeginFontSize(14)
+#         self.rtc.WriteText("Welcome to wxRichTextCtrl, a wxWidgets control for editing and presenting styled text and images")
+#         self.rtc.EndFontSize()
+#         self.rtc.Newline()
+#         self.rtc.EndSuppressUndo()
+#         self.rtc.Thaw()
+#         pass
 
 
 
 class Editor(wx.richtext.RichTextCtrl):
-    def __init__(self):
+    def __init__(self, parent):
+        # self._mgr = wx.aui.AuiManager()
+        # self._mgr.SetManagedWindow(self)
+        self.element = UIElement()
+        self.element.loadSect("Editor")
+        wx.richtext.RichTextCtrl.__init__(self, parent, style=wx.VSCROLL|wx.HSCROLL|wx.NO_BORDER, size=(300,300))
+        # sizer = wx.BoxSizer(wx.VERTICAL)
+        # sizer.Add(self.rtc)
+        # self.SetSizer(sizer)
+        wx.CallAfter(self.SetFocus)
+        self.Freeze()
+        self.BeginSuppressUndo()
+
+        self.BeginParagraphSpacing(0, 20)
+
+        self.BeginAlignment(wx.richtext.TEXT_ALIGNMENT_CENTRE)
+        self.BeginBold()
+
+        self.BeginFontSize(14)
+        self.WriteText("Welcome to wxRichTextCtrl, a wxWidgets control for editing and presenting styled text and images")
+        self.EndFontSize()
+        self.Newline()
+        self.EndSuppressUndo()
+        self.Thaw()
         pass
