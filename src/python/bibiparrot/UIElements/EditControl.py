@@ -48,7 +48,6 @@ class EditControl(wx.richtext.RichTextCtrl):
         self.Thaw()
         pass
 
-
     def SetFontStyle(self, fontColor = None, fontBgColor = None, fontFace = None, fontSize = None,
                      fontBold = None, fontItalic = None, fontUnderline = None):
       if fontColor:
@@ -333,6 +332,20 @@ class EditControl(wx.richtext.RichTextCtrl):
     def OnUpdateAlignRight(self, evt):
         evt.Check(self.IsSelectionAligned(wx.richtext.TEXT_ALIGNMENT_RIGHT))
 
+    def OnCopy(self, evt):
+        self.ProcessEvent(evt)
+
+    def OnPaste(self, evt):
+        self.ProcessEvent(evt)
+
+    def OnRedo(self, evt):
+        self.ProcessEvent(evt)
+
+    def OnCut(self, evt):
+        self.ProcessEvent(evt)
+
+    def OnUndo(self, evt):
+        self.ProcessEvent(evt)
 
     def ForwardEvent(self, evt):
         # The RichTextCtrl can handle menu and update events for undo,

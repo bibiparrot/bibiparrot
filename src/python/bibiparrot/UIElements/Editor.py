@@ -63,7 +63,7 @@ from ...bibiparrot.Configurations.configurations import *
 
 
 
-class Editor(wx.Panel, UIElement):
+class Editor(wx.Panel):
     def __init__(self, parent, *args, **kwargs):
         self.element = UIElement()
         self.element.loadSect("Editor")
@@ -80,3 +80,12 @@ class Editor(wx.Panel, UIElement):
                           ToolbarPane().Top().Row(1).Position(1).
                           LeftDockable(False).RightDockable(False))
         self.uiman.Update()
+        self.binds()
+
+    def binds(self):
+        for id in self.Toolbar.binds.keys():
+            (toolbar, item) = self.Toolbar.binds[id]
+            # print "On%s"%(toolbar.Name)
+            handler = getattr(self.control, "On%s"%(toolbar.Name))
+            self.Bind(wx.EVT_TOOL, handler, item)
+            # self.Bind(wx.EVT_UPDATE_UI, handler, item)

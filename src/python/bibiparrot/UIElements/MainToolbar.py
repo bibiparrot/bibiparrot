@@ -43,7 +43,7 @@ def dataFuncToolbar(ele, val):
 
 
 class ToolbarBean(Bean):
-    __slots__ = ["__conf__", "Section", "Id", "Position", "Size", "Style", "Enabled", "Name", "Icon", "Help", "More"]
+    __slots__ = ["__conf__", "Section", "Id", "Position", "Size", "Style", "Enabled", "Name", "Label", "Icon", "Help", "More"]
     def __init__(self, sec, conf, func):
         self.Section = sec
         self.__conf__ = conf
@@ -59,7 +59,7 @@ class ToolbarBean(Bean):
             if not val is None and not val == "":
                 if key in ["More"] and not func is None:
                     setattr(self, key, func(self, val))
-                elif key in ["Name", "Help", "Style", "Icon"]:
+                elif key in ["Name", "Label", "Help", "Style", "Icon"]:
                     setattr(self, key, val)
                 elif key in ["Id"] and not val is None:
                     setattr(self, key, str2int(val))
@@ -83,6 +83,7 @@ class ToolbarBean(Bean):
 
 class Toolbar (wx.ToolBar):
     def __init__(self, parent, sect, *args, **kwargs):
+        self.binds = {}
         self.element = UIElement()
         self.element.dataFunc = dataFuncToolbar
         self.element.loadSect(sect)
@@ -102,7 +103,8 @@ class Toolbar (wx.ToolBar):
         if toolbar.isSeparator():
             wx.ToolBar.AddSeparator(self)
         if toolbar.Enabled:
-            wx.ToolBar.AddLabelTool(self, toolbar.Id, label=toolbar.Name, bitmap=bitmap(toolbar.Icon))
+            item = wx.ToolBar.AddTool(self, toolbar.Id, bitmap(toolbar.Icon))
+            self.binds[toolbar.Id] = (toolbar, item)
         if toolbar.hasMore():
             for subToolbar in toolbar.More:
                 self.add(subToolbar)
