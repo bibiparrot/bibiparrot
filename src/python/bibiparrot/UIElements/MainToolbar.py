@@ -112,6 +112,7 @@ class Toolbar (wx.ToolBar):
         else:
             if toolbar.Enabled:
                 id = EventIDs.getID(toolbar)
+                # print toolbar.Name
                 item = wx.ToolBar.AddTool(self, id, bitmap(toolbar.Icon))
                 self.binds[id] = (toolbar, item)
             if toolbar.hasMore():
