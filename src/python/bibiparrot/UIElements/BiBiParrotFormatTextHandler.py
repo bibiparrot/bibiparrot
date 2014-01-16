@@ -102,7 +102,7 @@ class BiBiParrotFormatTextHandler(wx.richtext.RichTextXMLHandler):
             zf = None
             try:
                 zf = zipfile.ZipFile(filename,'r')
-                fp.write(zf.read(fname), compress_type=zipfile.ZIP_DEFLATED)
+                fp.write(zf.read(fname))
             except zipfile.BadZipfile as ex:
                 wx.MessageBox("This is NOT Valid Bibi Parrot file.", "File Error!")
                 return False
@@ -136,7 +136,7 @@ class BiBiParrotFormatTextHandler(wx.richtext.RichTextXMLHandler):
             ret = wx.richtext.RichTextXMLHandler.SaveFile(self, buffer, xml)
             zf = zipfile.ZipFile(filename, "w")
             try:
-                zf.write(xml, arcname=os.path.basename(xml))
+                zf.write(xml, arcname=os.path.basename(xml),compress_type=zipfile.ZIP_DEFLATED)
             finally:
                 zf.close()
         finally:

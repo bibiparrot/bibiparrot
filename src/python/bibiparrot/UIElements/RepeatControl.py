@@ -1,5 +1,5 @@
 ################################################################################
-# Name     : BreakControl.py                                                   #
+# Name     : RepeatControl.py                                                   #
 # Brief    : Top level window as the frame for bibiparrot windows .            #
 #                                                                              #
 # Url      : http://www.wxpython.org/docs/api/wx.Frame-class.html              #

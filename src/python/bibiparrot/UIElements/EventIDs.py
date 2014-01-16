@@ -165,13 +165,13 @@ class EventIDs(object):
         ### make sure not empty ###
         ### mapping ###
         if eventids.has_key(selfid):
-            (wxId, uiname) = eventids[selfid]
+            (wxId, uielem) = eventids[selfid]
         elif hasattr(uielem, "Name") and FixedIDs.has_key(uielem.Name.upper()):
             wxId = FixedIDs[uielem.Name.upper()]
-            eventids[selfid] = wxId
+            eventids[selfid] = (wxId, uielem)
         else:
             wxId = wx.NewId()
-            eventids[selfid] = wxId
+            eventids[selfid] = (wxId, uielem)
 
         # print eventids
         return wxId

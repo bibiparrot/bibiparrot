@@ -41,4 +41,5 @@ if __name__ == '__main__':
     test_module("python.testbibiparrot.UIElements.TestEditor")
     test_module("python.testbibiparrot.UIElements.TestMainTabs")
     test_module("python.testbibiparrot.UIElements.TestMainStatusbar")
+    test_module("python.testbibiparrot.UIElements.TestRepeater")
 
