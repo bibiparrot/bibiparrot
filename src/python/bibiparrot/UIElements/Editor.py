@@ -93,4 +93,8 @@ class Editor(wx.Panel):
             # print item
             # print
             self.Bind(wx.EVT_TOOL, handler, item)
-            # self.Bind(wx.EVT_UPDATE_UI, handler, item)
+            if toolbar.needsUpdate():
+                updatehandler = getattr(self.control, "OnUpdate%s"%(toolbar.Name), handler)
+                # print updatehandler
+                # print "OnUpdate%s"%(toolbar.Name)
+                self.Bind(wx.EVT_UPDATE_UI, updatehandler, item)

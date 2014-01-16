@@ -84,10 +84,14 @@ class ToolbarBean(Bean):
     def isSearchCtrl(self):
         return self.hasAttr("Style") and "searchctrl" in self.Style.lower()
 
+    def needsUpdate(self):
+        return self.hasAttr("Style") and "update" in self.Style.lower()
+
 ### @End class ToolbarBean
 
 class Toolbar (wx.ToolBar):
     def __init__(self, parent, sect, *args, **kwargs):
+        ### {id:(toolbar, wxToolbar)}###
         self.binds = {}
         self.element = UIElement()
         self.element.dataFunc = dataFuncToolbar
@@ -113,7 +117,7 @@ class Toolbar (wx.ToolBar):
             if toolbar.Enabled:
                 id = EventIDs.getID(toolbar)
                 # print toolbar.Name
-                item = wx.ToolBar.AddTool(self, id, bitmap(toolbar.Icon))
+                item = wx.ToolBar.AddTool(self, id, bitmap(toolbar.Icon), isToggle=toolbar.needsUpdate())
                 self.binds[id] = (toolbar, item)
             if toolbar.hasMore():
                 for subToolbar in toolbar.More:
