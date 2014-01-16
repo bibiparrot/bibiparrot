@@ -67,6 +67,7 @@ class Editor(wx.Panel):
     def __init__(self, parent, *args, **kwargs):
         self.element = UIElement()
         self.element.loadSect("Editor")
+        self.parent = parent
         wx.Panel.__init__(self, parent, size = self.element.Size, *args, **kwargs)
         self.control = EditControl(self, size = self.element.Size)
         self.Toolbar = EditorToolbar(self)
@@ -81,11 +82,15 @@ class Editor(wx.Panel):
                           LeftDockable(False).RightDockable(False))
         self.uiman.Update()
         self.binds()
+        self.Toolbar.Realize()
 
     def binds(self):
         for id in self.Toolbar.binds.keys():
             (toolbar, item) = self.Toolbar.binds[id]
             # print "On%s"%(toolbar.Name)
             handler = getattr(self.control, "On%s"%(toolbar.Name))
+            # print handler
+            # print item
+            # print
             self.Bind(wx.EVT_TOOL, handler, item)
             # self.Bind(wx.EVT_UPDATE_UI, handler, item)

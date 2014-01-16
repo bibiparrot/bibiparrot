@@ -28,6 +28,7 @@ from ...bibiparrot.Configurations.configurations import *
 from ...bibiparrot.UIElements.UIElement import UIElement
 # from ...bibiparrot import images
 from Images import bitmap
+from EventIDs import EventIDs
 from SelfControls import SearchCtrl
 
 
@@ -63,7 +64,7 @@ class ToolbarBean(Bean):
                 elif key in ["Name", "Label", "Help", "Style", "Icon"]:
                     setattr(self, key, val)
                 elif key in ["Id"] and not val is None:
-                    setattr(self, key, str2int(val))
+                    setattr(self, key, str2long(val))
                 elif key in ["Position"]:
                     setattr(self, key, str2dim(val))
                 elif key in ["Enabled"]:
@@ -110,8 +111,9 @@ class Toolbar (wx.ToolBar):
                 wx.ToolBar.AddControl(self, selfctrls[toolbar.Name](self))
         else:
             if toolbar.Enabled:
-                item = wx.ToolBar.AddTool(self, toolbar.Id, bitmap(toolbar.Icon))
-                self.binds[toolbar.Id] = (toolbar, item)
+                id = EventIDs.getID(toolbar)
+                item = wx.ToolBar.AddTool(self, id, bitmap(toolbar.Icon))
+                self.binds[id] = (toolbar, item)
             if toolbar.hasMore():
                 for subToolbar in toolbar.More:
                     self.add(subToolbar)

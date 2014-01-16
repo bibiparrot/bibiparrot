@@ -64,6 +64,12 @@ def str2dim(str):
             res = (arr[0], arr[1])
     return res
 
+def str2long(str):
+    if str is None or str.strip == "":
+        return None
+    else:
+        str = str.replace(",", "")
+        return long(str)
 
 def str2int(str):
     if str is None or str.strip == "":

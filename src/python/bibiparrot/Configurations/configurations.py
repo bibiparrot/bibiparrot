@@ -66,6 +66,11 @@ def uiconf():
 
 
 ##
+#  self-defined id {[id:(wxId, name),]}
+#
+eventids = {}
+
+##
 #  self-defined rich text control handlers
 #
 rtchandlers = {}
