@@ -18,4 +18,8 @@ Just follow the instructions of the apple install package, and you can import th
 
 ** Note: The test musics are in testMusics for testing.
 
-Last Updated: Jan 09, 2014  8:02PM EST
+** Right now, this file could only be used as a reference about the interface. The function in the file might not work, as it is still in debug process.
+
+Thanks.
+
+Last Updated: Jan 16, 2014  12:24PM EST
