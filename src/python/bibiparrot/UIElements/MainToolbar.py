@@ -28,6 +28,7 @@ from ...bibiparrot.Configurations.configurations import *
 from ...bibiparrot.UIElements.UIElement import UIElement
 # from ...bibiparrot import images
 from Images import bitmap
+from SelfControls import SearchCtrl
 
 
 def dataFuncToolbar(ele, val):
@@ -76,8 +77,11 @@ class ToolbarBean(Bean):
     def hasMore(self):
         return self.hasAttr("More")
 
-    def isSeparator(self):
-        return self.hasAttr("Style") and self.Style.lower() == "separator"
+    def hasSeparator(self):
+        return self.hasAttr("Style") and "separator" in self.Style.lower()
+
+    def isSearchCtrl(self):
+        return self.hasAttr("Style") and "searchctrl" in self.Style.lower()
 
 ### @End class ToolbarBean
 
@@ -100,14 +104,19 @@ class Toolbar (wx.ToolBar):
         wx.ToolBar.Realize(self)
 
     def add(self, toolbar):
-        if toolbar.isSeparator():
+        if toolbar.isSearchCtrl():
+            if searchctrls.has_key(toolbar.Name):
+                wx.ToolBar.AddControl(self, searchctrls[toolbar.Name](self))
+        else:
+            if toolbar.Enabled:
+                item = wx.ToolBar.AddTool(self, toolbar.Id, bitmap(toolbar.Icon))
+                self.binds[toolbar.Id] = (toolbar, item)
+            if toolbar.hasMore():
+                for subToolbar in toolbar.More:
+                    self.add(subToolbar)
+
+        if toolbar.hasSeparator():
             wx.ToolBar.AddSeparator(self)
-        if toolbar.Enabled:
-            item = wx.ToolBar.AddTool(self, toolbar.Id, bitmap(toolbar.Icon))
-            self.binds[toolbar.Id] = (toolbar, item)
-        if toolbar.hasMore():
-            for subToolbar in toolbar.More:
-                self.add(subToolbar)
 
 ### @End class Toolbar
 

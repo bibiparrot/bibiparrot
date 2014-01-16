@@ -69,3 +69,9 @@ def uiconf():
 #  self-defined rich text control handlers
 #
 rtchandlers = {}
+
+##
+#  self-defined search controllers
+#
+searchctrls = {}
+

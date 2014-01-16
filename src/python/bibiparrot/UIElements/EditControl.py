@@ -27,6 +27,10 @@ from ...bibiparrot.Configurations.configurations import *
 from BiBiParrotFormatTextHandler import BiBiParrotFormatTextHandler
 
 
+
+
+
+
 class EditControl(wx.richtext.RichTextCtrl):
     def __init__(self, parent, *args, **kwargs):
         wx.richtext.RichTextCtrl.__init__(self, parent, style=wx.VSCROLL|wx.HSCROLL|wx.NO_BORDER, *args, **kwargs)
@@ -209,11 +213,126 @@ class EditControl(wx.richtext.RichTextCtrl):
     def OnFileExit(self, evt):
         self.Close(True)
 
+    ### Find & Replace ###
+    def OnShowFind(self, evt):
+        self.DisableButtons()
+        data = wx.FindReplaceData()
+        dlg = wx.FindReplaceDialog(self, data, "Find")
+        dlg.data = data  # save a reference to it...
+        dlg.Show(True)
+
+
+    def OnShowFindReplace(self, evt):
+        self.DisableButtons()
+        data = wx.FindReplaceData()
+        dlg = wx.FindReplaceDialog(self, data, "Find & Replace", wx.FR_REPLACEDIALOG)
+        dlg.data = data  # save a reference to it...
+        dlg.Show(True)
+
+
+    def OnFind(self, evt):
+        map = {
+            wx.wxEVT_COMMAND_FIND : "FIND",
+            wx.wxEVT_COMMAND_FIND_NEXT : "FIND_NEXT",
+            wx.wxEVT_COMMAND_FIND_REPLACE : "REPLACE",
+            wx.wxEVT_COMMAND_FIND_REPLACE_ALL : "REPLACE_ALL",
+            }
+
+        et = evt.GetEventType()
+
+        if et in map:
+            evtType = map[et]
+        else:
+            evtType = "**Unknown Event Type**"
+
+        if et in [wx.wxEVT_COMMAND_FIND_REPLACE, wx.wxEVT_COMMAND_FIND_REPLACE_ALL]:
+            replaceTxt = "Replace text: %s" % evt.GetReplaceString()
+        else:
+            replaceTxt = ""
+
+        # self.log.write("%s -- Find text: %s   Replace text: %s  Flags: %d  \n" %
+        #                (evtType, evt.GetFindString(), replaceTxt, evt.GetFlags()))
+
+
+    def OnFindClose(self, evt):
+        # self.log.write("FindReplaceDialog closing...\n")
+        evt.GetDialog().Destroy()
+        # self.EnableButtons()
+
+    # def EnableButtons(self):
+    #     self.fbtn.Enable()
+    #     self.frbtn.Enable()
+    #
+    # def DisableButtons(self):
+    #     self.fbtn.Disable()
+    #     self.frbtn.Disable()
+
+    def OnSearchBox(self,evt):
+        # # Create controls
+        # sb = wx.StaticBox(self, -1, "Options")
+        # searchBtnOpt = wx.CheckBox(self, -1, "Search button")
+        # searchBtnOpt.SetValue(True)
+        # cancelBtnOpt = wx.CheckBox(self, -1, "Cancel button")
+        # menuBtnOpt   = wx.CheckBox(self, -1, "Search menu")
+        #
+        # self.search = wx.SearchCtrl(self, size=(200,-1), style=wx.TE_PROCESS_ENTER)
+        #
+        # # Setup the layout
+        # box = wx.StaticBoxSizer(sb, wx.VERTICAL)
+        # box.Add(searchBtnOpt, 0, wx.ALL, 5)
+        # box.Add(cancelBtnOpt, 0, wx.ALL, 5)
+        # box.Add(menuBtnOpt,   0, wx.ALL, 5)
+        #
+        # sizer = wx.BoxSizer(wx.HORIZONTAL)
+        # sizer.Add(box, 0, wx.ALL, 15)
+        # sizer.Add((15,15))
+        # sizer.Add(self.search, 0, wx.ALL, 15)
+        pass
+
+    ### Bold, Italic, Underline, StrikeThrough ###
     def OnBold(self, evt):
         self.ApplyBoldToSelection()
 
     def OnItalic(self, evt):
         self.ApplyItalicToSelection()
+
+
+    # style.SetTextColour(wx.BLUE)
+    # style.SetFontUnderlined(True)
+
+    def OnStrikeThrough(self, evt):
+        # print self.HasSelection()
+        # if self.HasSelection():
+        #     r = self.GetSelectionRange()
+        #     style = wx.richtext.TextAttrEx()
+        #     if self.GetStyleForRange(r, style):
+        #         style.SetTextEffects(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+        #         style.SetTextEffectFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+        #     print style
+        #     print r
+        #     print
+        #     self.SetStyle(r, style)
+
+        if not self.HasSelection():
+            return
+
+        r = self.GetSelectionRange()
+        attr = wx.richtext.TextAttrEx()
+        attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+        if self.GetStyleForRange(r, attr):
+            print r
+            print attr.GetTextEffects()
+            print
+            if not attr.GetTextEffects() ^ wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH == 0:
+                attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+                attr.SetTextEffects(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+                attr.SetTextEffectFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+            else:
+                attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
+                attr.SetTextEffects(wx.richtext.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
+                attr.SetTextEffectFlags(wx.richtext.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
+            self.SetStyle(r, attr)
+
 
     def OnUnderline(self, evt):
         self.ApplyUnderlineToSelection()
@@ -411,4 +530,43 @@ class EditControl(wx.richtext.RichTextCtrl):
         # redo, cut, copy, paste, delete, and select all, so just
         # forward the event to it.
         self.ProcessEvent(evt)
+
+    ### PageSetup, Print ###
+    def OnPageSetup(self, evt):
+        data = wx.PageSetupDialogData()
+        data.SetMarginTopLeft( (15, 15) )
+        data.SetMarginBottomRight( (15, 15) )
+        #data.SetDefaultMinMargins(True)
+        data.SetPaperId(wx.PAPER_LETTER)
+
+        dlg = wx.PageSetupDialog(self, data)
+
+        if dlg.ShowModal() == wx.ID_OK:
+            data = dlg.GetPageSetupData()
+            tl = data.GetMarginTopLeft()
+            br = data.GetMarginBottomRight()
+            # self.log.WriteText('Margins are: %s %s\n' % (str(tl), str(br)))
+
+        dlg.Destroy()
+
+
+    def OnPrint(self, evt):
+        data = wx.PrintDialogData()
+
+        data.EnableSelection(True)
+        data.EnablePrintToFile(True)
+        data.EnablePageNumbers(True)
+        data.SetMinPage(1)
+        data.SetMaxPage(5)
+        data.SetAllPages(True)
+
+        dlg = wx.PrintDialog(self, data)
+
+        if dlg.ShowModal() == wx.ID_OK:
+            data = dlg.GetPrintDialogData()
+            # self.log.WriteText('GetAllPages: %d\n' % data.GetAllPages())
+
+        dlg.Destroy()
+
+
 

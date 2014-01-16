@@ -7,7 +7,7 @@ import logging
 import wxversion
 wxversion.select(__required_wx_version__)
 import wx
-
+import wx.tools.img2py
 
 from ...bibiparrot.UIElements.MainFrame import MainFrame
 from ...bibiparrot.UIElements.MainMenu import MainMenu
@@ -18,6 +18,13 @@ from ...bibiparrot.Configurations.Configuration import log
 
 class TestEditor(unittest.TestCase):
     def setUp(self):
+
+        # fimg = "/Users/shi/Project/github_bibiparrot/bibiparrot/image/themes/default/1389875652_format-text-strikethrough.png"
+        # fpy = "/Users/shi/Project/github_bibiparrot/bibiparrot/image/themes/default/1389875652_format-text-strikethrough.png.py"
+        # fimg = "/Users/shi/Project/github_bibiparrot/bibiparrot/image/themes/default/1389894439_format-text-strikethrough.png"
+        # fpy = "/Users/shi/Project/github_bibiparrot/bibiparrot/image/themes/default/1389894439_format-text-strikethrough.png.py"
+        # wx.tools.img2py.img2py(fimg, fpy)
+
         self.app = wx.App(False)
         self.MainFrame = MainFrame(None)
         # self.Panel = wx.Panel(self.MainFrame)

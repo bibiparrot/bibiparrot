@@ -1,6 +1,6 @@
 ################################################################################
 # Name     : BiBiParrotFormatTextHandler.py                                    #
-# Brief    : Define .bbp handler for wx.richtext.RichTextCtrl                  #
+# Brief    : Define .bbp (zipped xml) handler for wx.richtext.RichTextCtrl     #
 #                                                                              #
 # Url      : http://www.wxpython.org/docs/api/                                 #
 #                                 wx.richtext.RichTextFileHandler-class.html   #
@@ -97,16 +97,19 @@ class BiBiParrotFormatTextHandler(wx.richtext.RichTextXMLHandler):
         # isLoaded = False
         xml = filename + ".xml~"
         fname = os.path.basename(xml)
-        zf = zipfile.ZipFile(filename,'r')
         try:
             fp = open(xml,'w')
+            zf = None
             try:
+                zf = zipfile.ZipFile(filename,'r')
                 fp.write(zf.read(fname))
-            except Exception as ex:
+            except zipfile.BadZipfile as ex:
+                wx.MessageBox("This is NOT Valid Bibi Parrot file.", "File Error!")
                 return False
             finally:
-                zf.close()
-            print xml
+                if zf is not None:
+                    zf.close()
+            # print xml
         finally:
             if fp is not None:
                 fp.close()
