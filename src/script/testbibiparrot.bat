@@ -24,5 +24,7 @@ REM python -m python.testbibiparrot.UIElements.TestUIElement
 REM python -m python.testbibiparrot.UIElements.TestMainMenu
 REM python -m python.testbibiparrot.UIElements.TestMainToolbar
 REM python -m python.testbibiparrot.UIElements.TestEditor
-python -m python.testbibiparrot.UIElements.TestMainTabs
+REM python -m python.testbibiparrot.UIElements.TestMainTabs
+python -m python.testbibiparrot.UIElements.TestMainStatusbar
+
 cd %HOME%

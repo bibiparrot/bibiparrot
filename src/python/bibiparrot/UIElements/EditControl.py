@@ -320,9 +320,9 @@ class EditControl(wx.richtext.RichTextCtrl):
         attr = wx.richtext.TextAttrEx()
         attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
         if self.GetStyleForRange(r, attr):
-            print r
-            print attr.GetTextEffects()
-            print
+            # print r
+            # print attr.GetTextEffects()
+            # print
             if not attr.GetTextEffects() ^ wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH == 0:
                 attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
                 attr.SetTextEffects(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)

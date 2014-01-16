@@ -79,7 +79,7 @@ class Editor(wx.Panel):
         self.uiman.AddPane(self.Toolbar, wx.aui.AuiPaneInfo().
                           Name("Toolbar").Caption("Toolbar").
                           ToolbarPane().Top().Row(1).Position(1).
-                          LeftDockable(False).RightDockable(False))
+                          LeftDockable(False).RightDockable(False).CloseButton(False))
         self.uiman.Update()
         self.binds()
         self.Toolbar.Realize()
