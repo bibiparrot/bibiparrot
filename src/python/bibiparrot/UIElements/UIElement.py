@@ -49,7 +49,7 @@ class UIElement(object):
         self.Position = (0,0)
         self.Size = (0,0)
         self.Layer = 0
-        self.Data = []
+        self.Data = None
 
 
     def asDict(self):
@@ -79,8 +79,11 @@ class UIElement(object):
                     setattr(self, key, split2dim(val))
                 elif key in ["Layer"]:
                     setattr(self, key, int(val))
-                elif key in ["Data"] and not self.dataFunc is None:
-                    setattr(self, key, self.dataFunc(self, val))
+                elif key in ["Data"]:
+                    if not self.dataFunc is None:
+                        setattr(self, key, self.dataFunc(self, val))
+                    else:
+                        setattr(self, key, val)
                 elif key in ["Name", "Title", "Type", "Icon"]:
                     setattr(self, key, val)
         return self

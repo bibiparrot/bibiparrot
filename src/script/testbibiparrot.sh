@@ -20,5 +20,6 @@ cd $HOME/..
 #python -m python.testbibiparrot.UIElements.TestMainMenu
 #python -m python.testbibiparrot.UIElements.TestMainToolbar
 #python -m python.testbibiparrot.UIElements.TestEditControl
-python -m python.testbibiparrot.UIElements.TestEditor
+#python -m python.testbibiparrot.UIElements.TestEditor
+python -m python.testbibiparrot.UIElements.TestMainTabs
 cd $HOME

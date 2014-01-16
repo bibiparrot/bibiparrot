@@ -105,8 +105,8 @@ class Toolbar (wx.ToolBar):
 
     def add(self, toolbar):
         if toolbar.isSearchCtrl():
-            if searchctrls.has_key(toolbar.Name):
-                wx.ToolBar.AddControl(self, searchctrls[toolbar.Name](self))
+            if selfctrls.has_key(toolbar.Name):
+                wx.ToolBar.AddControl(self, selfctrls[toolbar.Name](self))
         else:
             if toolbar.Enabled:
                 item = wx.ToolBar.AddTool(self, toolbar.Id, bitmap(toolbar.Icon))

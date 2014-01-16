@@ -71,7 +71,13 @@ def uiconf():
 rtchandlers = {}
 
 ##
-#  self-defined search controllers
+#  self-defined controllers
 #
-searchctrls = {}
+selfctrls = {}
+
+
+##
+#  self-defined dialogs
+#
+selfdialogs = {}
 
