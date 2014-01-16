@@ -21,8 +21,8 @@ python -m python.testbibiparrot.Configurations.TestBibiException
 python -m python.testbibiparrot.Configurations.TestConfiguration
 REM python -m python.testbibiparrot.UIElements.TestMainFrame
 REM python -m python.testbibiparrot.UIElements.TestUIElement
-python -m python.testbibiparrot.UIElements.TestMainMenu
-python -m python.testbibiparrot.UIElements.TestMainToolbar
-python -m python.testbibiparrot.UIElements.TestEditor
+REM python -m python.testbibiparrot.UIElements.TestMainMenu
+REM python -m python.testbibiparrot.UIElements.TestMainToolbar
+REM python -m python.testbibiparrot.UIElements.TestEditor
 python -m python.testbibiparrot.UIElements.TestMainTabs
 cd %HOME%
