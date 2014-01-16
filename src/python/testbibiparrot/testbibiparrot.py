@@ -25,6 +25,7 @@ def test_module(name):
     '''
     os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
     os.environ["VERSIONER_PYTHON_PREFER_32_BIT"] = "yes"
+
     print "Current Directory:", os.getcwd()
     print "Running Unittest:", name
     call(["python","-m", name])
@@ -36,4 +37,5 @@ if __name__ == '__main__':
     test_module("python.testbibiparrot.UIElements.TestUIElement")
     test_module("python.testbibiparrot.UIElements.TestMainMenu")
     test_module("python.testbibiparrot.UIElements.TestMainToolbar")
+    test_module("python.testbibiparrot.UIElements.TestEditControl")
     test_module("python.testbibiparrot.UIElements.TestEditor")

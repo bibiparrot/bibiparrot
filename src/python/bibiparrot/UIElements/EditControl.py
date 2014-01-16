@@ -24,14 +24,16 @@ from ..Configurations import configurations
 from ..Constants import constants
 from ...bibiparrot.UIElements.UIElement import UIElement
 from ...bibiparrot.Configurations.configurations import *
-
+from BiBiParrotFormatTextHandler import BiBiParrotFormatTextHandler
 
 
 class EditControl(wx.richtext.RichTextCtrl):
     def __init__(self, parent, *args, **kwargs):
         wx.richtext.RichTextCtrl.__init__(self, parent, style=wx.VSCROLL|wx.HSCROLL|wx.NO_BORDER, *args, **kwargs)
         wx.CallAfter(self.SetFocus)
+        self.currDir = ""
         self.textAttr = wx.richtext.RichTextAttr()
+        self.AddRTCHandlers()
         self.Freeze()
         self.BeginSuppressUndo()
 
@@ -47,6 +49,23 @@ class EditControl(wx.richtext.RichTextCtrl):
         self.EndSuppressUndo()
         self.Thaw()
         pass
+
+    def AddRTCHandlers(self):
+        if wx.richtext.RichTextBuffer.FindHandlerByType(BiBiParrotFormatTextHandler.RICHTEXT_TYPE_BBP) is not None:
+            return
+        wx.richtext.RichTextBuffer.AddHandler(BiBiParrotFormatTextHandler())
+        wx.richtext.RichTextBuffer.AddHandler(wx.richtext.RichTextHTMLHandler())
+        wx.richtext.RichTextBuffer.AddHandler(wx.richtext.RichTextXMLHandler())
+        ### Add the rtf text handler ###
+        # wx.richtext.RichTextBuffer.AddHandler(wx.richtext.RichTextHTMLHandler(name="Other XML",
+        #                                                    ext="html",
+        #                                                    type=wx.richtext.RICHTEXT_TYPE_HTML))
+
+        # This is needed for the view as HTML option since we tell it
+        # to store the images in the memory file system.
+        wx.FileSystem.AddHandler(wx.MemoryFSHandler())
+
+
 
     def SetFontStyle(self, fontColor = None, fontBgColor = None, fontFace = None, fontSize = None,
                      fontBold = None, fontItalic = None, fontUnderline = None):
@@ -78,32 +97,72 @@ class EditControl(wx.richtext.RichTextCtrl):
     def OnURL(self, evt):
         wx.MessageBox(evt.GetString(), "URL Clicked")
 
+    def LoadFile(self, path, type, *args, **kwargs):
+        ### has self-defined types, needing self-defined handler ###
+        if rtchandlers.has_key(type):
+            # print file
+            self.Freeze()
+            self.BeginSuppressUndo()
+            # Clear the Control AND the default text attributes
+            self.Clear()
+            handler = rtchandlers[type]()
+            ret = handler.LoadFile(self.GetBuffer(), path)
+            self.EndSuppressUndo()
+            self.Thaw()
+            return ret
+        else:
+            return wx.richtext.RichTextCtrl.LoadFile(self, path, type, *args, **kwargs)
 
     def OnFileOpen(self, evt):
         # This gives us a string suitable for the file dialog based on
         # the file handlers that are loaded
-        wildcard, types = wx.richtext.RichTextBuffer.GetExtWildcard(save=False)
+        # wildcard, types = wx.richtext.RichTextBuffer.GetExtWildcard(save=False)
+
+        wildcard = 'Bibi Parrot (*.bbp)|*.bbp|Text (*.txt)|*.txt|XML (*.xml)|*.xml'
+        types = [BiBiParrotFormatTextHandler.RICHTEXT_TYPE_BBP,
+                 wx.richtext.RICHTEXT_TYPE_TEXT,
+                 wx.richtext.RICHTEXT_TYPE_XML]
         dlg = wx.FileDialog(self, "Choose a filename",
                             wildcard=wildcard,
-                            style=wx.OPEN)
+                            style=wx.OPEN,
+                            defaultDir=self.currDir)
+
         if dlg.ShowModal() == wx.ID_OK:
+            ''' Remember last directory'''
+            self.currDir = dlg.GetDirectory()
             path = dlg.GetPath()
             if path:
                 fileType = types[dlg.GetFilterIndex()]
+                # print path, fileType
                 self.LoadFile(path, fileType)
+                self.SetFilename(path)
         dlg.Destroy()
 
 
     def OnFileSave(self, evt):
+        print self.GetFilename()
         if not self.GetFilename():
             self.OnFileSaveAs(evt)
             return
-        self.SaveFile()
+        self.OnFileSaveAs(evt)
+
+    def SaveFile(self, path, type, *args, **kwargs):
+        if rtchandlers.has_key(type):
+            handler = rtchandlers[type]()
+            ret = handler.SaveFile(self.GetBuffer(), path)
+            return ret
+
+        else:
+            return wx.richtext.RichTextCtrl.SaveFile(self, path, type, *args, **kwargs)
 
 
     def OnFileSaveAs(self, evt):
-        wildcard, types = wx.richtext.RichTextBuffer.GetExtWildcard(save=True)
-
+        # wildcard, types = wx.richtext.RichTextBuffer.GetExtWildcard(save=True)
+        wildcard = 'Bibi Parrot (*.bbp)|*.bbp|Text (*.txt)|*.txt|XML (*.xml)|*.xml|HTML (*.html)|*.html'
+        types = [BiBiParrotFormatTextHandler.RICHTEXT_TYPE_BBP,
+                 wx.richtext.RICHTEXT_TYPE_TEXT,
+                 wx.richtext.RICHTEXT_TYPE_XML,
+                 wx.richtext.RICHTEXT_TYPE_HTML]
         dlg = wx.FileDialog(self, "Choose a filename",
                             wildcard=wildcard,
                             style=wx.SAVE)

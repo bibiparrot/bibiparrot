@@ -490,6 +490,7 @@ class Group(object):
                 char = unichr(uni_code)
 
         else:
+            print "charset=%s"%self.charset
             char = chr(code).decode(self.charset, self.reader.errors)
 
         self.content.append(char)

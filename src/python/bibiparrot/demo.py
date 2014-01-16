@@ -2,7 +2,6 @@
 import wx
 import wx.richtext as rt
 import images
-from ..thirdparty.pyth import pyth
 #----------------------------------------------------------------------
 
 class RichTextFrame(wx.Frame):

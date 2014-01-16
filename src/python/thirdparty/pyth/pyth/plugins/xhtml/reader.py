@@ -1,12 +1,13 @@
 """
 Read documents from xhtml
 """
-
-import BeautifulSoup
-
 from pyth import document
 from pyth.format import PythReader
 from pyth.plugins.xhtml.css import CSS
+
+# import BeautifulSoup
+import bs4 as BeautifulSoup
+### Modified for bs4  ###
 
 
 class XHTMLReader(PythReader):
@@ -22,12 +23,14 @@ class XHTMLReader(PythReader):
         self.encoding = encoding
 
     def go(self):
-        soup = BeautifulSoup.BeautifulSoup(self.source,
-                                           convertEntities=BeautifulSoup.BeautifulSoup.HTML_ENTITIES,
-                                           fromEncoding=self.encoding,
-                                           smartQuotesTo=None)
+        # soup = BeautifulSoup.BeautifulSoup(self.source,
+        #                                    convertEntities=BeautifulSoup.BeautifulSoup.HTML_ENTITIES,
+        #                                    fromEncoding=self.encoding,
+        #                                    smartQuotesTo=None)
+        ### Modified for bs4  ###
+        soup = BeautifulSoup.BeautifulSoup(self.source, from_encoding=self.encoding)
         # Make sure the document content doesn't use multi-lines
-        soup = self.format(soup)
+        # soup = self.format(soup)
         doc = document.Document()
         if self.css_source:
             self.css = CSS(self.css_source)
@@ -56,6 +59,7 @@ class XHTMLReader(PythReader):
                 lines = [x.strip() for x in text.splitlines()]
                 text = ' '.join(lines)
                 node.replaceWith(BeautifulSoup.BeautifulSoup(text))
+
         soup = BeautifulSoup.BeautifulSoup(unicode(soup))
         # replace all <br/> tag by newline character
         for node in soup.findAll('br'):
@@ -132,6 +136,12 @@ class XHTMLReader(PythReader):
         return document.Text(properties, content)
 
     def process_into(self, node, obj):
+        # if node.string is not None:
+        #     print "node=%s"%node.name, "txt=%s"%node.string.encode('ascii', 'ignore')
+        # else:
+        #     print "node=%s"%node.name
+        # print "obj=%s"%str(obj)
+        # print
         """
         Process a BeautifulSoup node and fill its elements into a pyth
         base object.
@@ -141,12 +151,13 @@ class XHTMLReader(PythReader):
             if text:
                 obj.append(text)
             return
+        oldobj = obj
         if node.name == 'p':
             # add a new paragraph into the pyth object
             new_obj = document.Paragraph()
             obj.append(new_obj)
             obj = new_obj
-        elif node.name == 'ul':
+        elif node.name == 'ul' or node.name == 'ol':
             # add a new list
             new_obj = document.List()
             obj.append(new_obj)
@@ -157,4 +168,8 @@ class XHTMLReader(PythReader):
             obj.append(new_obj)
             obj = new_obj
         for child in node:
-            self.process_into(child, obj)
+            # print "child=%s, node=%s"%(child.name,node.name)
+            if node.name in ['p','li']:
+                self.process_into(child, oldobj)
+            else:
+                self.process_into(child, obj)

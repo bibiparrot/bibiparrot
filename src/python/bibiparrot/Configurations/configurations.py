@@ -63,3 +63,9 @@ def uiconf():
         confs[key] = Configuration()
         confs[key].CONF_FILE = __default_ui_config__
     return confs[key]
+
+
+##
+#  self-defined rich text control handlers
+#
+rtchandlers = {}

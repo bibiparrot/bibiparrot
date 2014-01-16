@@ -53,7 +53,7 @@ class _PythBase(object):
                 okay = False
                 
         if not okay:
-            raise TypeError("Wrong content type for %s: %s (%s)" % (
+            raise TypeError("Wrong content type for %s: type=%s, obj=(%s)" % (
                 self.__class__.__name__, repr(type(item)), repr(item)))
 
         self.content.append(item)
