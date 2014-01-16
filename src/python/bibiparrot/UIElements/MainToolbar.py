@@ -94,13 +94,14 @@ class Toolbar (wx.ToolBar):
         if LOGWIRE:
             log().debug("%s: element=%s", funcname(), self.element.dump())
         wx.ToolBar.__init__(self, parent, *args, **kwargs)
+        # self.SetToolBitmapSize(self.element.Size)
 
         for toolbar in self.element.Data:
             if LOGWIRE:
                 log().debug("%s: menu=%s", funcname(), toolbar.dump())
             self.add(toolbar)
         ###  add space to toolbar ###
-        wx.ToolBar.AddLabelTool(self, -1, label="END", bitmap=wx.NullBitmap)
+        # wx.ToolBar.AddLabelTool(self, -1, label="END", bitmap=wx.NullBitmap)
         wx.ToolBar.Realize(self)
 
     def add(self, toolbar):

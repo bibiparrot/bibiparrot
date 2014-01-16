@@ -121,7 +121,7 @@ class EditControl(wx.richtext.RichTextCtrl):
         # This gives us a string suitable for the file dialog based on
         # the file handlers that are loaded
         # wildcard, types = wx.richtext.RichTextBuffer.GetExtWildcard(save=False)
-
+        print "OnFileOpen"
         wildcard = 'Bibi Parrot (*.bbp)|*.bbp|Text (*.txt)|*.txt|XML (*.xml)|*.xml'
         types = [BiBiParrotFormatTextHandler.RICHTEXT_TYPE_BBP,
                  wx.richtext.RICHTEXT_TYPE_TEXT,
