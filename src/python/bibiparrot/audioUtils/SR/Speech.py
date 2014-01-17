@@ -10,13 +10,6 @@
 ################################################################################
 
 
-
-
-from pyaudio import PyAudio, paInt16
-from wave import open as open_audio
-from urllib2 import Request, urlopen
-from json import loads
-
 import json
 import pyaudio
 import wave
@@ -326,13 +319,13 @@ class GoogleSpeechRequest(object):
 
 class PyAudioRecord(object):
 
-    def __init__(self, wavefile = 'Speech.wav', format=paInt16, channels=1, rate=44100, frames_per_buffer=1024):
+    def __init__(self, wavefile = 'Speech.wav', format=pyaudio.paInt16, channels=1, rate=44100, frames_per_buffer=1024):
         self.wavefile = wavefile
         self.format = format
         self.channels = channels
         self.rate = rate
         self.frames_per_buffer = frames_per_buffer
-        self.audio = PyAudio()
+        self.audio = pyaudio.PyAudio()
 
     def record(self, time):
         stream = self.audio.open(format=self.format, channels=self.channels,
@@ -416,93 +409,8 @@ def run():
     for x in res:
         print str(x)
 
-
-# class Pygsr(object):
-#     format = paInt16
-#     rate = 44100
-#     channel = 1
-#     chunk = 1024
-#     def __init__(self, file="audio"):
-#         self.file = file
-#
-#     def convert(self):
-#         # system("sox %s -t wav -r 8000 -t flac %s.flac" % (self.file, self.file))
-#         os.system('flac -f'+ self.file)
-#
-#     def record(self, time):
-#         audio = PyAudio()
-#         stream = audio.open(format=self.format, channels=self.channel,
-#                             rate=self.rate, input=True,
-#                             frames_per_buffer=self.chunk)
-#         print "REC: "
-#         frames = []
-#         for i in range(0, self.rate / self.chunk * time):
-#             data = stream.read(self.chunk)
-#             frames.append(data)
-#         stream.stop_stream()
-#         stream.close()
-#         audio.terminate()
-#         write_frames = open_audio(self.file, 'wb')
-#         write_frames.setnchannels(self.channel)
-#         write_frames.setsampwidth(audio.get_sample_size(self.format))
-#         write_frames.setframerate(self.rate)
-#         write_frames.writeframes(''.join(frames))
-#         write_frames.close()
-#         self.convert()
-#
-#     def speech_to_text(self, language):
-#         url = "http://www.google.com/speech-api/v1/recognize?lang=%s" % language
-#         file_upload = "%s.flac" % self.file
-#         audio = open(file_upload, "rb").read()
-#         header = {"Content-Type": "audio/x-flac; rate=8000"}
-#         data = Request(url, audio, header)
-#         post = urlopen(data)
-#         response = post.read()
-#         phrase = loads(response)['hypotheses'][0]['utterance']
-#         return phrase, response
-#
-#
-#     def stt_google_wav(self):
-#         filename = self.file
-#         #Convert to flac
-#         # os.system(FLAC_CONV+ filename+'.wav')
-#         f = open(filename+'.flac','rb')
-#         flac_cont = f.read()
-#         f.close()
-#
-#         #post it
-#         lang_code='en-US'
-#         googl_speech_url = 'https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&pfilter=2&lang=%s&maxresults=6'%(lang_code)
-#         hrs = {"User-Agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7",'Content-type': 'audio/x-flac; rate='+ str(Pygsr.rate)}
-#         req = urllib2.Request(googl_speech_url, data=flac_cont, headers=hrs)
-#         p = urllib2.urlopen(req)
-#         res = p.read()
-#         lines = str(res).split('\n')
-#
-#         print '<-----res------'
-#         print len(lines)
-#         print res
-#         print '-------------->'
-#         ret = json.loads(res)
-#         print '<-----len------'
-#         print len(ret)
-#         print '-------------->'
-#         print '<-----ret------'
-#         print ret
-#         print '-------------->'
-#         # res = eval(ret)['hypotheses']
-#         # map(os.remove, (filename+'.flac', filename+'.wav'))
-#         return res
-
-
-
 #
 if __name__ == '__main__':
-    # speech = Pygsr()
-    # speech.record(4) # durationin seconds (3)
-    # # phrase, complete_response =speech.speech_to_text('en_US') # select the language
-    # phrase = speech.stt_google_wav()
-    # print phrase
     run()
 
 
