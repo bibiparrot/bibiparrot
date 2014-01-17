@@ -6,7 +6,7 @@
 # Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
 ################################################################################
 
-__all__ = []
+__all__ = ["mutagen"]
 
 import sys,os,inspect
 for mo in __all__:
