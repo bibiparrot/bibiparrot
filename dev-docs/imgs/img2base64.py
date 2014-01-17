@@ -18,6 +18,13 @@ def imagetopy(image, output_file):
     with open(output_file, 'w') as fout:
         fout.write('image_data = '+ repr(image_data))
 
+
+def pytoimage(pyfile):
+    pymodule = __import__(pyfile)
+    img = PIL.Image.open(cStringIO.StringIO(pymodule.image_data))
+    img.show()
+
+
 ###
 ##  http://en.wikipedia.org/wiki/Internet_media_type#Type_image
 #
@@ -27,7 +34,8 @@ __extmap__ = {
 '.jpg':'image/jpeg',
 '.svg':'image/svg+xml'
 }
-def imageto64py(image, output_file):
+
+def imagetobase64(image, output_file):
     import base64
     (nam,ext) = os.path.splitext(image)
     nam = os.path.basename(image)
@@ -36,10 +44,6 @@ def imageto64py(image, output_file):
     with open(output_file, 'w') as fout:
         fout.write('<img src="data:'+__extmap__[ext.lower()]+';base64,'+ encoded_string + '" alt="'+ nam +'"/>')
 
-def pytoimage(pyfile):
-    pymodule = __import__(pyfile)
-    img = PIL.Image.open(cStringIO.StringIO(pymodule.image_data))
-    img.show()
 
 # if __name__ == '__main__':
 #     imagetopy('spot.png', 'wishes.py')
@@ -59,4 +63,4 @@ if __name__ == '__main__':
         for fimg in fimgs:
             fpy = fimg + ".html"
             if not os.path.exists(fpy):
-                imageto64py(fimg, fpy)
+                imagetobase64(fimg, fpy)
