@@ -18,12 +18,23 @@ def imagetopy(image, output_file):
     with open(output_file, 'w') as fout:
         fout.write('image_data = '+ repr(image_data))
 
+###
+##  http://en.wikipedia.org/wiki/Internet_media_type#Type_image
+#
+__extmap__ = {
+'.gif':'image/gif',
+'.png':'image/png',
+'.jpg':'image/jpeg',
+'.svg':'image/svg+xml'
+}
 def imageto64py(image, output_file):
     import base64
+    (nam,ext) = os.path.splitext(image)
+    nam = os.path.basename(image)
     with open(image, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
     with open(output_file, 'w') as fout:
-        fout.write('image_data = '+ repr(encoded_string))
+        fout.write('<img src="data:'+__extmap__[ext.lower()]+';base64,'+ encoded_string + '" alt="'+ nam +'"/>')
 
 def pytoimage(pyfile):
     pymodule = __import__(pyfile)
@@ -39,9 +50,13 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         call(["python", __file__, "OK"])
     elif sys.argv[1] == "OK":
-        fimgs = glob.glob("*.gif")
+        types = ("*.gif", "*.png", "*.jpg")
+        fimgs = []
+        for t in types:
+            fimgs.extend(glob.glob(t))
+            fimgs.extend(glob.glob(t.upper()))
         print fimgs
         for fimg in fimgs:
-            fpy = fimg + ".py"
+            fpy = fimg + ".html"
             if not os.path.exists(fpy):
                 imageto64py(fimg, fpy)
