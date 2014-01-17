@@ -78,9 +78,9 @@
         |
         <a href="#ui-design">ui design</a>
         |
-        <a href="#java-interface">java interface</a>
+        <a href="#third-party">third party installation</a>
         |
-        <a href="#python-implement">python implement</a>
+        <a href="#py2bin">python to installer</a>
         |
         <a href="#service-wrapping">Service Wrapping</a>
 
@@ -95,7 +95,8 @@
 <h2>Development Environment<a href="#_top_" style="text-decoration: none;">^</a></h2>
 <h3><a href="http://www.python.org/download/releases/2.7/" target="_blank">Python 2.7+</a> </h3>
 <p> Note: There is a known compatibile issue about python 2.7.2. As when try to import the wxWidgets, the "Dll load error" will occur, and the program will abort. <br /> To solve this issue, we suggested to use the python version above 2.7.5+ and below 3.0-. It seems that python version 2.7.2 has compatible issues loading wxWidgets graphic dlls. </p>
-<h3><a href="http://wxpython.org/" target="_blank">wxPython 2.8.8+ (32bit)</a> </h3>
+
+ <h3><a href="http://wxpython.org/" target="_blank">wxPython 2.8.8+ (32bit)</a> </h3>
  <p> The <a href="http://sourceforge.net/projects/wxpython/files/wxPython/2.8.10.1/" target="_blank">wxPython demo package</a>  of 2.8 is also very important.
 </p>
 <h3><a href="http://www.jetbrains.com/pycharm/" target="_blank">pycharm</a> Free Community Edition (suggested editor) </h3>
@@ -103,6 +104,20 @@
     Of course, any editor will be fine. Only pyCharm is perfect for function reference and friendly for newbies (that's us).
 </p>
 
+<h3>Third Party Installation</h3>
+<ul><li>
+    The audio play depends on <a href="http://pygame.org/news.html">pygame</a> 1.9.1+.
+    </li>
+    <li>
+    The export to MS Word 2007 (*.docx) depends on <a href="https://pypi.python.org/pypi/docx" target="_blank">docx 0.2.3</a>
+        (<a href="http://github.com/mikemaccana/python-docx" target="_blank">source</a> )
+        which depends on <a href="http://lxml.de/" target="_blank">lxml</a>.
+    </li>
+    <li>
+    The speech recognition will use the Google Speech API, e.g. <a href="https://pypi.python.org/pypi/pygsr" target="_blank">PyGsr</a>
+        which depends on <a href="http://people.csail.mit.edu/hubert/pyaudio/" target="_blank">pyAudio</a>.
+    </li>
+</ul>
 <h3>Start testing</h3>
 <p>
     You could run the unittest from <em>src/script/testbibiparrot.sh</em> (Linux/MacOs),
@@ -110,9 +125,11 @@
     or <em>src/python/testbibiparrot/testbibiparrot.py</em>
 </p>
 
+
+
 <a name="ui-design" />
 <h2>UI Design<a href="#_top_" style="text-decoration: none;">^</a></h2>
-<h3>UI Elements Types</h3>
+<h3 class="reset">UI Elements Types</h3>
 <ul>
     <li>MainFrame:</li>
     <li>MainMenu:</li>
@@ -158,6 +175,33 @@ defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
     <h4 class="reset" />
     <h4/>
 -->
+
+
+<a name="third-party" />
+<h2>Third Party Installation<a href="#_top_" style="text-decoration: none;">^</a></h2>
+<p>
+    The audio play depends on <a href="http://pygame.org/news.html">pygame</a>.
+</p>
+
+
+
+<a name="py2bin" />
+<h2>Python to Installation<a href="#_top_" style="text-decoration: none;">^</a></h2>
+<p>
+    We need <a href="http://www.py2exe.org/" target="_blank">py2exe</a>  or <a href="http://svn.pythonmac.org/py2app/py2app/trunk/doc/index.html" target="_blank">py2app</a>
+    for compiling installation module.
+</p>
+
+<p>
+    Py2exe may have problem to load 3rd party library, thus we need add parameters to tell the module.
+    e.g.
+</p>
+<samp class="sample"> # e.g. lxml is required.
+    $ python setup.py py2exe -p win32com,lxml -i twisted.web.resource <span style="color:blue">&crarr;</span>
+</samp>
+
+
+<a href="http://www.poetry-archive.com/y/the_cat_and_the_moon.html"></a>
 
 <footer><hr/>
 <p>

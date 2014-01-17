@@ -448,6 +448,7 @@ class EditControl(wx.richtext.RichTextCtrl):
 
     def OnFont(self, evt):
         if not self.HasSelection():
+            wx.MessageBox("Please select text.", "Tips!")
             return
 
         r = self.GetSelectionRange()
