@@ -535,6 +535,7 @@ class PyAudioRecord(object):
         # sox(wavefile)
 
         from Portable import Portable
+        print os.getenv('PATH')
         Portable.call('flac', '-f', wavefile)
         if os.path.exists(flacfile):
             return flacfile

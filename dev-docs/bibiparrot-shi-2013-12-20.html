@@ -224,6 +224,10 @@ defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
             (prevent DYLD_LIBRARY_PATH for miss up default lib)
 </pre>
 
+<p>
+    <span style="color:red">ATTENTION</span>:  <em>sys.path.append(os.path.join(pkgdir, 'win'))</em> seems not working in
+    Windows XP,  using <em>os.environ['PATH'] = os.path.join(pkgdir, 'win')</em> instead.
+</p>
 
 <a name="py2bin" />
 <h2>Python to Installation<a href="#_top_" style="text-decoration: none;">^</a></h2>

@@ -37,12 +37,14 @@ class Portable(object):
         for wlk in os.walk(prtdir).next()[1]:
             pkgdir = os.path.join(prtdir, wlk)
             ### for mac os ###
-            sys.path.append(os.path.join(pkgdir, 'mac'))
+            # sys.path.append(os.path.join(pkgdir, 'mac'))
+            append_sys_env("PATH", os.path.join(pkgdir, 'mac'))
             ### for win os ###
-            sys.path.append(os.path.join(pkgdir, 'win'))
+            # sys.path.append(os.path.join(pkgdir, 'win'))
+            append_sys_env("PATH", os.path.join(pkgdir, 'win'))
             ### add library path (mac ox), set env DYLD_FALLBACK_LIBRARY_PATH ###
             append_sys_env("DYLD_FALLBACK_LIBRARY_PATH", os.path.join(pkgdir, 'mac'))
-            print os.getenv("DYLD_FALLBACK_LIBRARY_PATH")
+            # print os.getenv("DYLD_FALLBACK_LIBRARY_PATH")
 
 
     @staticmethod
