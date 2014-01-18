@@ -78,7 +78,7 @@
         |
         <a href="#ui-design">ui design</a>
         |
-        <a href="#third-party">third party installation</a>
+        <a href="#third-party">third party portable</a>
         |
         <a href="#py2bin">python to installer</a>
         |
@@ -205,11 +205,24 @@ defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
 
 
 <a name="third-party" />
-<h2>Third Party Installation<a href="#_top_" style="text-decoration: none;">^</a></h2>
+<h2>Third Party Portable<a href="#_top_" style="text-decoration: none;">^</a></h2>
 <p>
-    The audio play depends on <a href="http://pygame.org/news.html">pygame</a>.
+    Since it is really difficult to make users install sub library, I would like to use portable pre-compiled tools
+    (Only for Windows and Mac OX).
+    It is beneficial for running the music converting tasks, e.g. convert (.wav --> .flac).
+    There are two steps to do this.
 </p>
-
+<pre> 1.  Prepare portable package:
+       o Find/compile the binary package for mac and windows --> portable/flac/[mac|win]
+            win: .dll should be the same directory.
+            mac: .dylib and .a lib should be in the directory <a href="http://stackoverflow.com/questions/3146274/is-it-ok-to-use-dyld-library-path-on-mac-os-x-and-whats-the-dynamic-library-s" target="_blank">DYLD_FALLBACK_LIBRARY_PATH</a> .
+       o Zip directory and read the .zip into python object.
+</pre>
+<pre> 2. Call portable package:
+       o Unzip python object into local directory
+       o Add directory into PATH and add mac library directory into DYLD_FALLBACK_LIBRARY_PATH
+            (prevent DYLD_LIBRARY_PATH for miss up default lib)
+</pre>
 
 
 <a name="py2bin" />
@@ -220,6 +233,16 @@ defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
 
     Here are the <a href="http://pythonhosted.org/py2app/" target="_blank">manual for py2app</a>.
 </p>
+
+<p>
+    LD (<a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/Manpages/man1/dyld.1.html" target="_blank">link</a>) failure, even there is library /usr/local/lib/libsox.dylib. The problem is that it is compiled as
+    x86_64 and thus ignored. Thus, I have to re-compile the libsox into 32 bit.
+</p>
+<samp class="sample"># ld failure, cannot find libsox, but it is there.
+$ export CFLAGS="-arch i386" <span style="color:blue">&crarr;</span>
+$ export LDFLAGS="-arch i386"
+$ ./configure
+</samp>
 
 <p>
     Py2exe may have problem to load 3rd party library, thus we need add parameters to tell the module.

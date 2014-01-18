@@ -21,6 +21,9 @@ import time
 import logging
 import Queue
 
+
+
+
 __default_logging_file__ = "speech.log"
 logging.basicConfig(filename=__default_logging_file__, filemode='w', level=logging.DEBUG)
 
@@ -516,26 +519,32 @@ class PyAudioRecord(object):
             wavefile = self.wavefile
         flacfile = wavefile.replace('.wav', '.flac')
 
-        ### check which function available for convert ###
-        for cmd in PyAudioRecord.CMD_CONV.keys():
-            if which(cmd):
-                params = [cmd, PyAudioRecord.CMD_CONV[cmd], wavefile]
-                import subprocess
-                subprocess.call(params)
-                if LOG_GATE:
-                    LOG.debug("PyAudioRecord.convertToFlac(): cmd=%s", str(' '.join(params)))
-                break
+        def flac(wavefile):
+            ### check which function available for convert ###
+            for cmd in PyAudioRecord.CMD_CONV.keys():
+                if which(cmd):
+                    params = [cmd, PyAudioRecord.CMD_CONV[cmd], wavefile]
+                    import subprocess
+                    subprocess.call(params)
+                    if LOG_GATE:
+                        LOG.debug("PyAudioRecord.convertToFlac(): cmd=%s", str(' '.join(params)))
+                    break
+            pass
 
+
+        # sox(wavefile)
+
+        from Portable import Portable
+        Portable.call('flac', '-f', wavefile)
         if os.path.exists(flacfile):
             return flacfile
         else:
             err = "Fail to convert file %s"%(wavefile)
             raise Exception(err)
-            return None
 
 def runSR():
     rcd = PyAudioRecord()
-    rcd.recordToFile()
+    rcd.recordToFile(4)
     flacFile =  rcd.convertToFlac()
     grq = GoogleSpeechRequest()
     res = grq.requestByFile(flacFile)
