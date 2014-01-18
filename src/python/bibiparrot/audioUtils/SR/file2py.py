@@ -48,7 +48,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         call(["python", __file__, "__OK__"])
     elif sys.argv[1] == "__OK__":
-        types = ("*.gif", "*.png", "*.jpg", "*.js")
+        types = ("*.gif", "*.png", "*.jpg", "*.txt")
         ftyps = []
         for t in types:
             ftyps.extend(glob.glob(t))
