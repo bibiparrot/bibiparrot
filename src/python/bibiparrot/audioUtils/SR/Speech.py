@@ -11,16 +11,27 @@
 
 
 import json
-import pyaudio
+
 import wave
-import audioop
-from collections import deque
-import os
+import os, sys
 import urllib2
+###
+##      import audioop
+#       http://docs.python.org/2/library/audioop.html
+#
 import time
 import logging
 import Queue
+try:
+    import pyaudio
+except ImportError as err:
+    sys.stderr.write("\nError: failed to import module, since ({})\n".format(err))
+    import inspect
+    proj = os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())),'../../../../../../')
+    inst = os.path.abspath(os.path.join(proj,'bibiparrot/lib/thirdparty/installer/*'))
+    sys.stderr.write("Tips: Please install this module ({})\n\n".format(inst))
 
+    sys.exit(1)
 
 
 
@@ -559,6 +570,5 @@ def runTTS(txtf):
 
 #
 if __name__ == '__main__':
-    import sys
     # runTTS(sys.argv[1])
     runSR()
