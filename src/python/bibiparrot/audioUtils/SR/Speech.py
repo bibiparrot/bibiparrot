@@ -298,13 +298,29 @@ class HTTPRequest(object):
         if LOG_GATE:
             LOG.debug("HTTPRequest.request(): url=%s, header=%s, type(data)=%s",
                       self.url, str(self.headers), type(data))
+        ### In case of proxy requirement ###
+        ##
+        #    os.environ['http_proxy'] = '$hostname:$port'
+        #    os.environ['no_proxy'] = '$hostname'
+        #
+        urllib2.install_opener(
+            urllib2.build_opener(
+                urllib2.ProxyHandler()
+            )
+        )
         ### open after request ###
         urlop = urllib2.urlopen(req)
         if LOG_GATE:
             LOG.debug("HTTPRequest.request(): timeout=%s", str(self.timeout))
         ### read the opened socket ###
         red = urlop.read()
+        if LOG_GATE:
+            LOG.debug("HTTPRequest.request(): content-encoding=%s", str(urlop.headers.get('content-encoding', '')))
+        ### unzip compressed data ###
         self.gzip = ('gzip' in urlop.headers.get('content-encoding', ''))
+        if self.gzip:
+            import zlib
+            red = zlib.decompress(red, 16+zlib.MAX_WBITS)
         ### interpret data  ###
         return self.interpret(red)
 
@@ -312,11 +328,8 @@ class HTTPRequest(object):
         return data
 
     def interpret(self, data):
-        ### unzip compressed data ###
-        if self.gzip:
-            import zlib
-            red = zlib.decompress(data, 16+zlib.MAX_WBITS)
         return data
+
 
 
 ###
