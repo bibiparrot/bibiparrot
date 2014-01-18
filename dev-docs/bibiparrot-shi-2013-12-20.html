@@ -137,7 +137,8 @@ defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
     The speech recognition will use the Google Speech API, (e.g. <a href="https://pypi.python.org/pypi/pygsr" target="_blank">PyGsr</a>)
         which depends on <a href="http://people.csail.mit.edu/hubert/pyaudio/" target="_blank">pyAudio</a> for recording the local audio.
         While converting from local .wav file into .flac file needed <a href="http://sourceforge.net/projects/flac/" target="_blank">flac</a>
-        library, because .flac is needed for Google speech API.
+        library, because .flac is needed for Google speech API. Or you can try <a href="https://github.com/dsully/pyflac" target="_blank">pyflac</a>,
+        but it needs compile under windows and it needs installation of visual studio.
     </li>
     <li>
 

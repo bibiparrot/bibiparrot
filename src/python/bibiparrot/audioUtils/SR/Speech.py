@@ -19,6 +19,7 @@ import os
 import urllib2
 import time
 import logging
+import Queue
 
 __default_logging_file__ = "speech.log"
 logging.basicConfig(filename=__default_logging_file__, filemode='w', level=logging.DEBUG)
@@ -461,28 +462,40 @@ class PyAudioRecord(object):
         self.rate = rate
         self.frames_per_buffer = frames_per_buffer
         self.audio = pyaudio.PyAudio()
+        self.stop = False
+        self.frames = Queue.Queue()
 
-    def record(self, time):
+    def record(self, time = -1):
         stream = self.audio.open(format=self.format, channels=self.channels,
                             rate=self.rate, input=True,
                             frames_per_buffer=self.frames_per_buffer)
         print "... Record Start:"
-        frames = []
         try:
-            for i in range(0, time * self.rate / self.frames_per_buffer + 1):
-                data = stream.read(self.frames_per_buffer)
-                frames.append(data)
+            if time < 0:
+                while not self.stop:
+                    data = stream.read(self.frames_per_buffer)
+                    self.frames.put(data)
+            else:
+                for i in range(0, time * self.rate / self.frames_per_buffer + 1):
+                    data = stream.read(self.frames_per_buffer)
+                    self.frames.put(data)
+                self.stop = True
         finally:
             stream.stop_stream()
             stream.close()
         self.audio.terminate()
         print "Record Stop ..."
+
+    def recordToFile(self, time = -1):
+        import thread
+        thread.start_new_thread(self.record, (time, ))
         writefp = wave.open(self.wavefile, 'wb')
         writefp.setnchannels(self.channels)
         writefp.setsampwidth(self.audio.get_sample_size(self.format))
         writefp.setframerate(self.rate)
         try:
-            writefp.writeframes(''.join(frames))
+            while not self.stop:
+                writefp.writeframes(''.join(self.frames.get()))
         finally:
             writefp.close()
         ### print wave file  ###
@@ -522,7 +535,7 @@ class PyAudioRecord(object):
 
 def runSR():
     rcd = PyAudioRecord()
-    rcd.record(3)
+    rcd.recordToFile()
     flacFile =  rcd.convertToFlac()
     grq = GoogleSpeechRequest()
     res = grq.requestByFile(flacFile)
@@ -537,5 +550,5 @@ def runTTS(txtf):
 #
 if __name__ == '__main__':
     import sys
-    runTTS(sys.argv[1])
-    # runSR()
+    # runTTS(sys.argv[1])
+    runSR()
