@@ -453,7 +453,7 @@ class GoogleSpeechRequest(HTTPRequest):
                 if rec is not None:
                     rets.append(rec)
                     if LOG_GATE:
-                        LOG.debug("GoogleSpeechRequest.request(): recognized=%s", type(rec))
+                        LOG.debug("GoogleSpeechRequest.request(): recognized=%s", unicode(rec))
 
         return rets
 
@@ -572,7 +572,7 @@ def runSR(lang='en-US', time = 5):
     print '\n<--------------------\nIt recognized',len(res),'potential messages:\n'
     for x in res:
         # print unicode(x).decode('utf-8')
-        print x
+        print unicode(x)
     ### print end information ###
     print '\n-------------------->\nEnd ...\n'
 
@@ -583,5 +583,5 @@ def runTTS(txtf):
 #
 if __name__ == '__main__':
     # runTTS(sys.argv[1])
-    # runSR('cmn-Hans-CN')
-    runSR('en-US', 5)
+    runSR('cmn-Hans-CN')
+    # runSR('en-US', 5)
