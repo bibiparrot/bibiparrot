@@ -610,6 +610,6 @@ def runTTS(txtf):
 #
 if __name__ == '__main__':
     # runTTS(sys.argv[1])
-    # runSR('cmn-Hans-CN')
-    runSR('ja-JP')
+    runSR('cmn-Hans-CN')
+    # runSR('ja-JP')
     # runSR('en-US', 5)
