@@ -589,7 +589,7 @@ class SoxRecord(Record):
 def runSR(lang='en-US', t = 5):
     # rcd = PyAudioRecord()
     rcd = SoxRecord()
-    print "\nPlease speak in >>>", GoogleLanguages.nameById(lang),"<<< ...... \n"
+    print u"\nPlease speak in >>>", GoogleLanguages.nameById(lang).decode('utf-8'),u"<<< ...... \n"
     # raw_input('Press enter key to continue ...')
     import time
     time.sleep(1)
@@ -623,13 +623,14 @@ if __name__ == '__main__':
     langs = ['en-US','cmn-Hans-CN','ja-JP']
     tips = '(0=default)'
     for idx, lng in enumerate(langs):
-        tips += '\t' + str(idx)+ '=' + GoogleLanguages.nameById(lng)  +';'
-    print 'Please select 1 language:', '['+tips+']'
+        tips += u'\t' + str(idx)+ u'=' + GoogleLanguages.nameById(lng).decode('utf-8')  +';'
+    print u'Please select 1 language:', '['+tips+']'
     usrin = 'x'
     while usrin not in '0-1-2':
         usrin = raw_input('>> ')
     if usrin == '':
         usrin = '0'
+
     runSR(langs[int(usrin)])
     # runSR('ja-JP')
     # runSR('en-US', 5)
