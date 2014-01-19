@@ -443,8 +443,6 @@ class GoogleSpeechRequest(HTTPRequest):
             if LOG_GATE:
                 LOG.debug("GoogleSpeechRequest.request(): line=%s", lin)
             if '{' in lin and '}' in lin and 'utterance' in lin:
-                if LOG_GATE:
-                        LOG.debug("GoogleSpeechRequest.request(): lin=%s", lin)
                 josnres.append(json.loads(lin))
         rets = []
         for res in josnres:
