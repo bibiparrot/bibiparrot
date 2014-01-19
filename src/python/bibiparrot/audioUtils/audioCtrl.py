@@ -34,8 +34,9 @@ def loadMusic(myMusicPath):
     if not os.path.exists(myMusicPath):
         print "File cannot be found! "
         exit(1)
+    fp = open(myMusicPath)
     try:
-        pygame.mixer.music.load(myMusicPath)
+        pygame.mixer.music.load(fp)
     except:
         print "Unexpected error happened! "
         exit(2)
@@ -68,7 +69,10 @@ def destroyPlayer():
 ### Define the main class (Test Purposes)
 def main():
     print " *** Audio Utils Test Program *** "
-    myMusicPath="C:\\Documents and Settings\\A\\My Documents\\bibParrot\\trunk\\src\\python\\bibiparrot\\audioUtils\\testMusics\\Beijing Welcome You.mp3"
+    import inspect
+    mp3dir = os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())), 'testMusics')
+    myMusicPath = os.path.join(mp3dir, r'Beijing Welcome You.mp3')
+    print 'MP3 file is', myMusicPath
     print "Init the music player.. "
     initMediaPlayer()
     print "Load current music.. "
