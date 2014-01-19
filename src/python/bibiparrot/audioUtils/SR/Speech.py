@@ -22,16 +22,6 @@ import urllib2
 import time
 import logging
 import Queue
-try:
-    import pyaudio
-except ImportError as err:
-    sys.stderr.write("\nError: failed to import module, since ({})\n".format(err))
-    import inspect
-    proj = os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())),'../../../../../../')
-    inst = os.path.abspath(os.path.join(proj,'bibiparrot/lib/thirdparty/installer/*'))
-    sys.stderr.write("Tips: Please install this module ({})\n\n".format(inst))
-
-    sys.exit(1)
 
 
 
@@ -239,10 +229,10 @@ class Recognition(object):
             self.confidence = 0
 
     def __str__(self):
-        res = r'{ "utterance":' + self.utterance
+        res = ur'{ "utterance":' + self.utterance
         if self.confidence > 0:
-            res = res + r'" ,"confidence": "' + str(self.confidence)
-        res = res + r' } '
+            res = res + ur'" ,"confidence": "' + str(self.confidence)
+        res = res + ur' } '
         return res
 
 ### @End class Recognition
@@ -266,6 +256,7 @@ class HTTPRequest(object):
         self.mediatype = mediatype
         self.timeout = timeout
         self.contenttype = self.mediatype + ';'
+        self.encoding = 'utf-8'
         pass
 
     def getContentType(self):
@@ -330,9 +321,10 @@ class HTTPRequest(object):
         ### read the opened socket ###
         red = urlop.read()
         if LOG_GATE:
-            LOG.debug("HTTPRequest.request(): content-encoding=%s", str(urlop.headers.get('content-encoding', '')))
+            LOG.debug("HTTPRequest.request(): header={\n\n%s\n}\n", str(urlop.headers))
         ### unzip compressed data ###
-        self.gzip = ('gzip' in urlop.headers.get('content-encoding', ''))
+        self.gzip = ('gzip' in urlop.headers.get('Content-Encoding', ''))
+        self.contenttype = urlop.headers.get('Content-Type', '')
         if self.gzip:
             import zlib
             red = zlib.decompress(red, 16+zlib.MAX_WBITS)
@@ -461,29 +453,78 @@ class GoogleSpeechRequest(HTTPRequest):
                 if rec is not None:
                     rets.append(rec)
                     if LOG_GATE:
-                        LOG.debug("GoogleSpeechRequest.request(): recognized=%s", str(rec))
+                        LOG.debug("GoogleSpeechRequest.request(): recognized=%s", type(rec))
 
         return rets
 
 ### @End class GoogleSpeechRequest
 
-class PyAudioRecord(object):
-
-    def __init__(self, wavefile = 'Speech.wav', format=pyaudio.paInt16, channels=1, rate=44100, frames_per_buffer=1024):
+class Record(object):
+    def __init__(self, wavefile='speech.wav', frmt='16', channels=1, rate=44100, frames_per_buffer=1024):
         self.wavefile = wavefile
-        self.format = format
+        self.frmt = frmt
         self.channels = channels
         self.rate = rate
         self.frames_per_buffer = frames_per_buffer
-        self.audio = pyaudio.PyAudio()
+        self.audio = None
         self.stop = False
         self.frames = Queue.Queue()
+        self.sampwidth = 16
 
     def record(self, time = -1):
-        stream = self.audio.open(format=self.format, channels=self.channels,
+        pass
+
+    def recordToFile(self, time = -1):
+        import thread
+        thread.start_new_thread(self.record, (time, ))
+        writefp = wave.open(self.wavefile, 'wb')
+        writefp.setnchannels(self.channels)
+        writefp.setsampwidth(self.sampwidth)
+        writefp.setframerate(self.rate)
+        try:
+            while not self.stop:
+                writefp.writeframes(''.join(self.frames.get()))
+        finally:
+            writefp.close()
+        ### print wave file  ###
+        print "See ", self.wavefile
+
+    def convertToFlac(self, wavefile = None):
+        ### http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python  ###
+        ### first define function to check whether command available. ###
+        if wavefile is None:
+            wavefile = self.wavefile
+        flacfile = wavefile.replace('.wav', '.flac')
+        from Portable import Portable
+        # print os.getenv('PATH')
+        Portable.call('flac', '-f', wavefile)
+        if os.path.exists(flacfile):
+            return flacfile
+        else:
+            err = "Fail to convert file %s"%(wavefile)
+            raise Exception(err)
+
+class PyAudioRecord(Record):
+    def __init__(self, wavefile='speech.wav', frmt='16', channels=1, rate=44100, frames_per_buffer=1024):
+        try:
+            import pyaudio
+        except ImportError as err:
+            sys.stderr.write("\nError: failed to import module, since ({})\n".format(err))
+            import inspect
+            proj = os.path.join(os.path.dirname(inspect.getfile(inspect.currentframe())),'../../../../../../')
+            inst = os.path.abspath(os.path.join(proj,'bibiparrot/lib/thirdparty/installer/*'))
+            sys.stderr.write("Tips: Please install this module ({})\n\n".format(inst))
+            sys.exit(1)
+        Record.__init__(self, wavefile, frmt, channels, rate, frames_per_buffer)
+        self.audio = pyaudio.PyAudio()
+        self.pyaudiofrmt = getattr(pyaudio, 'paInt' + self.frmt, pyaudio.paInt16)
+        self.sampwidth = self.audio.get_sample_size(self.pyaudiofrmt)
+
+    def record(self, time = -1):
+        stream = self.audio.open(format=self.pyaudiofrmt, channels=self.channels,
                             rate=self.rate, input=True,
                             frames_per_buffer=self.frames_per_buffer)
-        print "... Record Start:"
+        print "\n... Record Start (you have **************** ",time,"s **************** ):"
         try:
             if time < 0:
                 while not self.stop:
@@ -498,71 +539,42 @@ class PyAudioRecord(object):
             stream.stop_stream()
             stream.close()
         self.audio.terminate()
-        print "Record Stop ..."
+        print "Record Stop ...\n"
+
+
+###
+##  http://sox.sourceforge.net/sox.html
+#
+class SoxRecord(Record):
+    def __init__(self, wavefile='speech.wav', frmt=16, channels=1, rate=44100, frames_per_buffer=1024):
+        Record.__init__(self, wavefile, frmt, channels, rate, frames_per_buffer)
 
     def recordToFile(self, time = -1):
-        import thread
-        thread.start_new_thread(self.record, (time, ))
-        writefp = wave.open(self.wavefile, 'wb')
-        writefp.setnchannels(self.channels)
-        writefp.setsampwidth(self.audio.get_sample_size(self.format))
-        writefp.setframerate(self.rate)
-        try:
-            while not self.stop:
-                writefp.writeframes(''.join(self.frames.get()))
-        finally:
-            writefp.close()
-        ### print wave file  ###
-        print "See ", self.wavefile
-
-
-    ### define several commands ###
-    CMD_CONV = {
-         # We need a WAV to FLAC converter.
-        'flac' : ('-f'),
-        # system("sox %s -t wav -r 8000 -t flac %s.flac" % (self.file, self.file))
-    }
-
-    def convertToFlac(self, wavefile = None):
-        ### http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python  ###
-        ### first define function to check whether command available. ###
-        if wavefile is None:
-            wavefile = self.wavefile
-        flacfile = wavefile.replace('.wav', '.flac')
-
-        def flac(wavefile):
-            ### check which function available for convert ###
-            for cmd in PyAudioRecord.CMD_CONV.keys():
-                if which(cmd):
-                    params = [cmd, PyAudioRecord.CMD_CONV[cmd], wavefile]
-                    import subprocess
-                    subprocess.call(params)
-                    if LOG_GATE:
-                        LOG.debug("PyAudioRecord.convertToFlac(): cmd=%s", str(' '.join(params)))
-                    break
-            pass
-
-
-        # sox(wavefile)
-
+        print "\n... Record Start (you have **************** ",time,"s **************** ):"
         from Portable import Portable
-        # print os.getenv('PATH')
-        Portable.call('flac', '-f', wavefile)
-        if os.path.exists(flacfile):
-            return flacfile
-        else:
-            err = "Fail to convert file %s"%(wavefile)
-            raise Exception(err)
+        params = ('-d','-b',self.frmt,'-c',self.channels,'-r',self.rate,'-e','signed-integer','-L',self.wavefile)
+        if time > 0:
+            params = params + ("trim", 0, time)
+        Portable.call('sox', *params)
+        print "Record Stop ...\n"
+        pass
 
-def runSR():
-    rcd = PyAudioRecord()
-    rcd.recordToFile(4)
+
+def runSR(lang='en-US', time = 5):
+    # rcd = PyAudioRecord()
+    rcd = SoxRecord()
+    rcd.recordToFile(time)
     flacFile =  rcd.convertToFlac()
-    grq = GoogleSpeechRequest()
+    grq = GoogleSpeechRequest(lang)
     res = grq.requestByFile(flacFile)
-    print str(res)
+    # print unicode(res).decode('utf-8')
+    # print u' '.join(str(res)).encode('utf-8').strip()
+    print '\n<--------------------\nIt recognized',len(res),'potential messages:\n'
     for x in res:
-        print str(x)
+        # print unicode(x).decode('utf-8')
+        print x
+    ### print end information ###
+    print '\n-------------------->\nEnd ...\n'
 
 def runTTS(txtf):
     gtr = GoogleTTSRequest('cmn-Hans-CN')
@@ -571,4 +583,5 @@ def runTTS(txtf):
 #
 if __name__ == '__main__':
     # runTTS(sys.argv[1])
-    runSR()
+    # runSR('cmn-Hans-CN')
+    runSR('en-US', 5)

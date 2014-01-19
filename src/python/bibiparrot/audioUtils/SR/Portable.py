@@ -22,8 +22,8 @@ __portables__ = []
 #
 #
 def get_portables():
-    import portableflac
-    __portables__.append(portableflac)
+    # import portableflac
+    # __portables__.append(portableflac)
     #
     # import portablexxx
     # __portables__.append(portablexxx)
@@ -87,10 +87,10 @@ def tar_cfz(fildir, tarpath=None, override=False):
 
 
 ###
-##  extract a portable module
+##  extract a portable module (created by file2py.py)
 #
 #
-def extract_portable(pymod, xtrcpath=None, override=False):
+def extract_portable_py(pymod, xtrcpath=None, override=False):
     ### write .data
     modfile = inspect.getfile(pymod)
     datapath = os.path.dirname(modfile)
@@ -114,12 +114,17 @@ def extract_portable(pymod, xtrcpath=None, override=False):
     return xtrcpath
 
 
-def extractall(xtrcpath=None, override=False):
+def extract_all_py(xtrcpath=None, override=False):
     for mod in get_portables():
-        xtrcpath = extract_portable(mod, xtrcpath, override)
+        xtrcpath = extract_portable_py(mod, xtrcpath, override)
     return xtrcpath
 
-# tarxfz(portableflac)
+# tar_xfz(portable.tar.gz)
+def extractall():
+    curdir = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    potpath = os.path.join(curdir, 'portable.tar.gz')
+    xtrpath = tar_xfz(potpath)
+    return xtrpath
 
 def append_sys_env(key, val):
     env = os.getenv(key, "")
@@ -139,72 +144,72 @@ class Portable(object):
     @staticmethod
     def load(prtdir = None):
         if prtdir is None:
-            prtdir = os.path.abspath(os.path.dirname(inspect.getfile(inspect.currentframe())))
+            prtdir = os.path.dirname(inspect.getfile(inspect.currentframe()))
         # print "curdir=",curdir
         # prtdir = os.path.abspath(os.path.dirname(curdir))
         # print "prtdir=",prtdir
+
         ### http://stackoverflow.com/questions/973473/getting-a-list-of-all-subdirectories-in-the-current-directory ###
-        for wlk in os.walk(prtdir).next()[1]:
-            pkgdir = os.path.join(prtdir, wlk)
-            ### for mac os ###
-            # print '<----------------'
-            # sys.path.append(os.path.join(pkgdir, 'mac'))
-            append_sys_env('PATH', os.path.join(pkgdir, 'mac'))
-            # print os.getenv('PATH')
-            ### for win os ###
-            # sys.path.append(os.path.join(pkgdir, 'win'))
-            append_sys_env('PATH', os.path.join(pkgdir, 'win'))
-            # print os.getenv('PATH')
-            # print '----------------->'
-            ### add library path (mac ox), set env DYLD_FALLBACK_LIBRARY_PATH ###
-            append_sys_env("DYLD_FALLBACK_LIBRARY_PATH", os.path.join(pkgdir, 'mac'))
-            print os.getenv("DYLD_FALLBACK_LIBRARY_PATH")
+        for wlk in os.walk(prtdir):
+            pkgdir = wlk[0]
+            # print "pkgdir", os.path.abspath(pkgdir)
+            pkgdirbase = os.path.basename(pkgdir).lower()
+            # print pkgdirbase
+            if pkgdirbase == 'win':
+                # print '<----------------'
+                pkgdir = os.path.abspath(pkgdir)
+                # sys.path.append(pkgdir)
+                append_sys_env('PATH', pkgdir)
+                # print '----------------->'
+            ### for win or mac os ###
+            elif pkgdirbase == 'mac':
+                # print '<----------------'
+                pkgdir = os.path.abspath(pkgdir)
+                # sys.path.append(pkgdir)
+                append_sys_env('PATH', pkgdir)
+                # print '----------------->'
+                ### add library path (mac ox), set env DYLD_FALLBACK_LIBRARY_PATH ###
+                append_sys_env("DYLD_FALLBACK_LIBRARY_PATH", pkgdir)
+                # print os.getenv("DYLD_FALLBACK_LIBRARY_PATH")
 
     @staticmethod
-    def call (pbin, *args):
+    def call (pbin, *args, **kwargs):
         ### load library before call ###
         if not Portable.IS_LOADED:
             portablepath = extractall()
             Portable.load(portablepath)
             Portable.IS_LOADED = True
         ### prepare the parameters ###
-        params = [pbin]
-        params.extend(args)
+        # print 'args =', args
+        params = [str(pbin)]
+        ### all parameters must be string  ###
+        for arg in args:
+            params.append(str(arg))
+        # print 'params =', ' '.join(params)
         import subprocess
         return subprocess.call(params)
 
 ### @End class Portable
 
 
-def file2py_by_types(dir=None, types=("*.gif", "*.png", "*.jpg", "*.txt", "*.tar.gz")):
+def file2py_by_types(dir='.', types=("*.gif", "*.png", "*.jpg", "*.txt", "*.tar.gz")):
     ftyps = []
     for t in types:
-        if dir is not None:
-            t = os.path.join(dir, t)
-        ftyps.extend(glob.glob(t))
+        ftyps.extend(glob.glob(os.path.join(dir, t)))
+        ftyps.extend(glob.glob(os.path.join(dir, t.upper())))
     print ftyps
     for ftyp in ftyps:
         fpy = ftyp + ".py"
         if not os.path.exists(fpy):
             file2py(ftyp, fpy)
-        pass
+
 
 if __name__ == '__main__':
     os.environ["VERSIONER_PYTHON_PREFER_32_BIT"] = "yes"
     if len(sys.argv) == 1:
         call(["python", __file__, "__OK__"])
     elif sys.argv[1] == "__OK__":
-        types = ("*.gif", "*.png", "*.jpg", "*.txt", "*.tar.gz")
-        ftyps = []
-        for t in types:
-            ftyps.extend(glob.glob(t))
-            ftyps.extend(glob.glob(t.upper()))
-        print ftyps
-        for ftyp in ftyps:
-            fpy = ftyp + ".py"
-            if not os.path.exists(fpy):
-                file2py(ftyp, fpy)
-            pass
-
+        file2py_by_types()
+        pass
 
 
