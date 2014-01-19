@@ -145,9 +145,37 @@ class GoogleLanguages(object):
         if len(GoogleLanguages.__languages_map__) == 0:
             for language in GoogleLanguages.LanguageList:
                 l = Language(language)
-                GoogleLanguages.__languages_map__.append (l.Name,l)
+                GoogleLanguages.__languages_map__[l.Name] =l
         return GoogleLanguages.__languages_map__
 
+    @staticmethod
+    def nameById(lanId):
+        for languag in GoogleLanguages.languages().values():
+            for countr in languag.Countries:
+                if lanId in countr.Id:
+                    if countr.Name is not None:
+                        return countr.Name
+                    else:
+                        return languag.Name
+        return None
+
+    @staticmethod
+    def iDsbyLang(lan2char):
+        ids = []
+        for languag in GoogleLanguages.__languages_map__.values():
+            for countr in languag.Countries:
+                if (lan2char.lower() + '-') in countr.Id:
+                    ids.countr.Id
+        return ids
+
+    @staticmethod
+    def iDsbyLocation(loc2char):
+        ids = []
+        for languag in GoogleLanguages.__languages_map__.values():
+            for countr in languag.Countries:
+                if ('-' +loc2char.upper())  in countr.Id:
+                    ids.countr.Id
+        return ids
 ### @End class GoogleLanguages
 
 
@@ -561,6 +589,7 @@ class SoxRecord(Record):
 def runSR(lang='en-US', time = 5):
     # rcd = PyAudioRecord()
     rcd = SoxRecord()
+    print "\n>>> Please speak in", GoogleLanguages.nameById(lang),"!\n"
     rcd.recordToFile(time)
     flacFile =  rcd.convertToFlac()
     grq = GoogleSpeechRequest(lang)
@@ -581,5 +610,6 @@ def runTTS(txtf):
 #
 if __name__ == '__main__':
     # runTTS(sys.argv[1])
-    runSR('cmn-Hans-CN')
+    # runSR('cmn-Hans-CN')
+    runSR('ja-JP')
     # runSR('en-US', 5)
