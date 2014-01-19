@@ -586,11 +586,14 @@ class SoxRecord(Record):
         pass
 
 
-def runSR(lang='en-US', time = 5):
+def runSR(lang='en-US', t = 5):
     # rcd = PyAudioRecord()
     rcd = SoxRecord()
-    print "\n>>> Please speak in", GoogleLanguages.nameById(lang),"!\n"
-    rcd.recordToFile(time)
+    print "\nPlease speak in >>>", GoogleLanguages.nameById(lang),"<<< ...... \n"
+    # raw_input('Press enter key to continue ...')
+    import time
+    time.sleep(1)
+    rcd.recordToFile(t)
     flacFile =  rcd.convertToFlac()
     grq = GoogleSpeechRequest(lang)
     res = grq.requestByFile(flacFile)
@@ -607,9 +610,26 @@ def runTTS(txtf):
     gtr = GoogleTTSRequest('cmn-Hans-CN')
     gtr.requestByFile(txtf)
 
+
+
+###
+##   http://stackoverflow.com/questions/510357/python-read-a-single-character-from-the-user
+#    http://code.activestate.com/recipes/134892/
+#
+
 #
 if __name__ == '__main__':
     # runTTS(sys.argv[1])
-    runSR('cmn-Hans-CN')
+    langs = ['en-US','cmn-Hans-CN','ja-JP']
+    tips = '(0=default)'
+    for idx, lng in enumerate(langs):
+        tips += '\t' + str(idx)+ '=' + GoogleLanguages.nameById(lng)  +';'
+    print 'Please select 1 language:', '['+tips+']'
+    usrin = 'x'
+    while usrin not in '0-1-2':
+        usrin = raw_input('>> ')
+    if usrin == '':
+        usrin = '0'
+    runSR(langs[int(usrin)])
     # runSR('ja-JP')
     # runSR('en-US', 5)
