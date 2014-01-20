@@ -242,11 +242,11 @@ class Recognition(object):
     @staticmethod
     def load(map={}):
         res = None
-        if map.has_key('utterance'):
-            if map.has_key('confidence'):
-                res = Recognition(map['utterance'],map['confidence'])
-            else:
-                res = Recognition(map['utterance'])
+
+        utterance = map.get('utterance', None)
+        confidence = map.get('confidence', None)
+        if utterance is not None:
+            res = Recognition(utterance, confidence)
         return res
 
     def __init__(self, utterance, confidence = None):

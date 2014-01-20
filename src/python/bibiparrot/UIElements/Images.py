@@ -6963,10 +6963,10 @@ def scale(embededimg):
     return scaledimg
 
 def bitmap(key):
-    if catalog.has_key(key):
-        return catalog[key].GetBitmap()
-        # return scale(catalog[key])
-    else:
+    img = catalog.get(key, None)
+    if img is None:
         raise Exception ("Unknown Image %s" % key)
+    return img.GetBitmap()
+
 
 

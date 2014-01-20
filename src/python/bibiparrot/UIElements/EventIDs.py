@@ -167,25 +167,25 @@ def getIDbyElement(elem):
     return wxId
 
 # @PendingDeprecationWarning
-def getID(uielem):
-    ### int ID ###
-    selfid = -1
-    if isinstance(uielem, long):
-        selfid = uielem
-    elif hasattr(uielem, "Id"):
-        selfid = uielem.Id
-    else:
-        error = "Unknown type: %s" % type(uielem)
-        raise BibiException(error)
-    ### make sure not empty ###
-    ### mapping ###
-    if eventids.has_key(selfid):
-        (wxId, uielem) = eventids[selfid]
-    elif hasattr(uielem, "Name") and FixedIDs.has_key(uielem.Name.upper()):
-        wxId = FixedIDs[uielem.Name.upper()]
-        eventids[selfid] = (wxId, uielem)
-    else:
-        wxId = wx.NewId()
-        eventids[selfid] = (wxId, uielem)
-    # print eventids
-    return wxId
+# def getID(uielem):
+#     ### int ID ###
+#     selfid = -1
+#     if isinstance(uielem, long):
+#         selfid = uielem
+#     elif hasattr(uielem, "Id"):
+#         selfid = uielem.Id
+#     else:
+#         error = "Unknown type: %s" % type(uielem)
+#         raise BibiException(error)
+#     ### make sure not empty ###
+#     ### mapping ###
+#     if eventids.has_key(selfid):
+#         (wxId, uielem) = eventids[selfid]
+#     elif hasattr(uielem, "Name") and FixedIDs.has_key(uielem.Name.upper()):
+#         wxId = FixedIDs[uielem.Name.upper()]
+#         eventids[selfid] = (wxId, uielem)
+#     else:
+#         wxId = wx.NewId()
+#         eventids[selfid] = (wxId, uielem)
+#     # print eventids
+#     return wxId

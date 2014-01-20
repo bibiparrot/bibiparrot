@@ -103,13 +103,14 @@ class EditControl(wx.richtext.RichTextCtrl):
 
     def LoadFile(self, path, type, *args, **kwargs):
         ### has self-defined types, needing self-defined handler ###
-        if rtchandlers.has_key(type):
+        handlercls = rtchandlers.get(type, None)
+        if handlercls is not None:
             # print file
             self.Freeze()
             self.BeginSuppressUndo()
             # Clear the Control AND the default text attributes
             self.Clear()
-            handler = rtchandlers[type]()
+            handler = handlercls()
             ret = handler.LoadFile(self.GetBuffer(), path)
             self.EndSuppressUndo()
             self.Thaw()

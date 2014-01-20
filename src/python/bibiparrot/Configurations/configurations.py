@@ -42,9 +42,7 @@ def log():
     stack = traceback.extract_stack()
     filename, lineno, name, text = stack[-2]
     key = os.path.splitext(os.path.basename(filename))[0]
-    if not logs.has_key(key):
-        logs[key] = logging.getLogger(key)
-    return logs[key]
+    return logs.get(key, logging.getLogger(key))
 
 ##
 #  configurations dictionary
