@@ -14,4 +14,12 @@ http://stackoverflow.com/questions/5922882/what-file-uses-md-extension-and-how-s
 
 ## Flac Converter
 
+<!--
 
+out = "<html>%(head)s%(prologue)s%(query)s%(tail)s</html>" % locals()
+
+
+newlist = map(str.upper, oldlist)
+
+iterator = (s.upper() for s in oldlist)
+-->

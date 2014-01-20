@@ -28,14 +28,14 @@ from configurations import LOGWIRE, log
 #
 #
 def cfgEncoding(filename):
-    if not os.path.exists(filename):
-        raise BibiException("%s, filename=%s not exist!" %(funcname(), filename))
+    # if not os.path.exists(filename):
+    #     raise BibiException("%s, filename=%s not exist!" %(funcname(), filename))
     try:
         fil = open(filename, 'r')
         line = fil.readline()
         fil.close()
     except Exception as e:
-        raise BibiException("%s, filename=%s read line error!" %(funcname(), filename))
+        raise BibiException("cfgEncoding: filename=%s read line error!" %(filename))
 
     if __configuration_file_encoding__ in line and "=" in line:
         enc = line.split("=")[1]
@@ -85,16 +85,33 @@ class Configuration(object):
             result.append("%s = %s" % (n, v))
         return "{\n\t\t"+"\n\t\t".join(result)+"\n}"
 
+
     def loadConf(self):
-        config_file = self.CONF_FILE
+        config_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), self.CONF_FILE)
         if LOGWIRE:
-           log().debug("%s: config_file=%s", funcname(),  config_file)
-        if not os.path.isabs(config_file):
-            if os.path.exists(os.path.join(directory(), self.CONF_FILE)):
-                config_file = os.path.join(directory(), self.CONF_FILE)
+           log().debug("loadConf: config_file=%s",  config_file)
+        fp = codecs.open(config_file, 'r', 'utf-8')
+        try:
+            self.config.readfp(fp)
+        except IOError as err:
+            error = "Configuration file (%s) read error (%s) " % (self.CONF_FILE, err)
+            raise BibiException(error)
+        finally:
+            fp.close()
+        self.CONF_FILE = config_file
+        self.isConfLoaded = True
+
+    # @DeprecationWarning
+    def loadConfig(self):
+        # config_file = self.CONF_FILE
+        # if not os.path.isabs(config_file):
+        #     if os.path.exists(os.path.join(directory(), self.CONF_FILE)):
+        config_file = os.path.join(directory(), self.CONF_FILE)
+        if LOGWIRE:
+           log().debug("loadConfig: config_file=%s",   config_file)
         if os.path.exists(config_file):
             if LOGWIRE:
-                log().debug("%s: config_file=%s", funcname(),  config_file)
+                log().debug("loadConfig: config_file=%s",  config_file)
             enc = cfgEncoding(config_file)
             if enc == None:
                 self.config.read(config_file)

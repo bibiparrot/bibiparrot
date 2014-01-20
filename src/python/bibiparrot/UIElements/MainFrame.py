@@ -32,7 +32,7 @@ class MainFrame(wx.Frame):
     def __init__(self, parent):
         self.element =  UIElement().loadSect("MainFrame")
         if LOGWIRE:
-            log().debug("%s: title = %s", funcname(), self.element.Title)
+            log().debug("__init__: title = %s", self.element.Title)
         # print unicode(self.element.Title).encode('utf8')
         wx.Frame.__init__(self, parent, title=self.element.Title, size=self.element.Size, pos = self.element.Position)
         # self.uiman = wx.aui.AuiManager(self)

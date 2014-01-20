@@ -28,7 +28,7 @@ from ...bibiparrot.Configurations.configurations import *
 from ...bibiparrot.UIElements.UIElement import UIElement
 # from ...bibiparrot import images
 from Images import bitmap
-from EventIDs import EventIDs
+from EventIDs import getIDbyElement
 from SelfControls import SearchCtrl
 
 
@@ -115,7 +115,7 @@ class Toolbar (wx.ToolBar):
                 wx.ToolBar.AddControl(self, selfctrls[toolbar.Name](self))
         else:
             if toolbar.Enabled:
-                id = EventIDs.getID(toolbar)
+                id = getIDbyElement(toolbar)
                 # print toolbar.Name
                 item = wx.ToolBar.AddTool(self, id, bitmap(toolbar.Icon), isToggle=toolbar.needsUpdate())
                 self.binds[id] = (toolbar, item)

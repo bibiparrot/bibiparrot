@@ -25,7 +25,7 @@ logging.basicConfig(filename=__default_logging_file__, filemode='w', level=loggi
 # handler = logging.handlers.RotatingFileHandler(__default_logging_file__, maxBytes=20, backupCount=5)
 # log.setLevel(logging.DEBUG)
 # log.addHandler(handler)
-LOGWIRE = True
+LOGWIRE = False
 
 ##
 #  logger dictionary
@@ -56,13 +56,24 @@ confs = {}
 #
 #
 
-def uiconf():
-    key = funcname()
-    if not confs.has_key(key):
-        from Configuration import Configuration
-        confs[key] = Configuration()
-        confs[key].CONF_FILE = __default_ui_config__
-    return confs[key]
+from Configuration import Configuration
+
+def uiconf(key):
+    conf = confs.get(key, None)
+    if conf is None:
+        conf = Configuration()
+        conf.CONF_FILE = __default_ui_config__
+        confs[key] = conf
+    return conf
+
+# @DeprecationWarning
+# def uiconfig():
+#     key = funcname()
+#     if not confs.has_key(key):
+#
+#         confs[key] = Configuration()
+#         confs[key].CONF_FILE = __default_ui_config__
+#     return confs[key]
 
 
 ##

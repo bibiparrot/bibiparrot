@@ -35,7 +35,7 @@ def split2dim(str):
 class UIElement(object):
     __slots__=("__conf__", "dataFunc", "Section", "Name", "Title", "Type", "Icon", "Position", "Size", "Layer", "Data")
     def __init__(self):
-        self.__conf__ = uiconf()
+        self.__conf__ = uiconf('UIElement')
         self.dataFunc = None
         self.clear()
 

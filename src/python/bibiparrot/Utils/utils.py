@@ -18,12 +18,13 @@ from ...bibiparrot.Constants.constants import __default_size_splitter__
 ##
 # @url: http://stackoverflow.com/questions/1095543/get-name-of-calling-functions-module-in-python
 ##
+@DeprecationWarning
 def directory():
     filename = os.path.abspath(inspect.getfile(inspect.stack()[1][0]))
     path = os.path.dirname(filename)
     return path
 
-
+### only allowed in log ###
 def funcname():
     stack = traceback.extract_stack()
     filename, lineno, name, text = stack[-2]
