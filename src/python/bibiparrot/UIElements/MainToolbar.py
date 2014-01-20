@@ -61,10 +61,10 @@ class ToolbarBean(Bean):
             if not val is None and not val == "":
                 if key in ["More"] and not func is None:
                     setattr(self, key, func(self, val))
-                elif key in ["Name", "Label", "Help", "Style", "Icon"]:
+                elif key in ["Name", "Label", "Help", "Style", "Icon", "Id"]:
                     setattr(self, key, val)
-                elif key in ["Id"] and not val is None:
-                    setattr(self, key, str2long(val))
+                # elif key in ["Id"] and not val is None:
+                #     setattr(self, key, str2long(val))
                 elif key in ["Position"]:
                     setattr(self, key, str2dim(val))
                 elif key in ["Enabled"]:

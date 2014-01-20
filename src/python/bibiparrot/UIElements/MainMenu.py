@@ -20,6 +20,7 @@ import wx.aui
 from ...bibiparrot.UIElements.UIElement import UIElement
 from ...bibiparrot.Configurations.configurations import *
 from ...bibiparrot.Constants.constants import __default_ui_element_sep__
+from EventIDs import getIDbyElement
 # from ..Configurations import configurations
 # from ..Constants import constants
 
@@ -61,13 +62,15 @@ class MenuBean(Bean):
                 log().debug("%s: %s=%s", funcname(), key, val)
             if key in ["Data"] and not func is None:
                 setattr(self, key, func(self, val))
-            elif key in ["Title", "Shortcut", "Help", "Kind","Text"]:
+            elif key in ["Title", "Shortcut", "Help", "Kind","Text","Id"]:
                 setattr(self, key, val)
-            elif key in ["Id"] and not val is None:
-                setattr(self, key, str2int(val))
-
+            # elif key in ["Id"] and not val is None:
+            #     setattr(self, key, str2int(val))
             # elif key in ["Texts"]:
             #     setattr(self, key, split2array(val, __default_ui_element_sep__))
+
+        ### replace id ###
+        self.Id = getIDbyElement(self)
         if LOGWIRE:
             log().debug("%s: Bean=%s", funcname(), self.dump())
 
