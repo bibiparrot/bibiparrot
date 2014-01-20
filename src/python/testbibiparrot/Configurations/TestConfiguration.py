@@ -17,7 +17,7 @@ class TestConfiguration(unittest.TestCase):
     def setUp(self):
         self.conf = Configuration()
         self.conf_file = open("TestConfiguration.ini", "w")
-        self.conf.CONF_FILE = self.conf_file.name
+        self.conf.CONF_FILE = os.path.abspath(self.conf_file.name)
         self.conf_file.write("# Encoding=UTF-8\n")
         self.conf_file.write("# Tips=Please Open This File by Encoding Type &Encoding in the First Line.]\n")
         self.conf_file.write("[default]\n")

@@ -54,11 +54,11 @@ confs = {}
 #
 #
 
-from Configuration import Configuration
 
 def uiconf(key):
     conf = confs.get(key, None)
     if conf is None:
+        from Configuration import Configuration
         conf = Configuration()
         conf.CONF_FILE = __default_ui_config__
         confs[key] = conf
