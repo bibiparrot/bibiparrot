@@ -2,7 +2,7 @@
 # Name:        Audio Control Module for bibiParrot
 # Purpose:     This class provide functions to support the media player in bibiparrot
 #
-# Author:      S Xia, Chunqi Shi
+# Author:      S Xia
 # Version:     0.3a
 #
 # Created:     01/09/2014
@@ -22,42 +22,6 @@ import os
 import threading
 import time
 ####################
-
-class MusicInfo(object):
-    __slots__ = ['i', 'l']
-    def __init__(self):
-        pass
-
-
-
-class MusicPlayCtrl(object):
-    def __init__(self):
-        self.lists = []
-        self.curr = ""
-
-    def load(self):
-        pass
-
-    def open(self):
-        pass
-
-    def start(self, t):
-        pass
-
-    def play(self):
-        pass
-
-    def resume(self):
-        pass
-
-    def pause(self):
-        pass
-
-    def stop(self):
-        pass
-
-    def clear(self):
-        pass
 
 ## This fuunction init the media player, please call this function first.
 def initMediaPlayer():

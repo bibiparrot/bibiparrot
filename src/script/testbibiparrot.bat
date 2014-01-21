@@ -27,5 +27,5 @@ REM python -m python.testbibiparrot.UIElements.TestEditor
 REM python -m python.testbibiparrot.UIElements.TestMainTabs
 REM python -m python.testbibiparrot.UIElements.TestMainStatusbar
 python -m python.testbibiparrot.UIElements.TestRepeater
-
+python -m python.testbibiparrot.audioUtils.TestMediaPlayControl
 cd %HOME%
