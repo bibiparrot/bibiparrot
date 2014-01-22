@@ -6,7 +6,7 @@
 # Copyright: &copy 2013 ~ present Chunqi SHI   <diligence.cs@gmail.com>        #
 ################################################################################
 
-__all__ = ["mutagen", "portable", "iniparse"]
+__all__ = ["mutagen", "portable","libvlc"]
 
 import sys,os,inspect
 for mo in __all__:

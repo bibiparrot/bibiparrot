@@ -619,7 +619,7 @@ def runTTS(txtf):
 
 #
 if __name__ == '__main__':
-    # runTTS(sys.argv[1])
+    runTTS(sys.argv[1])
     langs = ['en-US','cmn-Hans-CN','ja-JP']
     tips = '(0=default)'
     for idx, lng in enumerate(langs):

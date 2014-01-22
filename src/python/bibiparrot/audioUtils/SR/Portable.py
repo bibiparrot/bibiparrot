@@ -155,14 +155,14 @@ class Portable(object):
             # print "pkgdir", os.path.abspath(pkgdir)
             pkgdirbase = os.path.basename(pkgdir).lower()
             # print pkgdirbase
-            if pkgdirbase == 'win':
+            if pkgdirbase == 'win' or pkgdirbase == 'win32' or pkgdirbase == 'win64':
                 # print '<----------------'
                 pkgdir = os.path.abspath(pkgdir)
                 # sys.path.append(pkgdir)
                 append_sys_env('PATH', pkgdir)
                 # print '----------------->'
             ### for win or mac os ###
-            elif pkgdirbase == 'mac':
+            elif pkgdirbase == 'mac' or pkgdirbase == 'mac32' or pkgdirbase == 'mac64':
                 # print '<----------------'
                 pkgdir = os.path.abspath(pkgdir)
                 # sys.path.append(pkgdir)
