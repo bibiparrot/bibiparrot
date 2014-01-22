@@ -15,12 +15,6 @@ from ...bibiparrot.UIElements.MainFrame import MainFrame
 from ...bibiparrot.UIElements.UIElement import UIElement
 from ...bibiparrot.Configurations.Configuration import log
 
-from ...thirdparty.pyth.pyth.plugins.xhtml.reader import XHTMLReader
-from ...thirdparty.pyth.pyth.plugins.xhtml.writer import XHTMLWriter
-
-from ...thirdparty.pyth.pyth.plugins.rtf15.reader import Rtf15Reader
-from ...thirdparty.pyth.pyth.plugins.rtf15.writer import Rtf15Writer
-
 from cStringIO import StringIO
 
 class TestUIElement(unittest.TestCase):

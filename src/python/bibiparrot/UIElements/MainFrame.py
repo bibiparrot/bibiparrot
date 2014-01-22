@@ -29,14 +29,20 @@ from ..Constants import constants
 
 
 class MainFrame(wx.Frame):
-    def __init__(self, parent):
+    def PyAUIFrame__init__(self, parent=None):
         self.element =  UIElement().loadSect("MainFrame")
         if LOGWIRE:
             log().debug("__init__: title = %s", self.element.Title)
         # print unicode(self.element.Title).encode('utf8')
-        wx.Frame.__init__(self, parent, title=self.element.Title, size=self.element.Size, pos = self.element.Position)
-        # self.uiman = wx.aui.AuiManager(self)
+        wx.Frame.__init__(self, parent, title=self.element.Title, size=self.element.Size, pos = self.element.Position,
+                          style=wx.DEFAULT_FRAME_STYLE |
+                                            wx.SUNKEN_BORDER |
+                                            wx.CLIP_CHILDREN)
+        # self.uiman = wx.aui.AuiManager()
+        # self.uiman.SetManagedWindow(self)
+        # self.uiman.Update()
         # self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
         # wx.Frame.SetStatusBar
         # self.Show(True)
+
 

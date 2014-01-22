@@ -43,13 +43,15 @@ class EditControl(wx.richtext.RichTextCtrl):
 
         self.BeginParagraphSpacing(0, 20)
 
-        self.BeginAlignment(wx.richtext.TEXT_ALIGNMENT_CENTRE)
+        self.BeginAlignment(wx.TEXT_ALIGNMENT_CENTRE)
         self.BeginBold()
 
         self.BeginFontSize(14)
         self.WriteText("Welcome to wxRichTextCtrl, a wxWidgets control for editing and presenting styled text and images")
         self.EndFontSize()
         self.Newline()
+        self.EndParagraphSpacing()
+
         self.EndSuppressUndo()
         self.Thaw()
         pass
@@ -305,10 +307,10 @@ class EditControl(wx.richtext.RichTextCtrl):
         # print self.HasSelection()
         # if self.HasSelection():
         #     r = self.GetSelectionRange()
-        #     style = wx.richtext.TextAttrEx()
+        #     style = wx.richtext.RichTextAttr()
         #     if self.GetStyleForRange(r, style):
-        #         style.SetTextEffects(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
-        #         style.SetTextEffectFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+        #         style.SetTextEffects(wx.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+        #         style.SetTextEffectFlags(wx.TEXT_ATTR_EFFECT_STRIKETHROUGH)
         #     print style
         #     print r
         #     print
@@ -318,20 +320,20 @@ class EditControl(wx.richtext.RichTextCtrl):
             return
 
         r = self.GetSelectionRange()
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_EFFECT_STRIKETHROUGH)
         if self.GetStyleForRange(r, attr):
             # print r
             # print attr.GetTextEffects()
             # print
-            if not attr.GetTextEffects() ^ wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH == 0:
-                attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
-                attr.SetTextEffects(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
-                attr.SetTextEffectFlags(wx.richtext.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+            if not attr.GetTextEffects() ^ wx.TEXT_ATTR_EFFECT_STRIKETHROUGH == 0:
+                attr.SetFlags(wx.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+                attr.SetTextEffects(wx.TEXT_ATTR_EFFECT_STRIKETHROUGH)
+                attr.SetTextEffectFlags(wx.TEXT_ATTR_EFFECT_STRIKETHROUGH)
             else:
-                attr.SetFlags(wx.richtext.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
-                attr.SetTextEffects(wx.richtext.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
-                attr.SetTextEffectFlags(wx.richtext.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
+                attr.SetFlags(wx.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
+                attr.SetTextEffects(wx.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
+                attr.SetTextEffectFlags(wx.TEXT_ATTR_EFFECT_DOUBLE_STRIKETHROUGH)
             self.SetStyle(r, attr)
 
 
@@ -339,17 +341,17 @@ class EditControl(wx.richtext.RichTextCtrl):
         self.ApplyUnderlineToSelection()
 
     def OnAlignLeft(self, evt):
-        self.ApplyAlignmentToSelection(wx.richtext.TEXT_ALIGNMENT_LEFT)
+        self.ApplyAlignmentToSelection(wx.TEXT_ALIGNMENT_LEFT)
 
     def OnAlignRight(self, evt):
-        self.ApplyAlignmentToSelection(wx.richtext.TEXT_ALIGNMENT_RIGHT)
+        self.ApplyAlignmentToSelection(wx.TEXT_ALIGNMENT_RIGHT)
 
     def OnAlignCenter(self, evt):
-        self.ApplyAlignmentToSelection(wx.richtext.TEXT_ALIGNMENT_CENTRE)
+        self.ApplyAlignmentToSelection(wx.TEXT_ALIGNMENT_CENTRE)
 
     def OnIndentMore(self, evt):
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_LEFT_INDENT)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_LEFT_INDENT)
         ip = self.GetInsertionPoint()
         if self.GetStyle(ip, attr):
             r = wx.richtext.RichTextRange(ip, ip)
@@ -357,13 +359,13 @@ class EditControl(wx.richtext.RichTextCtrl):
                 r = self.GetSelectionRange()
 
             attr.SetLeftIndent(attr.GetLeftIndent() + 100)
-            attr.SetFlags(wx.richtext.TEXT_ATTR_LEFT_INDENT)
+            attr.SetFlags(wx.TEXT_ATTR_LEFT_INDENT)
             self.SetStyle(r, attr)
 
 
     def OnIndentLess(self, evt):
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_LEFT_INDENT)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_LEFT_INDENT)
         ip = self.GetInsertionPoint()
         if self.GetStyle(ip, attr):
             r = wx.richtext.RichTextRange(ip, ip)
@@ -372,13 +374,13 @@ class EditControl(wx.richtext.RichTextCtrl):
 
         if attr.GetLeftIndent() >= 100:
             attr.SetLeftIndent(attr.GetLeftIndent() - 100)
-            attr.SetFlags(wx.richtext.TEXT_ATTR_LEFT_INDENT)
+            attr.SetFlags(wx.TEXT_ATTR_LEFT_INDENT)
             self.SetStyle(r, attr)
 
 
     def OnParagraphSpacingMore(self, evt):
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_PARA_SPACING_AFTER)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_PARA_SPACING_AFTER)
         ip = self.GetInsertionPoint()
         if self.GetStyle(ip, attr):
             r = wx.richtext.RichTextRange(ip, ip)
@@ -386,13 +388,13 @@ class EditControl(wx.richtext.RichTextCtrl):
                 r = self.GetSelectionRange()
 
             attr.SetParagraphSpacingAfter(attr.GetParagraphSpacingAfter() + 20);
-            attr.SetFlags(wx.richtext.TEXT_ATTR_PARA_SPACING_AFTER)
+            attr.SetFlags(wx.TEXT_ATTR_PARA_SPACING_AFTER)
             self.SetStyle(r, attr)
 
 
     def OnParagraphSpacingLess(self, evt):
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_PARA_SPACING_AFTER)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_PARA_SPACING_AFTER)
         ip = self.GetInsertionPoint()
         if self.GetStyle(ip, attr):
             r = wx.richtext.RichTextRange(ip, ip)
@@ -401,48 +403,48 @@ class EditControl(wx.richtext.RichTextCtrl):
 
             if attr.GetParagraphSpacingAfter() >= 20:
                 attr.SetParagraphSpacingAfter(attr.GetParagraphSpacingAfter() - 20);
-                attr.SetFlags(wx.richtext.TEXT_ATTR_PARA_SPACING_AFTER)
+                attr.SetFlags(wx.TEXT_ATTR_PARA_SPACING_AFTER)
                 self.SetStyle(r, attr)
 
 
     def OnLineSpacingSingle(self, evt):
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_LINE_SPACING)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_LINE_SPACING)
         ip = self.GetInsertionPoint()
         if self.GetStyle(ip, attr):
             r = wx.richtext.RichTextRange(ip, ip)
             if self.HasSelection():
                 r = self.GetSelectionRange()
 
-            attr.SetFlags(wx.richtext.TEXT_ATTR_LINE_SPACING)
+            attr.SetFlags(wx.TEXT_ATTR_LINE_SPACING)
             attr.SetLineSpacing(10)
             self.SetStyle(r, attr)
 
 
     def OnLineSpacingHalf(self, evt):
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_LINE_SPACING)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_LINE_SPACING)
         ip = self.GetInsertionPoint()
         if self.GetStyle(ip, attr):
             r = wx.richtext.RichTextRange(ip, ip)
             if self.HasSelection():
                 r = self.GetSelectionRange()
 
-            attr.SetFlags(wx.richtext.TEXT_ATTR_LINE_SPACING)
+            attr.SetFlags(wx.TEXT_ATTR_LINE_SPACING)
             attr.SetLineSpacing(15)
             self.SetStyle(r, attr)
 
 
     def OnLineSpacingDouble(self, evt):
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_LINE_SPACING)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_LINE_SPACING)
         ip = self.GetInsertionPoint()
         if self.GetStyle(ip, attr):
             r = wx.richtext.RichTextRange(ip, ip)
             if self.HasSelection():
                 r = self.GetSelectionRange()
 
-            attr.SetFlags(wx.richtext.TEXT_ATTR_LINE_SPACING)
+            attr.SetFlags(wx.TEXT_ATTR_LINE_SPACING)
             attr.SetLineSpacing(20)
             self.SetStyle(r, attr)
 
@@ -455,8 +457,8 @@ class EditControl(wx.richtext.RichTextCtrl):
         r = self.GetSelectionRange()
         fontData = wx.FontData()
         fontData.EnableEffects(False)
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_FONT)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_FONT)
         if self.GetStyle(self.GetInsertionPoint(), attr):
             fontData.SetInitialFont(attr.GetFont())
 
@@ -465,7 +467,7 @@ class EditControl(wx.richtext.RichTextCtrl):
             fontData = dlg.GetFontData()
             font = fontData.GetChosenFont()
             if font:
-                attr.SetFlags(wx.richtext.TEXT_ATTR_FONT)
+                attr.SetFlags(wx.TEXT_ATTR_FONT)
                 attr.SetFont(font)
                 self.SetStyle(r, attr)
         dlg.Destroy()
@@ -473,8 +475,8 @@ class EditControl(wx.richtext.RichTextCtrl):
 
     def OnColour(self, evt):
         colourData = wx.ColourData()
-        attr = wx.richtext.TextAttrEx()
-        attr.SetFlags(wx.richtext.TEXT_ATTR_TEXT_COLOUR)
+        attr = wx.richtext.RichTextAttr()
+        attr.SetFlags(wx.TEXT_ATTR_TEXT_COLOUR)
         if self.GetStyle(self.GetInsertionPoint(), attr):
             colourData.SetColour(attr.GetTextColour())
 
@@ -487,7 +489,7 @@ class EditControl(wx.richtext.RichTextCtrl):
                     self.BeginTextColour(colour)
                 else:
                     r = self.GetSelectionRange()
-                    attr.SetFlags(wx.richtext.TEXT_ATTR_TEXT_COLOUR)
+                    attr.SetFlags(wx.TEXT_ATTR_TEXT_COLOUR)
                     attr.SetTextColour(colour)
                     self.SetStyle(r, attr)
         dlg.Destroy()
@@ -504,13 +506,13 @@ class EditControl(wx.richtext.RichTextCtrl):
         evt.Check(self.IsSelectionUnderlined())
 
     def OnUpdateAlignLeft(self, evt):
-        evt.Check(self.IsSelectionAligned(wx.richtext.TEXT_ALIGNMENT_LEFT))
+        evt.Check(self.IsSelectionAligned(wx.TEXT_ALIGNMENT_LEFT))
 
     def OnUpdateAlignCenter(self, evt):
-        evt.Check(self.IsSelectionAligned(wx.richtext.TEXT_ALIGNMENT_CENTRE))
+        evt.Check(self.IsSelectionAligned(wx.TEXT_ALIGNMENT_CENTRE))
 
     def OnUpdateAlignRight(self, evt):
-        evt.Check(self.IsSelectionAligned(wx.richtext.TEXT_ALIGNMENT_RIGHT))
+        evt.Check(self.IsSelectionAligned(wx.TEXT_ALIGNMENT_RIGHT))
 
     def OnCopy(self, evt):
         self.ProcessEvent(evt)
