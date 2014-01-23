@@ -40,33 +40,37 @@ class TestMediaPlayControl(unittest.TestCase):
         # self.app.MainLoop()
 
     def testPygameCtrl(self):
-        from ...bibiparrot.MediaElements.MediaPlayControl import PygameMediaPlayCtrl
-        self.ctrl = PygameMediaPlayCtrl()
+        try:
+            from ...bibiparrot.MediaElements.MediaPlayControl import PygameMediaPlayCtrl
+            self.ctrl = PygameMediaPlayCtrl()
 
-        self.ctrl = PygameMediaPlayCtrl()
-        for i in range(1, 2):
-            print '--------------------->', i
-            self.ctrl.load()
-            self.ctrl.open(self.mp3Path)
-            self.ctrl.start(0)
-            # self.ctrl = PygameMediaPlayCtrl()
-            # while self.ctrl.isPlayed():
-            #     time.sleep(0.05)
-            # self.ctrl.start(60)
-            time.sleep(4)
-            print 'get_pos', self.ctrl.player.get_pos()
-            # self.ctrl.pause()
-            # time.sleep(3)
-            # self.ctrl.resume()
-            # time.sleep(3)
-            # self.ctrl.stop()
-            # time.sleep(2)
-            # while self.ctrl.loaded:
-            #     print '.'
-            #     time.sleep(0.1)
-            # time.sleep(2)
-            self.ctrl.stop()
-            self.ctrl.quit()
+            self.ctrl = PygameMediaPlayCtrl()
+            for i in range(1, 2):
+                print '--------------------->', i
+                self.ctrl.load()
+                self.ctrl.open(self.mp3Path)
+                self.ctrl.start(0)
+                # self.ctrl = PygameMediaPlayCtrl()
+                # while self.ctrl.isPlayed():
+                #     time.sleep(0.05)
+                # self.ctrl.start(60)
+                time.sleep(4)
+                print 'get_pos', self.ctrl.player.get_pos()
+                # self.ctrl.pause()
+                # time.sleep(3)
+                # self.ctrl.resume()
+                # time.sleep(3)
+                # self.ctrl.stop()
+                # time.sleep(2)
+                # while self.ctrl.loaded:
+                #     print '.'
+                #     time.sleep(0.1)
+                # time.sleep(2)
+                self.ctrl.stop()
+                self.ctrl.quit()
+
+        except ImportError as err:
+            print err
 
         # import pygame, inspect
         # ### http://www.pygame.org/docs/ref/display.html ###
@@ -85,6 +89,7 @@ class TestMediaPlayControl(unittest.TestCase):
         # time.sleep(6)
         # mov.stop()
         # pygame.display.quit()
+        
         pass
 
 
