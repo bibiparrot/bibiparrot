@@ -77,10 +77,25 @@ class MediaPlayControl(Bean):
 
 ### @End MediaPlayControl
 
+
+###
+##  https://wiki.videolan.org/LibVLC/
+#
+
+##
+#   @Requires: https://wiki.videolan.org/Python_bindings/
+#   @URL: vlc.py http://git.videolan.org/?p=vlc/bindings/python.git;a=tree;f=generated;b=HEAD
+##
+
+
+
 ###
 ##  http://www.pygame.org/docs/ref/mixer.html
 #
 
+###
+# unfortunately, pygame do not support Mac OX S (at least 10.9) well. It crashes when reaping start(10).
+###
 PYGAME_NEEDED = True
 
 if PYGAME_NEEDED:
