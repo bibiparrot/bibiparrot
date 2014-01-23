@@ -266,6 +266,22 @@ defaults write com.apple.versioner.python Prefer-32-Bit -bool yes
 
 <a name="third-party" />
 <h2>Third Party Portable<a href="#_top_" style="text-decoration: none;">^</a></h2>
+
+<h3 class="reset">Music Player</h3>
+<p>
+    We have test many music players, since we need repeating part of the music really a lot.
+    Thus the seeking ability of the player must very powerful.
+</p>
+<ul>
+    <li>Pygame: have all the functions, and works perfect under windows, but it crashes under osx 10.6 when start from certain position.</li>
+    <li>Pyglet: it works well for playing music, but no obvious interface for seeking, and needing installation of other package</li>
+    <li>Pyaudio: it is very powerful since portaudio is perfect and cross-platform. But, I did not make it works under MacOS. </li>
+    <li>Libvlc: it is very powerful and perfect player. But it do not work under Mac with wxPython 2.*. Since it is so powerful and portable. I upgrade into wxPython 3.0.1+</li>
+    <li><a href="https://github.com/albertz/music-player" target="_blank">MusicPlayer(Python)</a> It is really perfect, but it is too heavy as a components for bibiparrrot.  </li>
+</ul>
+
+
+<h3>Portable for Win/Mac</h3>
 <p>
     Since it is really difficult to make users install sub library, I would like to use portable pre-compiled tools
     (Only for Windows and Mac OX).
