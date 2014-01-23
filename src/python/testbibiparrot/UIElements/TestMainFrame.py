@@ -94,4 +94,10 @@ class TestMainFrame(unittest.TestCase):
         pass
 
 if __name__ == '__main__':
-    unittest.main()
+    try:
+        unittest.main()
+
+    except:
+        import traceback, sys
+        xc = traceback.format_exception(*sys.exc_info())
+        wx.MessageBox(''.join(xc))
