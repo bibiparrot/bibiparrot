@@ -23,6 +23,34 @@ def append_sys_env(key, val):
     # print
     return env
 
+###
+##  tar cvfz - flac-1.2.1/ sox-14.4.1/ vlc-2.0.8/ | split -b 10m  - portable.tar.gz.
+#
+
+def split_into_chunks(gzipf='portable.tar.gz', max_size  = 10 * 1024 * 1024, buf_size  = 100 * 1024 * 1024):
+    # 'portable.tar.gz' - default file name
+    # 500Mb  - max chapter size
+    # 50GB   - memory buffer size
+
+    chunks = 0
+    uglybuf  = ''
+    with open(gzipf, 'rb') as gzipfp:
+      while True:
+        tgtfp = open(gzipf+'.%02d' % chunks, 'w')
+        written = 0
+        try:
+            while written < max_size:
+              tgtfp.write(uglybuf)
+              tgtfp.write(gzipfp.read(min(buf_size, max_size-written)))
+              written += min(buf_size, max_size-written)
+              uglybuf = gzipfp.read(1)
+              if len(uglybuf) == 0:
+                break
+        finally:
+            tgtfp.close()
+        if len(uglybuf) == 0:
+          break
+        chunks += 1
 
 class Portable(object):
     IS_LOADED = False
@@ -65,7 +93,7 @@ if __name__ == '__main__':
     import os, inspect
     curdir = os.path.abspath(os.path.dirname(inspect.getfile(inspect.currentframe())))
     print 'curdir', curdir
-    cmds = "cd "+curdir+"; tar cvfz  portable.tar.gz --exclude=._* "
+    cmds = "cd "+curdir+"; tar cvfz portable.tar.gz"
 
     for subdir in os.walk(curdir):
         #['flac-1.2.1','sox-14.4.1','vlc-2.0.8']:
@@ -78,4 +106,4 @@ if __name__ == '__main__':
     # from subprocess import call
     # call(["ls", "-l"])
 
-
+    split_into_chunks(os.path.join(curdir,'portable.tar.gz'))

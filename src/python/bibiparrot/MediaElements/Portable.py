@@ -56,6 +56,65 @@ def file2py(input_file, output_file):
     finally:
         fout.close()
 
+
+def merge_chunks(gzipf, buf_size= 100 * 1024 * 1024):
+    ### .tar.gz or .tgz###
+    hexnums = ['aa', '00']
+    if not gzipf[-2:] == 'gz':
+        ### assume .aa or .01 ###
+            gzipf = gzipf[:-3]
+    fstchunk = None
+    for hexnum in hexnums:
+        fstchunk = gzipf +'.'+ hexnum
+        if os.path.exists(fstchunk):
+            break
+    idx = int(hexnum, 16)
+    if fstchunk is not None:
+        gzipfp = open(gzipf, 'wb', buf_size)
+        try:
+            while True:
+                chunkf = gzipf +'.'+ hexnum
+                if not os.path.exists(chunkf):
+                    break
+                fp = open(chunkf, 'rb')
+                try:
+                    gzipfp.write(fp.read())
+                finally:
+                    fp.close()
+                idx += 1
+                hexnum = "%02x"%idx
+        finally:
+            gzipfp.close()
+
+###
+##  tar cvfz - flac-1.2.1/ sox-14.4.1/ vlc-2.0.8/ | split -b 10m  - portable.tar.gz.
+#
+
+def split_into_chunks(gzipf='portable.tar.gz', max_size  = 10 * 1024 * 1024, buf_size  = 100 * 1024 * 1024):
+    # 'portable.tar.gz' - default file name
+    # 500Mb  - max chapter size
+    # 50GB   - memory buffer size
+
+    chunks = 0
+    uglybuf  = ''
+    with open(gzipf, 'rb') as gzipfp:
+      while True:
+        tgtfp = open(gzipf+'.%02d' % chunks, 'w')
+        written = 0
+        try:
+            while written < max_size:
+              tgtfp.write(uglybuf)
+              tgtfp.write(gzipfp.read(min(buf_size, max_size-written)))
+              written += min(buf_size, max_size-written)
+              uglybuf = gzipfp.read(1)
+              if len(uglybuf) == 0:
+                break
+        finally:
+            tgtfp.close()
+        if len(uglybuf) == 0:
+          break
+        chunks += 1
+
 ###
 ## tar -zxvf xxx.tar.gz
 #
@@ -135,7 +194,11 @@ def extract_all_py(xtrcpath=None, override=False):
 def extractall():
     curdir = os.path.dirname(inspect.getfile(inspect.currentframe()))
     potpath = os.path.join(curdir, __default_portable_gzip__)
-    xtrpath = tar_xfz(potpath)
+    ### in case of chunks ###
+    if not os.path.exists(potpath):
+        merge_chunks(potpath)
+    if os.path.exists(potpath):
+        xtrpath = tar_xfz(potpath)
     return xtrpath
 
 def append_sys_env(key, val):
