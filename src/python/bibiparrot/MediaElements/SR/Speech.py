@@ -11,18 +11,17 @@
 
 
 import json
-
 import wave
-import os, sys
+import os
+import sys
 import urllib2
 ###
 ##      import audioop
 #       http://docs.python.org/2/library/audioop.html
 #
-import time
 import logging
 import Queue
-
+from src.python.bibiparrot.MediaElements import Portable
 
 
 __default_logging_file__ = "speech.log"
@@ -521,7 +520,6 @@ class Record(object):
         if wavefile is None:
             wavefile = self.wavefile
         flacfile = wavefile.replace('.wav', '.flac')
-        from Portable import Portable
         # print os.getenv('PATH')
         Portable.call('flac', '-f', wavefile)
         if os.path.exists(flacfile):
@@ -577,7 +575,7 @@ class SoxRecord(Record):
 
     def recordToFile(self, time = -1):
         print "\n... Record Start (you have **************** ",time,"s **************** ):"
-        from Portable import Portable
+        from ..Portable import Portable
         params = ('-d','-b',self.frmt,'-c',self.channels,'-r',self.rate,'-e','signed-integer','-L',self.wavefile)
         if time > 0:
             params = params + ("trim", 0, time)

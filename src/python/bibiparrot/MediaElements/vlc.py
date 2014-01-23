@@ -160,7 +160,11 @@ def find_lib():
     return (dll, plugin_path)
 
 # plugin_path used on win32 and MacOS in override.py
-dll, plugin_path  = find_lib()
+from Portable import load_portable_vlc
+dll, plugin_path  = load_portable_vlc()
+# in case portable is not added #
+if dll is None:
+    dll, plugin_path  = find_lib()
 
 class VLCException(Exception):
     """Exception raised by libvlc methods.

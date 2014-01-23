@@ -61,3 +61,21 @@ class Portable(object):
 
 ### @End class Portable
 
+if __name__ == '__main__':
+    import os, inspect
+    curdir = os.path.abspath(os.path.dirname(inspect.getfile(inspect.currentframe())))
+    print 'curdir', curdir
+    cmds = "cd "+curdir+"; tar cvfz  portable.tar.gz --exclude=._* "
+
+    for subdir in os.walk(curdir):
+        #['flac-1.2.1','sox-14.4.1','vlc-2.0.8']:
+        for i in subdir[1]:
+            cmds = cmds +" "+ i;
+        break
+    print cmds
+    import subprocess as subp
+    subp.check_call(str(cmds), shell=True)
+    # from subprocess import call
+    # call(["ls", "-l"])
+
+
