@@ -2,8 +2,10 @@ __author__ = 'shi'
 
 
 import glob, os
-
+import sys
 from PIL import Image
+from subprocess import call
+
 
 def resize(inf, x, y, ouf=None):
     # from PIL import Image
@@ -43,8 +45,15 @@ def resize(inf, x, y, ouf=None):
     return ouf
 
 
-import sys
-from subprocess import call
+
+def write_index_category(pyf, imgf, imgName):
+    pyfp = open(pyf,'a')
+    nam,ext = os.path.splitext(os.path.basename(imgf))
+    try:
+        pyfp.write("\n\nindex.append('"+nam+"')\ncatalog['"+nam+"'] = "+imgName+"\n")
+    finally:
+        pyfp.close()
+
 
 if __name__ == '__main__':
     os.environ["VERSIONER_PYTHON_PREFER_32_BIT"] = "yes"
@@ -58,7 +67,10 @@ if __name__ == '__main__':
             if not os.path.exists(fpy):
                 import wx
                 import wx.tools.img2py
-                fimg = resize(fimg, 16, 16)
-                wx.tools.img2py.img2py(fimg, fpy)
+                # fimg = resize(fimg, 16, 16)
+                imgName, ext = os.path.splitext(os.path.basename(fimg))
+                imgName = imgName.replace('-', '__')
+                wx.tools.img2py.img2py(fimg, fpy, imgName=imgName)
+                write_index_category(fpy, fimg, imgName)
                 if 'resized_' in fimg:
                     os.remove(fimg)
