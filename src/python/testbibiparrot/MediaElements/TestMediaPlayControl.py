@@ -37,6 +37,10 @@ class TestMediaPlayControl(unittest.TestCase):
         self.ctrl.play()
         time.sleep(4)
         self.ctrl.stop()
+        self.ctrl.start(60)
+        time.sleep(4)
+        self.ctrl.stop()
+        self.ctrl.quit()
         # self.app.MainLoop()
 
     def testPygameCtrl(self):
@@ -89,7 +93,7 @@ class TestMediaPlayControl(unittest.TestCase):
         # time.sleep(6)
         # mov.stop()
         # pygame.display.quit()
-        
+
         pass
 
 

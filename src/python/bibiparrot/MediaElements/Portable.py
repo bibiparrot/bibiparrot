@@ -17,7 +17,7 @@ from subprocess import call
 
 try:
     from ...bibiparrot.Constants.constants import __default_portable_gzip__
-except ImportError as err:
+except (ValueError, ImportError) as err:
     __default_portable_gzip__ = 'portable.tar.gz'
 
 
@@ -260,7 +260,7 @@ def load_portable_vlc():
             if p is not None:  # try loading
                     ### libvlc.dll ###
                     cwd = os.getcwd()
-                    os.chdir(p)
+                    os.chdir(os.path.dirname(p))
                      # if chdir failed, this will raise an exception
                     dll = ctypes.CDLL('libvlc.dll')
                      # restore cwd after dll has been loaded

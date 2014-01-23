@@ -151,19 +151,18 @@ class VLCMediaPlayCtrl(MediaPlayControl):
         self.played = True
         ### http://wxwidgets.10942.n7.nabble.com/Drawing-on-a-wxFrame-via-wxWindow-GetHandle-td12618.html ###
 
-
-    ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.pause ###
     def pause(self):
+        '''Toggle pause (or resume) media list.
+        '''
         MediaPlayControl.pause(self)
         if self.played and not self.paused:
             self.player.pause()
             self.paused = True
 
-    ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.unpause ###
     def resume(self):
         MediaPlayControl.resume(self)
         if self.played and self.paused:
-            self.player.unpause()
+            self.player.pause()
             self.paused = False
 
     def stop(self, fadeout=False, timefadeout=1000):
@@ -173,11 +172,10 @@ class VLCMediaPlayCtrl(MediaPlayControl):
             self.played = False
             print 'stop'
 
-    ### http://www.pygame.org/docs/ref/mixer.html#pygame.mixer.quit ###
     def quit(self):
         MediaPlayControl.quit(self)
         if self.loaded:
-            self.mixer.quit()
+            self.player.release()
         self.played = False
         self.paused = False
         self.opened = False
@@ -199,7 +197,7 @@ class VLCMediaPlayCtrl(MediaPlayControl):
     def isPlayed(self):
         if not MediaPlayControl.isPlayed(self):
             return False
-        self.played = self.player.get_busy()
+        self.played = self.player.is_playing()
         return self.played
 
 
