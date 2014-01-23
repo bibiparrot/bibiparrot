@@ -60,16 +60,22 @@ def file2py(input_file, output_file):
 ## tar -zxvf xxx.tar.gz
 #
 #
-def tar_xfz(tarpath, xtrcpath=None):
+def tar_xfz(tarpath, xtrcpath=None, override=False):
     ### write .data
     if xtrcpath is None:
-        xtrcpath = os.path.dirname(tarpath)
+        tarname = os.path.basename(tarpath)
+        tarname = tarname.replace(r'.tar.gz', '')
+        tarname = tarname.replace(r'.tgz', '')
+        xtrcpath = os.path.join(os.path.dirname(tarpath), tarname)
     import tarfile
-    tar = tarfile.open(tarpath, "r:gz")
-    try:
-        tar.extractall(path=xtrcpath, members=tar)
-    finally:
-        tar.close()
+    if override or not os.path.exists(xtrcpath):
+        print 'extract', tarpath, 'into', xtrcpath, '...'
+        tar = tarfile.open(tarpath, "r:gz")
+        try:
+            tar.extractall(path=xtrcpath, members=tar)
+        finally:
+            tar.close()
+        print 'extract end.'
     return xtrcpath
 
 ###
@@ -149,9 +155,10 @@ def append_sys_env(key, val):
 #
 class Portable(object):
     __slots__ = []
-    LOADED = None
+
+    LOADED = ''
     @staticmethod
-    def load_(prtdir = None):
+    def loadlib(prtdir = None):
         if prtdir is None:
             prtdir = os.path.dirname(inspect.getfile(inspect.currentframe()))
         # print "curdir=",curdir
@@ -182,12 +189,15 @@ class Portable(object):
                 # print os.getenv("DYLD_FALLBACK_LIBRARY_PATH")
 
     @staticmethod
-    def load(self):
+    def load():
         ### load only once. ###
-        if not os.path.exists(Portable.LOADED):
+        # print 'load', Portable.LOADED, os.path.exists(Portable.LOADED)
+        if not Portable.LOADED or not os.path.exists(Portable.LOADED):
             portablepath = extractall()
-            Portable.load(portablepath)
+            # print 'portablepath', portablepath
+            Portable.loadlib(portablepath)
             Portable.LOADED = portablepath
+            print 'Portable.LOADED', Portable.LOADED
         return Portable.LOADED
 
     @staticmethod
@@ -205,17 +215,20 @@ class Portable(object):
         return subprocess.call(params)
 
     @staticmethod
-    def locate(nam, typ='f', mrk=''):
+    def find(nam, typ='f', mrk=''):
         ### load library before call ###
         prtdir = Portable.load()
         idx = 2 # default search files#
         if typ == 'd':
             idx = 1 # search directory #
         if os.path.exists(prtdir):
+            # print 'prtdir', prtdir
             for wlk in os.walk(prtdir):
                 for tgt in wlk[idx]:
+                    # print 'tgt', tgt
                     if nam == tgt:
                         tgtpath = os.path.abspath(os.path.join(wlk[0], tgt))
+                        # print 'tgtpath', tgtpath
                         if mrk in tgtpath:
                             return tgtpath
         # not found #
@@ -233,15 +246,17 @@ def load_portable_vlc():
     plugin_path = None
     try:
         import ctypes
+        print 'begin ...'
         if sys.platform.startswith('linux'):
-            p = Portable.load('libvlc.so.5')
+            p = Portable.find('libvlc.so.5')
+            # print 'Portable.load',p
             if p is not None:
                 try:
                     dll = ctypes.CDLL(p)
                 except OSError:  # may fail
                     dll = ctypes.CDLL('libvlc.so.5')
         elif sys.platform.startswith('win'):
-            p = Portable.load('libvlc.dll')
+            p = Portable.find('libvlc.dll')
             if p is not None:  # try loading
                     ### libvlc.dll ###
                     cwd = os.getcwd()
@@ -256,15 +271,19 @@ def load_portable_vlc():
                     dll = ctypes.CDLL('libvlc.dll')
         elif sys.platform.startswith('darwin'):
             ### lib/libvlc.dylib ###
-            p = Portable.load('libvlc.dylib')
+            p = Portable.find('libvlc.dylib')
+            print 'Portable.load',p
             if p is not None:
                 dll = ctypes.CDLL(p)
                 ### lib/../plugins ###
                 plugin_path = os.path.join(os.path.dirname(os.path.dirname(p)), 'plugins')
             else:  # hope, some PATH is set...
                 dll = ctypes.CDLL('libvlc.dylib')
-    except Exception as err:
+    except ImportError as err:
+        print 'load_portable_vlc error', err
         pass
+    print 'dll', dll
+    print 'plugin', plugin_path
     return (dll, plugin_path)
 
 

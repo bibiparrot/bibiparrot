@@ -104,7 +104,7 @@ class VLCMediaPlayCtrl(MediaPlayControl):
     def load(self):
         MediaPlayControl.load(self)
         if not self.loaded:
-            self.player = self.Instance.media_player_new()
+            self.player = self.instance.media_player_new()
             win_id = int(self.handle)
             if sys.platform == "win32":
                 self.player.set_hwnd(win_id)
@@ -127,8 +127,8 @@ class VLCMediaPlayCtrl(MediaPlayControl):
     def open(self, curmd=None):
         MediaPlayControl.open(self, curmd)
         if self.loaded and os.path.exists(self.curmd) and not self.opened:
-            self.media = self.Instance.media_new(unicode(curmd))
-            self.player.set_media(self.Media)
+            self.media = self.instance.media_new(unicode(curmd))
+            self.player.set_media(self.media)
             self.media.parse()
             print 'open'
             self.opened = True
@@ -213,7 +213,7 @@ class VLCMediaPlayCtrl(MediaPlayControl):
 ###
 # unfortunately, pygame do not support Mac OX S (at least 10.9) well. It crashes when reaping start(10).
 ###
-PYGAME_NEEDED = False
+PYGAME_NEEDED = True
 
 if PYGAME_NEEDED:
     import pygame
