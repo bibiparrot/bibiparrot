@@ -34,5 +34,6 @@ Reference
   Python Tips:
   o https://wiki.python.org/moin/PythonSpeed/PerformanceTips
 
-  Pygame
-  o http://inventwithpython.com/pygame/chapters/
+  wxPython/wxWidgets
+  o http://wiki.wxpython.org/
+  o http://docs.wxwidgets.org/trunk/classwx_window.html
