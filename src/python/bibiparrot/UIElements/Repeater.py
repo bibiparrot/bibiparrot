@@ -36,7 +36,6 @@ class MediaSlider(wx.Slider):
     def __init__(self, parent,  *args, **kwargs):
         self.element = UIElement()
         self.element.loadSect("MediaSlider")
-        print 'MediaSlider', self.element.Size
         wx.Slider.__init__(self, parent,  size = self.element.Size, *args, **kwargs)
 
 
