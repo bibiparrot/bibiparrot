@@ -29,7 +29,7 @@ from ..Constants import constants
 
 
 class MainFrame(wx.Frame):
-    def PyAUIFrame__init__(self, parent=None):
+    def __init__(self, parent=None):
         self.element =  UIElement().loadSect("MainFrame")
         if LOGWIRE:
             log().debug("__init__: title = %s", self.element.Title)

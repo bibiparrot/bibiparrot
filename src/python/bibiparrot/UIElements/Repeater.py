@@ -28,12 +28,26 @@ from ...bibiparrot.UIElements.MainToolbar import  RepeaterToolbar
 
 from ...bibiparrot.Configurations.configurations import *
 
+###
+##  Used for media progress control.
+#
+
+class MediaSlider(wx.Slider):
+    def __init__(self, parent,  *args, **kwargs):
+        self.element = UIElement()
+        self.element.loadSect("MediaSlider")
+        print 'MediaSlider', self.element.Size
+        wx.Slider.__init__(self, parent,  size = self.element.Size, *args, **kwargs)
+
+
+
 class Repeater(wx.Panel):
     def __init__(self, parent, *args, **kwargs):
         self.element = UIElement()
         self.element.loadSect("Repeater")
         wx.Panel.__init__(self, parent, size = self.element.Size, *args, **kwargs)
         self.Toolbar = RepeaterToolbar(self)
+        self.mediaSlider = MediaSlider(self)
         self.uiman = wx.aui.AuiManager()
         self.uiman.SetManagedWindow(self)
         # self.uiman.AddPane(self.control, wx.aui.AuiPaneInfo().
@@ -41,6 +55,10 @@ class Repeater(wx.Panel):
         self.uiman.AddPane(self.Toolbar, wx.aui.AuiPaneInfo().
                   Name("RepeaterToolbar").Caption("RepeaterToolbar").
                   ToolbarPane().Top().Row(1).Position(1).
+                  LeftDockable(False).RightDockable(False).CloseButton(False))
+        self.uiman.AddPane(self.mediaSlider, wx.aui.AuiPaneInfo().
+                  Name("MediaSlider").Caption("MediaSlider").
+                  ToolbarPane().Top().Row(1).Position(2).
                   LeftDockable(False).RightDockable(False).CloseButton(False))
         self.uiman.Update()
 

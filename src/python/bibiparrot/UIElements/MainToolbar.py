@@ -156,5 +156,5 @@ class EditorToolbar (Toolbar):
 
 class RepeaterToolbar (Toolbar):
     def __init__(self, parent, *args, **kwargs):
-        Toolbar.__init__(self, parent, sect="MainToolbar", *args, **kwargs)
+        Toolbar.__init__(self, parent, sect="RepeaterToolbar", *args, **kwargs)
 ### @End class MainToolbar

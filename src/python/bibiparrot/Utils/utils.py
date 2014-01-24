@@ -59,7 +59,7 @@ def split2pair(str, sep):
 
 def str2dim(str):
     res = (0, 0)
-    if type(str) == type(""):
+    if __default_size_splitter__ in str:
         arr = split2intarray(str.lower(), __default_size_splitter__)
         if len(arr) == 2:
             res = (arr[0], arr[1])

@@ -6,7 +6,10 @@ import sys
 from PIL import Image
 from subprocess import call
 
-
+###
+##  Very pool quality resize.
+#
+#
 def resize(inf, x, y, ouf=None):
     # from PIL import Image
     MAXSIZEX = x # this is the maximum width of the images
@@ -60,7 +63,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         call(["python", __file__, "OK"])
     elif sys.argv[1] == "OK":
-        fimgs = glob.glob("*.png")
+        fimgs = glob.glob("*32x32.png")
         print fimgs
         for fimg in fimgs:
             fpy = fimg + ".py"

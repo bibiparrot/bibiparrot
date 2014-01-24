@@ -60,5 +60,7 @@ class TestRepeater(unittest.TestCase):
         self.app.MainLoop()
 
 if __name__ == '__main__':
-    import cProfile as profile
-    profile.run('unittest.main()',sort=1)
+    # import cProfile as profile
+    # profile.run('unittest.main()',sort=1)
+
+    unittest.main()
