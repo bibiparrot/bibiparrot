@@ -81,8 +81,8 @@ class Editor(wx.Panel):
                           ToolbarPane().Top().Row(1).Position(1).
                           LeftDockable(False).RightDockable(False).CloseButton(False))
         self.uiman.Update()
-        self.binds()
         self.Toolbar.Realize()
+        self.binds()
 
     def binds(self):
         for id in self.Toolbar.binds.keys():

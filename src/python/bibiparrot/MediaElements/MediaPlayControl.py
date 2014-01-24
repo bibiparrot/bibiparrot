@@ -61,14 +61,14 @@ class MediaPlayControl(Bean):
     ### quit the player ###
     def quit(self):
         pass
+    ### set the seek (start) position of media ###
+    def seek(self, timpos=None):
+        if timpos is not None:
+            self.timpos = timpos
     ### set the volume ###
     def setVolume(self, volum=None):
         if volum:
             self.volum = volum
-    ### set the position of media ###
-    def setPosition(self, timpos=None):
-        if timpos:
-            self.timpos = timpos
     ### return whether is playing ###
     def isPlayed(self):
         return self.played
@@ -190,8 +190,8 @@ class VLCMediaPlayCtrl(MediaPlayControl):
                 print ("Failed to set volume")
 
     ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.set_pos ###
-    def setPosition(self, timpos=None):
-        MediaPlayControl.setPosition(self,timpos)
+    def seek(self, timpos=None):
+        MediaPlayControl.seek(self,timpos)
 
     ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.get_busy ###
     def isPlayed(self):
@@ -310,8 +310,8 @@ class PygameMediaPlayCtrl(MediaPlayControl):
             self.player.set_volume(self.volum)
 
     ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.set_pos ###
-    def setPosition(self, timpos=None):
-        MediaPlayControl.setPosition(self,timpos)
+    def seek(self, timpos=None):
+        MediaPlayControl.seek(self,timpos)
 
     ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.get_busy ###
     def isPlayed(self):
