@@ -16,13 +16,14 @@ import time
 
 class MediaInfo(Bean):
     ##  ##
-    __slots__ = ['fpath', 'timlen']
+    __slots__ = ['fpath', 'medialength', 'videosize']
+
 
 ### @End MusicInfo
 
 class MediaPlayControl(Bean):
     __slots__ = ['player','mdlists', 'curmd','bufsize','volum', 'timpos',
-                'loaded', 'opened', 'played', 'paused']
+                'loaded', 'opened', 'played']
     def __init__(self, *args, **kwargs):
         Bean.__init__(self,**kwargs)
         self.mdlists = []
@@ -31,7 +32,6 @@ class MediaPlayControl(Bean):
         self.loaded = False
         self.opened = False
         self.played = False
-        self.paused = False
 
     ### prepare player ###
     def load(self):
@@ -72,6 +72,16 @@ class MediaPlayControl(Bean):
     ### return whether is playing ###
     def isPlayed(self):
         return self.played
+    ### return the size of video ###
+    def getVideoSize(self):
+        pass
+    ### return the length of audio ###
+    def getMediaLength(self):
+        pass
+    ### return the current play time of audio ###
+    def getMediaCurrTime(self):
+        pass
+
 
 
 
@@ -119,21 +129,19 @@ class VLCMediaPlayCtrl(MediaPlayControl):
             self.loaded = True
             self.opened = False
             self.played = False
-            self.paused = False
 
         pass
 
-    ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.load ###
     def open(self, curmd=None):
         MediaPlayControl.open(self, curmd)
-        if self.loaded and os.path.exists(self.curmd) and not self.opened:
+        if self.loaded and os.path.exists(self.curmd):
             self.media = self.instance.media_new(unicode(curmd))
             self.player.set_media(self.media)
             self.media.parse()
             print 'open'
             self.opened = True
+            self.played = False
 
-    ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.play ###
     def start(self, timpos=None):
         MediaPlayControl.start(self, timpos)
         if self.opened and not self.played:
@@ -143,7 +151,6 @@ class VLCMediaPlayCtrl(MediaPlayControl):
             print 'start'
             self.played = True
 
-    ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.play ###
     def play(self):
         MediaPlayControl.play(self)
         if self.player.play() == -1:
@@ -155,15 +162,15 @@ class VLCMediaPlayCtrl(MediaPlayControl):
         '''Toggle pause (or resume) media list.
         '''
         MediaPlayControl.pause(self)
-        if self.played and not self.paused:
+        if self.played:
             self.player.pause()
-            self.paused = True
+            self.played = False
 
     def resume(self):
         MediaPlayControl.resume(self)
-        if self.played and self.paused:
+        if not self.played:
             self.player.pause()
-            self.paused = False
+            self.played = True
 
     def stop(self, fadeout=False, timefadeout=1000):
         MediaPlayControl.stop(self, fadeout)
@@ -176,10 +183,9 @@ class VLCMediaPlayCtrl(MediaPlayControl):
         MediaPlayControl.quit(self)
         if self.loaded:
             self.player.release()
-        self.played = False
-        self.paused = False
-        self.opened = False
         self.loaded = False
+        self.played = False
+        self.opened = False
         print 'quit'
 
     ###  vlc.MediaPlayer.audio_set_volume returns 0 if success, -1 otherwise ###
@@ -189,18 +195,25 @@ class VLCMediaPlayCtrl(MediaPlayControl):
             if self.player.audio_set_volume(volum) == -1:
                 print ("Failed to set volume")
 
-    ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.set_pos ###
     def seek(self, timpos=None):
         MediaPlayControl.seek(self,timpos)
+        if self.opened and self.player.is_seekable():
+            self.player.set_time(timpos)
 
-    ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.get_busy ###
     def isPlayed(self):
         if not MediaPlayControl.isPlayed(self):
             return False
         self.played = self.player.is_playing()
         return self.played
-
-
+    ### return the size of video ###
+    def getVideoSize(self):
+        return self.player.video_get_size()
+    ### return the length of audio ###
+    def getMediaLength(self):
+        return self.player.get_media().get_duration()
+    ### return the current play time of audio ###
+    def getMediaCurrTime(self):
+        return self.player.get_time()
 
 
 
@@ -218,12 +231,13 @@ if PYGAME_NEEDED:
 
 class PygameMediaPlayCtrl(MediaPlayControl):
     ### http://stackoverflow.com/questions/1720421/merge-two-lists-in-python ###
-    __slots__ = MediaPlayControl.__slots__ + ['mixer']
+    __slots__ = MediaPlayControl.__slots__ + ['mixer', 'paused']
     def __init__(self, bufsize=4096*2, *args, **kwargs):
         MediaPlayControl.__init__(self, *args, bufsize=bufsize, **kwargs)
         ### http://www.pygame.org/docs/ref/mixer.html ###
         self.mixer = pygame.mixer
         self.player = self.mixer.music
+        self.paused = False
         ### Must larger than default size of pygame ###
         pass
 
@@ -259,6 +273,8 @@ class PygameMediaPlayCtrl(MediaPlayControl):
             self.player.play(0,timpos)
             print 'start'
             self.played = True
+            self.played = False
+            self.paused = False
 
     ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.play ###
     def play(self):
@@ -270,13 +286,15 @@ class PygameMediaPlayCtrl(MediaPlayControl):
         MediaPlayControl.pause(self)
         if self.played and not self.paused:
             self.player.pause()
+            self.played = False
             self.paused = True
 
     ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.unpause ###
     def resume(self):
         MediaPlayControl.resume(self)
-        if self.played and self.paused:
+        if not self.played and self.paused:
             self.player.unpause()
+            self.played = True
             self.paused = False
 
     ### http://www.pygame.org/docs/ref/music.html#pygame.mixer.music.stop ###
@@ -290,6 +308,7 @@ class PygameMediaPlayCtrl(MediaPlayControl):
             else:
                 self.player.stop()
             self.played = False
+            self.paused = False
             print 'stop'
 
     ### http://www.pygame.org/docs/ref/mixer.html#pygame.mixer.quit ###

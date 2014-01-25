@@ -53,10 +53,10 @@ class ToolbarBean(Bean):
             val = conf.getConf(self.Section, key)
             if LOGWIRE:
                 log().debug("%s: section=%s, %s=%s", funcname(), self.Section, key, val)
-
-            ###  default value is required ###
-            if key in ["Enabled"]:
-                setattr(self, key, False)
+            #
+            # ###  default value is required ###
+            # if key in ["Enabled"]:
+            #     setattr(self, key, False)
 
             if not val is None and not val == "":
                 if key in ["More"] and not func is None:
@@ -75,20 +75,44 @@ class ToolbarBean(Bean):
         if LOGWIRE:
             log().debug("%s: Bean=%s", funcname(), self.dump())
 
+    def isEnabled(self):
+        return getattr(self, 'Enabled', False)
+
+    @DeprecationWarning
     def hasMore(self):
         return self.hasAttr("More")
 
     def hasSeparator(self):
-        return self.hasAttr("Style") and "separator" in self.Style.lower()
+        try:
+            return "separator" in self.Style.lower()
+        except AttributeError:
+            return False
 
     def isSearchCtrl(self):
-        return self.hasAttr("Style") and "searchctrl" in self.Style.lower()
+        try:
+            return "searchctrl" in self.Style.lower()
+        except AttributeError:
+            return False
+
+    def isToggle(self):
+        try:
+            return "toggle" in self.Style.lower()
+        except AttributeError:
+            return False
 
     def needsUpdate(self):
-        return self.hasAttr("Style") and "update" in self.Style.lower()
-
+        try:
+            return "update" in self.Style.lower()
+        except AttributeError:
+            return False
 ### @End class ToolbarBean
 
+###
+##  http://docs.wxwidgets.org/trunk/classwx_tool_bar.html
+#   http://wxpython.org/Phoenix/docs/html/ToolBar.html
+#
+#
+#
 class Toolbar (wx.ToolBar):
     def __init__(self, parent, sect, *args, **kwargs):
         ### {id:(toolbar, wxToolbar)}###
@@ -99,7 +123,8 @@ class Toolbar (wx.ToolBar):
         if LOGWIRE:
             log().debug("%s: element=%s", funcname(), self.element.dump())
         wx.ToolBar.__init__(self, parent, *args, **kwargs)
-        # self.SetToolBitmapSize(self.element.Size)
+        if self.element.Size[0] > 0 and self.element.Size[1] > 0:
+            self.SetToolBitmapSize(self.element.Size)
 
         for toolbar in self.element.Data:
             if LOGWIRE:
@@ -107,25 +132,34 @@ class Toolbar (wx.ToolBar):
             self.add(toolbar)
         ###  add space to toolbar ###
         # wx.ToolBar.AddLabelTool(self, -1, label="END", bitmap=wx.NullBitmap)
-        wx.ToolBar.Realize(self)
+        self.Realize()
 
     def add(self, toolbar):
         if toolbar.isSearchCtrl():
             ctrl = selfctrls.get(toolbar.Name, None)
             if ctrl is not None:
-                wx.ToolBar.AddControl(self, ctrl(self))
+                self.AddControl(ctrl(self))
         else:
-            if toolbar.Enabled:
+            if toolbar.isEnabled():
                 id = getIDbyElement(toolbar)
                 # print toolbar.Name
-                item = wx.ToolBar.AddTool(self, id, bitmap(toolbar.Icon), isToggle=toolbar.needsUpdate())
+                try:
+                    pos = toolbar.Position[0]
+                    item = self.InsertTool(pos, id, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
+                except AttributeError:
+                    item = self.AddTool(id, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
                 self.binds[id] = (toolbar, item)
-            if toolbar.hasMore():
+
+            ### has attribute more ###
+            try:
                 for subToolbar in toolbar.More:
                     self.add(subToolbar)
+            except AttributeError:
+                ### ###
+                pass
 
         if toolbar.hasSeparator():
-            wx.ToolBar.AddSeparator(self)
+            self.AddSeparator()
 
 ### @End class Toolbar
 

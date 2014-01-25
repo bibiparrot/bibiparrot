@@ -164,7 +164,15 @@ def getIDbyElement(elem):
         selfname = getattr(elem, 'Name', '')
         wxId = FixedIDs.get(selfname.upper(), wx.NewId())
         eventids[selfid] = (wxId, elem)
+        uielementnames[selfname] = (wxId, elem)
     return wxId
+
+
+def getElementbyID(selfid):
+    return eventids.get(selfid, None)
+
+def getElementbyName(selfname):
+    return uielementnames.get(selfname,None)
 
 # @PendingDeprecationWarning
 # def getID(uielem):

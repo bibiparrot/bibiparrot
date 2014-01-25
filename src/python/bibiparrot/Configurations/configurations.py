@@ -25,7 +25,7 @@ logging.basicConfig(filename=__default_logging_file__, filemode='w', level=loggi
 # handler = logging.handlers.RotatingFileHandler(__default_logging_file__, maxBytes=20, backupCount=5)
 # log.setLevel(logging.DEBUG)
 # log.addHandler(handler)
-LOGWIRE = False
+LOGWIRE = True
 
 ##
 #  logger dictionary
@@ -75,9 +75,15 @@ def uiconf(key):
 
 
 ##
-#  self-defined id {[id:(wxId, name),]}
+#  self-defined id {[id:(wxId, elements),]}
 #
 eventids = {}
+
+##
+#  self-defined id {[name:(wxId, elements),]}
+#
+uielementnames = {}
+
 
 ##
 #  self-defined rich text control handlers

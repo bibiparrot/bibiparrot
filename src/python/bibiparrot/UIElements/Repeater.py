@@ -18,6 +18,7 @@ import wx.grid
 import wx.html
 import wx.aui
 import wx.media
+import time
 import wx.richtext
 
 from ..Configurations import configurations
@@ -28,6 +29,9 @@ from ...bibiparrot.UIElements.MainMenu import MainMenu
 from ...bibiparrot.UIElements.MainToolbar import  RepeaterToolbar
 
 from ...bibiparrot.Configurations.configurations import *
+import EventIDs
+import Images
+
 
 ###
 ##  Used for media progress control.
@@ -37,7 +41,8 @@ class MediaSlider(wx.Slider):
     def __init__(self, parent,  *args, **kwargs):
         self.element = UIElement()
         self.element.loadSect("MediaSlider")
-        wx.Slider.__init__(self, parent,  size = self.element.Size, *args, **kwargs)
+        wx.Slider.__init__(self, parent,  size = self.element.Size,
+                           *args, **kwargs)
 
 
 class PlayerInfo(object):
@@ -75,7 +80,6 @@ class MediaPlayer(wx.MiniFrame):
             print err
             ### Second, if VLC is not available, we use original wx.media.MediaCtrl ###
             try:
-
                 backend = ""
                 if 'wxMSW' in wx.PlatformInfo:
                     # the default backend doesn't always send the EVT_MEDIA_LOADED
@@ -94,31 +98,31 @@ class MediaPlayer(wx.MiniFrame):
                 self.Destroy()
 
         ### define necessary event bindings ###
-        self.binds()
+        self.Bind(wx.EVT_CLOSE, self.Close)
 
-    def binds(self):
-        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
 
-    def OnCloseWindow(self, evt):
-        self.Show(False)
+    def Close(self, evt):
+        self.Stop()
 
-    def OnMediaOpen(self, evt):
+    def Open(self):
         dlg = wx.FileDialog(self, message="Choose a media file",
                             defaultDir=os.getcwd(), defaultFile="",
                             style=wx.OPEN | wx.CHANGE_DIR )
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
-            self.DoLoadFile(path)
+            self.LoadFile(path)
         dlg.Destroy()
 
 
-    def DoLoadFile(self, path):
+    def LoadFile(self, path):
         # self.playBtn.Disable()
         ### TODO: enable play or display button ###
         ### TODO: set the volume of slides  ###
         ### TODO: set slider range ###
         if self.ctrlType == MediaPlayer.TYPE_VLC:
             self.ctrl.open(path)
+            vsize = self.ctrl.getVideoSize()
+            self.SetSize(vsize)
         elif self.ctrlType == MediaPlayer.TYPE_WX:
             if not self.ctrl.Load(path):
                 wx.MessageBox("Unable to load %s: Unsupported format?" % path,
@@ -129,15 +133,11 @@ class MediaPlayer(wx.MiniFrame):
             # self.slider.SetRange(0, self.mc.Length())
         ## Show my self. ##
 
-    def OnMediaLoaded(self, evt):
-        # self.playBtn.Enable()
-        pass
-
-    def OnMediaPlay(self, evt):
+    def Play(self):
         if self.ctrlType == MediaPlayer.TYPE_VLC:
             self.ctrl.play()
         elif self.ctrlType == MediaPlayer.TYPE_WX:
-            if not self.mc.Play():
+            if not self.ctrl.Play():
                 wx.MessageBox("Unable to Play media : Unsupported format?",
                               "ERROR",
                               wx.ICON_ERROR | wx.OK)
@@ -147,46 +147,39 @@ class MediaPlayer(wx.MiniFrame):
                 # self.slider.SetRange(0, self.mc.Length())
         self.Show(True)
 
-
-    def OnPauseAndResume(self, evt):
+    def Pause(self):
         if self.ctrlType == MediaPlayer.TYPE_VLC:
             self.ctrl.pause()
         elif self.ctrlType == MediaPlayer.TYPE_WX:
             self.ctrl.Pause()
 
-    def OnMediaStop(self, evt):
+    def Stop(self):
         if self.ctrlType == MediaPlayer.TYPE_VLC:
             self.ctrl.stop()
         elif self.ctrlType == MediaPlayer.TYPE_WX:
             self.ctrl.Stop()
         self.Show(False)
 
-    def OnMediaBegin(self, evt):
-        print 'OnMediaBegin'
-        pass
-
-    def OnMediaEnd(self, evt):
-        print 'OnMediaEnd'
-        pass
-
-    def OnMediaVolume(self, evt):
-        print 'OnMediaVolume'
-        pass
-
-    def OnSeek(self, evt):
+    def Seek(self, pos=None):
         # offset = self.slider.GetValue()
+        if pos is None:
+            pos = self.info.SeekPoint
         if self.ctrlType == MediaPlayer.TYPE_VLC:
-            self.ctrl.seek(self.info.SeekPoint)
+            self.ctrl.seek(pos)
         elif self.ctrlType == MediaPlayer.TYPE_WX:
-            self.ctrl.Seek(self.info.SeekPoint)
+            self.ctrl.Seek(pos)
 
-    # def OnTimer(self, evt):
-    #     offset = self.mc.Tell()
-    #     self.slider.SetValue(offset)
-    #     self.st_size.SetLabel('size: %s' % self.mc.GetBestSize())
-    #     self.st_len.SetLabel('length: %d seconds' % (self.mc.Length()/1000))
-    #     self.st_pos.SetLabel('position: %d' % offset)
+    def GetCurrTime(self):
+        if self.ctrlType == MediaPlayer.TYPE_VLC:
+            return self.ctrl.getMediaCurrTime()
+        elif self.ctrlType == MediaPlayer.TYPE_WX:
+            return self.ctrl.Tell()
 
+    def GetLength(self):
+        if self.ctrlType == MediaPlayer.TYPE_VLC:
+            return self.ctrl.getMediaLength()
+        elif self.ctrlType == MediaPlayer.TYPE_WX:
+            return self.ctrl.Length()
 
 class Repeater(wx.Panel):
     def __init__(self, parent, *args, **kwargs):
@@ -198,6 +191,9 @@ class Repeater(wx.Panel):
         self.MediaPlayer = MediaPlayer(self)
         self.uiman = wx.aui.AuiManager()
         self.uiman.SetManagedWindow(self)
+        self.timer = wx.Timer(self)
+        self.timer.Start(200)
+        self.Bind(wx.EVT_TIMER, self.OnTimer)
         # self.uiman.AddPane(self.control, wx.aui.AuiPaneInfo().
         #           CenterPane())
         self.uiman.AddPane(self.RepeaterToolbar, wx.aui.AuiPaneInfo().
@@ -213,20 +209,69 @@ class Repeater(wx.Panel):
 
 
     def binds(self):
+        self.MediaSlider.Bind(wx.EVT_SLIDER, self.OnSeek, self.MediaSlider)
+
         for id in self.RepeaterToolbar.binds.keys():
             (toolbar, item) = self.RepeaterToolbar.binds[id]
             # print "On%s"%(toolbar.Name)
-            handler = getattr(self.MediaPlayer, "On%s"%(toolbar.Name))
+            handler = getattr(self, "On%s"%(toolbar.Name))
             # print handler
             # print item
             # print
             self.Bind(wx.EVT_TOOL, handler, item)
             if toolbar.needsUpdate():
-                updatehandler = getattr(self.MediaPlayer, "OnUpdate%s"%(toolbar.Name), handler)
+                updatehandler = getattr(self, "OnUpdate%s"%(toolbar.Name), handler)
                 # print updatehandler
                 # print "OnUpdate%s"%(toolbar.Name)
                 self.Bind(wx.EVT_UPDATE_UI, updatehandler, item)
 
 
 
+
+    def OnMediaOpen(self, evt):
+        self.MediaPlayer.Open()
+        if LOGWIRE:
+            log().debug("%s: Length=%s", funcname(), self.MediaPlayer.GetLength())
+        self.MediaSlider.SetRange(0, self.MediaPlayer.GetLength())
+
+    def OnMediaLoaded(self, evt):
+        # self.playBtn.Enable()
+        pass
+
+    def OnMediaPlayAndPause(self, evt):
+        self.MediaPlayer.Play()
+        (wxId, elem) = EventIDs.getElementbyName('MediaPlayAndPause')
+        self.RepeaterToolbar.SetToolNormalBitmap(wxId, Images.bitmap('media_pause_32x32'))
+
+    def OnPauseAndResume(self, evt):
+        pass
+
+    def OnMediaStop(self, evt):
+        self.MediaPlayer.Stop()
+
+    def OnMediaBegin(self, evt):
+        print 'OnMediaBegin'
+        pass
+
+    def OnMediaEnd(self, evt):
+        print 'OnMediaEnd'
+        pass
+
+    def OnMediaVolume(self, evt):
+        print 'OnMediaVolume'
+        pass
+
+    def OnSeek(self, evt):
+        self.MediaPlayer.info.SeekPoint = self.MediaSlider.GetValue()
+        self.MediaPlayer.Seek()
+
+    def OnTimer(self, evt):
+        offset = self.MediaPlayer.GetCurrTime()
+        self.MediaSlider.SetValue(offset)
+        # ct = time.gmtime(offset/1000)
+        # print_time = (ct[0], ct[1], ct[2], ct[3], ct[4], ct[5], ct[6], ct[7], -1)
+        # self.MediaSlider.SetLabel(time.strftime("%H:%M:%S", ct))
+        # self.st_size.SetLabel('size: %s' % self.mc.GetBestSize())
+        # self.st_len.SetLabel('length: %d seconds' % (self.mc.Length()/1000))
+        # self.st_pos.SetLabel('position: %d' % offset)
 

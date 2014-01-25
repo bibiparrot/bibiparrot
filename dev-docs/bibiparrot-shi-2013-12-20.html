@@ -104,8 +104,13 @@
  <p>
      Since wxPython 2.8 supported Mac OSX 10.9 poorly, especially on cocoa interface. We changed into 3.0
      The <a href="http://sourceforge.net/projects/wxpython/files/wxPython/3.0.0.0/" target="_blank">wxPython demo package</a>  of 3.0 is also very important.
-     Another benefit of 3.0 is that supporting 64 bit-bit mode.  <span style="color:red">ATTENTION:</span> 3.0.0 crashes
-     under Windows XP. Thus, We skip 3.0.0 and use 3.0.1.
+     Another benefit of 3.0 is that supporting 64 bit-bit mode.  <span style="color:red">ATTENTION:</span>
+     <ul>
+        <li>3.0.0 crashes
+     under Windows XP. Thus, We skip 3.0.0 and use 3.0.1.</li>
+        <li>import wx.media inside wx.Panel inheritor(wx.Panel), will caused wx is not initialized before usage.</li>
+     </ul>
+
 </p>
 <pre>
 

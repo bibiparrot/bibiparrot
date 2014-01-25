@@ -122,8 +122,12 @@ class Bean(object):
             result[item] = getattr(self, item, None)
         return result
 
+    @DeprecationWarning
     def hasAttr(self, name):
         return hasattr(self, name)
+
+    def getAttr(self, name, default):
+        return getattr(self, name, default)
 
     def dump(self):
         result = []

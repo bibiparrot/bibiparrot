@@ -23,3 +23,10 @@ Just follow the instructions of the apple install package, and you can import th
 Thanks.
 
 Last Updated: Jan 16, 2014  12:24PM EST
+
+
+
+
+http://xoomer.virgilio.it/infinity77/AGW_Docs/gallery.html
+
+http://svn.wxwidgets.org/viewvc/wx/wxPython/3rdParty/AGW/
