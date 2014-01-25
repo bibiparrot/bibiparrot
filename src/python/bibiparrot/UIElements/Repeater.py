@@ -257,10 +257,12 @@ class Repeater(wx.Panel):
         print 'OnMediaEnd'
         pass
 
-    def OnMediaVolume(self, evt):
-        print 'OnMediaVolume'
+    def OnMediaVolumeLow(self, evt):
+        print 'OnMediaVolumeLow'
         pass
-
+    def OnMediaVolumeHigh(self, evt):
+        print 'OnMediaVolumeHigh'
+        pass
     def OnSeek(self, evt):
         self.MediaPlayer.info.SeekPoint = self.MediaSlider.GetValue()
         self.MediaPlayer.Seek()

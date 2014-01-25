@@ -16205,6 +16205,50 @@ media_tape_32x32 = PyEmbeddedImage(
 
 index.append('media_tape_32x32')
 catalog['media_tape_32x32'] = media_tape_32x32
+
+media_volume__0_32x32 = PyEmbeddedImage(
+    "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAA"
+    "hElEQVRYhe3ToQ0CQRAF0AcBgsARPC1QA7WgkdcCmg6ohAroAU8RYBCHIjdcsiH5T63Z+X+T"
+    "WSIiYjxznFuFb3HDs0X4Ho93+OACs0LgqXde4YBFYQ6YFO58e+WgmdNCgVGlQGUHut55jaPP"
+    "JazM/MkOd8VvOJYNri0LwBKXlgUiIv7TC67CDkbk5AYuAAAAAElFTkSuQmCC")
+
+
+
+index.append('media_volume-0_32x32')
+catalog['media_volume-0_32x32'] = media_volume__0_32x32
+
+media_volume__3_32x32 = PyEmbeddedImage(
+    "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9i"
+    "ZSBJbWFnZVJlYWR5ccllPAAAARdJREFUeNrsVgENgzAQZBgoDpAwHHQOmAMkTAISwEHnAByA"
+    "A+aATME2BV1JnuTWdAEGHSXhkgv0++Gv3wPqeTt22INQbNYqnihKolhLRAMi4n+2PaF7pvgg"
+    "AS2NrSKjYl3RI8Vi6EK6RJFQsVLkhrkjFEPzVdCFWUihANfizJCTGAz5kxc4qZcGAYLGBeS3"
+    "hi70XsimFGawr3JAAMYuEAspVtC4GlNYjiA3OF2AT/SW49Z8wJ/pi5diSfdnut5hPqLr7dsD"
+    "/AXejP7hAcRqLedpU8AsLCEgMqzypOUEtgQw2PsSTKhvTzRFwIHYqc4HBOSwuqtmRpOAelMf"
+    "Imc+xc78jJz4HTt9IHHiSObUoXTVY/mO7eAtwADwfITn1Y+quwAAAABJRU5ErkJggg==")
+
+
+
+index.append('media_volume-3_32x32')
+catalog['media_volume-3_32x32'] = media_volume__3_32x32
+
+media_volume__off_32x32 = PyEmbeddedImage(
+    "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlw"
+    "SFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoA"
+    "AAGPSURBVFiF7de9ahVBFADgbyRVxMYiaQVbCwMiFhFRLESUIEL8N2iUEKx9A30DKx/BFxBE"
+    "sbX0OSwSIjdXk6iTYs/C4t1LbnR3kiIHFpadWc43szNn2JRzdpBx7ECzHwEONSClVATXmiSl"
+    "dBwfU0orvQtyziMXzmANf/CsrU9X1/gGzmE9EE/H9DmBlzjdOSASnMcGfmOp8XwGrwOYcbYX"
+    "QCS7gO+BeIQl/IjE+X8Bqa0Up5RuYbbxaANvMY3lgFxptM/lnL92uQi//DXCbzHyAX7F/acu"
+    "ZmBSQI14gs1APGwgigBqxDKG2MH9QBQD1IjnqoW4g7s4WRJQI1YCsY2F0oAasYqf2MKN0oAa"
+    "8SIAW7heGtDcotsxG9f2A5i0EME87mBq5AXmcArvVBVzIef8oaXfaOxruqokb1TbcKQU47Zq"
+    "Zwxx9Z8/wQSQGbzSchhhUVWohrjcC6CRrPU4xr1AbOJSb4A9cA9iPQxwsTggEI8D8X5cn9Zd"
+    "0GWklG7ic8550NreN2CvOLz/BUeAUrELwU/38kLRDqEAAAAASUVORK5CYII=")
+
+
+
+index.append('media_volume-off_32x32')
+catalog['media_volume-off_32x32'] = media_volume__off_32x32
+
+
 #############################################################################
 
 

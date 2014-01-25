@@ -65,7 +65,7 @@ class ToolbarBean(Bean):
                     setattr(self, key, val)
                 # elif key in ["Id"] and not val is None:
                 #     setattr(self, key, str2long(val))
-                elif key in ["Position"]:
+                elif key in ["Position", "Size"]:
                     setattr(self, key, str2dim(val))
                 elif key in ["Enabled"]:
                     setattr(self, key, str2bool(val))
@@ -88,9 +88,9 @@ class ToolbarBean(Bean):
         except AttributeError:
             return False
 
-    def isSearchCtrl(self):
+    def isCtrl(self):
         try:
-            return "searchctrl" in self.Style.lower()
+            return "ctrl" in self.Style.lower()
         except AttributeError:
             return False
 
@@ -135,10 +135,12 @@ class Toolbar (wx.ToolBar):
         self.Realize()
 
     def add(self, toolbar):
-        if toolbar.isSearchCtrl():
-            ctrl = selfctrls.get(toolbar.Name, None)
-            if ctrl is not None:
-                self.AddControl(ctrl(self))
+        if toolbar.isCtrl():
+            Ctrl = selfctrls.get(toolbar.Name, None)
+            if Ctrl is not None:
+                wxsiz=toolbar.getAttr('Size', wx.DefaultSize)
+                self.AddControl(Ctrl(self, size=wxsiz))
+
         else:
             if toolbar.isEnabled():
                 id = getIDbyElement(toolbar)
@@ -148,18 +150,20 @@ class Toolbar (wx.ToolBar):
                     item = self.InsertTool(pos, id, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
                 except AttributeError:
                     item = self.AddTool(id, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
+                ### Bind tool ids ##
                 self.binds[id] = (toolbar, item)
-
-            ### has attribute more ###
-            try:
-                for subToolbar in toolbar.More:
-                    self.add(subToolbar)
-            except AttributeError:
-                ### ###
-                pass
 
         if toolbar.hasSeparator():
             self.AddSeparator()
+
+        ### has attribute more ###
+        try:
+            for subToolbar in toolbar.More:
+                self.add(subToolbar)
+        except AttributeError:
+            ### ###
+            pass
+
 
 ### @End class Toolbar
 

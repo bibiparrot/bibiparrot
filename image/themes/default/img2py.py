@@ -63,7 +63,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         call(["python", __file__, "OK"])
     elif sys.argv[1] == "OK":
-        fimgs = glob.glob("*32x32.png")
+        fimgs = glob.glob("media_volume-off_32x32*")
         print fimgs
         for fimg in fimgs:
             fpy = fimg + ".py"
