@@ -93,7 +93,7 @@ rtchandlers = {}
 ##
 #  self-defined controllers
 #
-selfctrls = {}
+selfctrlclasses = {}
 
 
 ##

@@ -65,6 +65,9 @@ class MediaPlayControl(Bean):
     def seek(self, timpos=None):
         if timpos is not None:
             self.timpos = timpos
+    ### get the volume ###
+    def getVolume(self):
+        pass
     ### set the volume ###
     def setVolume(self, volum=None):
         if volum:
@@ -188,6 +191,12 @@ class VLCMediaPlayCtrl(MediaPlayControl):
         self.opened = False
         print 'quit'
 
+    ### get the volume ###
+    def getVolume(self):
+        MediaPlayControl.getVolume(self)
+        if self.loaded:
+            return self.player.audio_get_volume()
+        pass
     ###  vlc.MediaPlayer.audio_set_volume returns 0 if success, -1 otherwise ###
     def setVolume(self, volum=None):
         MediaPlayControl.setVolume(self,volum)

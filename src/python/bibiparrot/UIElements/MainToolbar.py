@@ -117,6 +117,7 @@ class Toolbar (wx.ToolBar):
     def __init__(self, parent, sect, *args, **kwargs):
         ### {id:(toolbar, wxToolbar)}###
         self.binds = {}
+        self.ctrls = {}
         self.element = UIElement()
         self.element.dataFunc = dataFuncToolbar
         self.element.loadSect(sect)
@@ -136,11 +137,12 @@ class Toolbar (wx.ToolBar):
 
     def add(self, toolbar):
         if toolbar.isCtrl():
-            Ctrl = selfctrls.get(toolbar.Name, None)
+            Ctrl = selfctrlclasses.get(toolbar.Name, None)
             if Ctrl is not None:
                 wxsiz=toolbar.getAttr('Size', wx.DefaultSize)
-                self.AddControl(Ctrl(self, size=wxsiz))
-
+                selfctrl = Ctrl(self, size=wxsiz)
+                self.AddControl(selfctrl)
+                self.ctrls[toolbar.Name] = selfctrl
         else:
             if toolbar.isEnabled():
                 id = getIDbyElement(toolbar)

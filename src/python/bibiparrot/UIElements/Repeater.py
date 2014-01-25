@@ -181,19 +181,32 @@ class MediaPlayer(wx.MiniFrame):
         elif self.ctrlType == MediaPlayer.TYPE_WX:
             return self.ctrl.Length()
 
+    def Volume(self, vol=None):
+        if self.ctrlType == MediaPlayer.TYPE_VLC:
+            if vol is None:
+                return self.ctrl.getVolume()
+            else:
+                self.ctrl.setVolume(vol)
+        elif self.ctrlType == MediaPlayer.TYPE_WX:
+            if vol is None:
+                return self.ctrl.GetVolume()
+            else:
+                self.ctrl.SetVolume(vol)
+
+
+
 class Repeater(wx.Panel):
     def __init__(self, parent, *args, **kwargs):
         self.element = UIElement()
         self.element.loadSect("Repeater")
         wx.Panel.__init__(self, parent, size = self.element.Size, *args, **kwargs)
         self.RepeaterToolbar = RepeaterToolbar(self)
+        self.VolumeSlider = self.RepeaterToolbar.ctrls.get('MediaVolumeCtrl')
         self.MediaSlider = MediaSlider(self)
         self.MediaPlayer = MediaPlayer(self)
         self.uiman = wx.aui.AuiManager()
         self.uiman.SetManagedWindow(self)
         self.timer = wx.Timer(self)
-        self.timer.Start(200)
-        self.Bind(wx.EVT_TIMER, self.OnTimer)
         # self.uiman.AddPane(self.control, wx.aui.AuiPaneInfo().
         #           CenterPane())
         self.uiman.AddPane(self.RepeaterToolbar, wx.aui.AuiPaneInfo().
@@ -210,6 +223,8 @@ class Repeater(wx.Panel):
 
     def binds(self):
         self.MediaSlider.Bind(wx.EVT_SLIDER, self.OnSeek, self.MediaSlider)
+        self.VolumeSlider.Bind(wx.EVT_SLIDER, self.OnVolume, self.VolumeSlider)
+        self.Bind(wx.EVT_TIMER, self.OnTimer)
 
         for id in self.RepeaterToolbar.binds.keys():
             (toolbar, item) = self.RepeaterToolbar.binds[id]
@@ -225,7 +240,8 @@ class Repeater(wx.Panel):
                 # print "OnUpdate%s"%(toolbar.Name)
                 self.Bind(wx.EVT_UPDATE_UI, updatehandler, item)
 
-
+        ### start time after bindings ###
+        self.timer.Start(200)
 
 
     def OnMediaOpen(self, evt):
@@ -233,6 +249,7 @@ class Repeater(wx.Panel):
         if LOGWIRE:
             log().debug("%s: Length=%s", funcname(), self.MediaPlayer.GetLength())
         self.MediaSlider.SetRange(0, self.MediaPlayer.GetLength())
+        self.VolumeSlider.SetValue(self.MediaPlayer.Volume())
 
     def OnMediaLoaded(self, evt):
         # self.playBtn.Enable()
@@ -258,11 +275,15 @@ class Repeater(wx.Panel):
         pass
 
     def OnMediaVolumeLow(self, evt):
-        print 'OnMediaVolumeLow'
-        pass
+        self.MediaPlayer.Volume(0)
+
     def OnMediaVolumeHigh(self, evt):
-        print 'OnMediaVolumeHigh'
-        pass
+        self.MediaPlayer.Volume(100)
+
+    def OnVolume(self, evt):
+        offset = self.VolumeSlider.GetValue()
+        self.MediaPlayer.Volume(offset)
+
     def OnSeek(self, evt):
         self.MediaPlayer.info.SeekPoint = self.MediaSlider.GetValue()
         self.MediaPlayer.Seek()

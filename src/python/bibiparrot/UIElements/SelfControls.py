@@ -117,9 +117,9 @@ class VolumeCtrl(wx.Slider):
 #                         "Ticks      ", cal.GetDate().GetTicks(),
 #                         ))
 
-selfctrls['EditSearchCtrl'] = SearchCtrl
-selfctrls['LEDNumberCtrl'] = LEDNumberCtrl
-selfctrls['MediaVolumeCtrl'] = VolumeCtrl
+selfctrlclasses['EditSearchCtrl'] = SearchCtrl
+selfctrlclasses['LEDNumberCtrl'] = LEDNumberCtrl
+selfctrlclasses['MediaVolumeCtrl'] = VolumeCtrl
 
 #
 # class TestPanel(wx.Panel):
