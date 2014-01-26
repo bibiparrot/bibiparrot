@@ -156,7 +156,8 @@ class Toolbar (wx.ToolBar):
                 ### IconMore ###
                 iconMore = toolbar.getAttr('IconMore', None)
                 if iconMore is not None:
-                    item.SetClientData(bitmap(iconMore))
+                    allIcons = {'Shown':'Icon','Icon': bitmap(toolbar.Icon), 'IconMore': bitmap(iconMore)}
+                    item.SetClientData(allIcons)
                 ### Bind tool ids ##
                 self.binds[wxid] = (toolbar, item)
                 uielementnames[toolbar.Name] = (wxid, item)

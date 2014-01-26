@@ -23,6 +23,7 @@ class MediaState(object):
     Playing = 3
     Paused = 4
     Stopped = 5
+    Ended = 6
 
 class MediaType(object):
     __slots__ = []
@@ -108,8 +109,10 @@ class MediaPlayControl(object):
         if self.info.state >= MediaState.Opened:
             if self.play_():
                 self.info.state = MediaState.Playing
+                return True
         if LOGWIRE:
             log().debug("%s: info=%s", funcname(), self.info.dump())
+        return False
 
     def play_(self):
         print 'Unimplemented play()'
@@ -206,16 +209,29 @@ class MediaPlayControl(object):
 
     ### return whether is playing ###
     def isPlaying(self):
-        if self.info.state == MediaState.Playing:
-            if self.isPlaying_():
-                return True
-            else:
-                self.info.state = MediaState.Stopped
+        if LOGWIRE:
+            log().debug("%s: info=%s", funcname(), self.info.dump())
+        if self.isPlaying_():
+            self.info.state = MediaState.Playing
+            return True
         return False
 
     def isPlaying_(self):
         print 'Unimplemented isPlaying()'
         return False
+
+    def isStopped(self):
+        if LOGWIRE:
+            log().debug("%s: info=%s", funcname(), self.info.dump())
+        if self.isStopped_():
+            self.info.state = MediaState.Stopped
+            return True
+        return False
+
+    def isStopped_(self):
+        print 'Unimplemented isStopped()'
+        return False
+
     ### return the size of video ###
     def getVideoSize(self, default=(0,0)):
         if self.info.state >= MediaState.Opened:
@@ -255,7 +271,17 @@ class MediaPlayControl(object):
         print 'Unimplemented getMediaCurrTime()'
         return None
 
+   ### return the current play time of audio ###
+    def getState(self):
+        # self.info.state = self.getState_()
+        stat = self.getState_()
+        if stat is not None:
+            self.info.state = stat
+        return self.info.state
 
+    def getState_(self):
+        print 'Unimplemented getStatus()'
+        return None
 
 
 ### @End MediaPlayControl
@@ -277,8 +303,8 @@ if VLC_NEEDED:
 ### https://wiki.videolan.org/VLC_Features_Formats/ ###
 class VLCMediaPlayCtrl(MediaPlayControl):
     __slots__ = MediaPlayControl.__slots__ + ['instance', 'media', 'handle']
-    def __init__(self, handle=None, *args, **kwargs):
-        MediaPlayControl.__init__(self, *args, **kwargs)
+    def __init__(self, handle=None, info=None, *args, **kwargs):
+        MediaPlayControl.__init__(self, info, *args, **kwargs)
         self.handle = handle
         self.player = None
         # VLC player controls
@@ -326,6 +352,8 @@ class VLCMediaPlayCtrl(MediaPlayControl):
 
     def play_(self):
         if self.player.play() == -1:
+            if LOGWIRE:
+                log().debug("VLCMediaPlayCtrl %s: error!", funcname())
             return False
 
         if LOGWIRE:
@@ -383,8 +411,23 @@ class VLCMediaPlayCtrl(MediaPlayControl):
         self.player.audio_set_volume(volum)
 
 
-    def isPlayed_(self):
+    def isPlaying_(self):
         return self.player.is_playing()
+
+    STATE_MAP = { vlc.State.Paused:MediaState.Paused,
+                  vlc.State.Playing:MediaState.Playing,
+                  vlc.State.Stopped:MediaState.Stopped,
+                  vlc.State.Ended:MediaState.Ended}
+
+    def isStopped_(self):
+        stat = self.player.get_state()
+        return stat == vlc.State.Stopped
+
+    def getState_(self):
+        stat = self.player.get_state()
+        # if LOGWIRE:
+        #     log().debug("%s: state=%s, isplaying=%s", funcname(), stat, self.player.is_playing())
+        return self.STATE_MAP.get(stat, None)
 
     ### return the size of video ###
     def getVideoSize_(self):

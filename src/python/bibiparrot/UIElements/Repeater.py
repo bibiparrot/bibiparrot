@@ -32,6 +32,7 @@ from ...bibiparrot.Configurations.configurations import *
 import EventIDs
 import Images
 
+from ..MediaElements.MediaPlayControl import MediaInfo, MediaType, MediaState
 
 ###
 ##  Used for media progress control.
@@ -45,11 +46,11 @@ class MediaSlider(wx.Slider):
                            *args, **kwargs)
 
 
-class PlayerInfo(object):
-    __slots__= ['Volume', 'SeekPoint']
-    def __init__(self):
-        self.Volume = 0
-        self.SeekPoint = 0
+# class PlayerInfo(object):
+#     __slots__= ['Volume', 'SeekPoint']
+#     def __init__(self):
+#         self.Volume = 0
+#         self.SeekPoint = 0
 
 
 
@@ -63,8 +64,8 @@ class MediaPlayer(wx.MiniFrame):
     def __init__(self, parent,  *args, **kwargs):
         self.element = UIElement()
         self.element.loadSect("MediaPlayer")
-        self.info = PlayerInfo()
-        wx.MiniFrame.__init__(self, parent, style=wx.DEFAULT_FRAME_STYLE, *args, **kwargs)
+        self.info = MediaInfo()
+        wx.MiniFrame.__init__(self, parent, style=wx.DEFAULT_FRAME_STYLE|wx.STAY_ON_TOP, *args, **kwargs)
 
         ### None, 0 = wx.media.MediaCtrl, 1 = VLCMediaPlayCtrl###
         self.ctrlType = None
@@ -72,7 +73,7 @@ class MediaPlayer(wx.MiniFrame):
         try:
             ### First, we choose portable VLC Media Player  ###
             from ..MediaElements.MediaPlayControl import VLCMediaPlayCtrl
-            self.ctrl = VLCMediaPlayCtrl(self.GetHandle())
+            self.ctrl = VLCMediaPlayCtrl(self.GetHandle(), self.info)
             self.ctrl.load()
             self.ctrlType = MediaPlayer.TYPE_VLC
         except (ImportError, ValueError) as err:
@@ -134,16 +135,18 @@ class MediaPlayer(wx.MiniFrame):
         ## Show my self. ##
 
     def Play(self):
+        played = False
         if self.ctrlType == MediaPlayer.TYPE_VLC:
-            self.ctrl.play()
+            played = self.ctrl.play()
         elif self.ctrlType == MediaPlayer.TYPE_WX:
-            if not self.ctrl.Play():
+            played = self.ctrl.Play()
+            if not played:
                 wx.MessageBox("Unable to Play media : Unsupported format?",
                               "ERROR",
                               wx.ICON_ERROR | wx.OK)
             else:
                 self.ctrl.SetInitialSize()
-        self.Show(True)
+        self.Show(played)
 
     def Pause(self):
         if self.ctrlType == MediaPlayer.TYPE_VLC:
@@ -159,9 +162,6 @@ class MediaPlayer(wx.MiniFrame):
         self.Show(False)
 
     def Seek(self, pos=None):
-        # offset = self.slider.GetValue()
-        if pos is None:
-            pos = self.info.SeekPoint
         if self.ctrlType == MediaPlayer.TYPE_VLC:
             self.ctrl.seek(pos)
         elif self.ctrlType == MediaPlayer.TYPE_WX:
@@ -191,7 +191,22 @@ class MediaPlayer(wx.MiniFrame):
             else:
                 self.ctrl.SetVolume(vol)
 
+    STATE_MAP = { wx.media.MEDIASTATE_PLAYING:MediaState.Playing,
+                  wx.media.MEDIASTATE_PAUSED:MediaState.Paused,
+                  wx.media.MEDIASTATE_STOPPED:MediaState.Stopped }
 
+    ### this is not correctly realized, really needs more testing ###
+    def GetState(self):
+        ### update ###
+        if self.ctrlType == MediaPlayer.TYPE_VLC:
+            self.info.state = self.ctrl.getState()
+        elif self.ctrlType == MediaPlayer.TYPE_WX:
+            stat = self.STATE_MAP.get(self.ctrl.GetState(), None)
+            if stat is not None:
+                self.info.state = stat
+        # if LOGWIRE:
+        #     log().debug("%s: state=%s", funcname(), self.info.state)
+        return self.info.state
 
 class Repeater(wx.Panel):
     def __init__(self, parent, *args, **kwargs):
@@ -235,58 +250,101 @@ class Repeater(wx.Panel):
             if toolbar.needsUpdate():
                 updatehandler = getattr(self, "OnUpdate%s"%(toolbar.Name), handler)
                 # print updatehandler
-                print "OnUpdate%s"%(toolbar.Name)
-                # self.Bind(wx.EVT_UPDATE_UI, updatehandler, item)
+                self.Bind(wx.EVT_UPDATE_UI, updatehandler, item)
+                if LOGWIRE:
+                    log().debug("%s: Length=%s", funcname(), self.MediaPlayer.GetLength())
 
         ### start time after bindings ###
         self.timer.Start(200)
 
-    def OnUpdateMediaOpenAndStop(self, evt):
-        # evt.Check(self.rtc.IsSelectionBold())
-        pass
-
-    def OnUpdateMediaBegin(self, evt):
-        evt.Enable(self.MediaPlayer)
 
     def OnMediaOpenAndStop(self, evt):
-        self.MediaPlayer.Open()
-        if LOGWIRE:
-            log().debug("%s: Length=%s", funcname(), self.MediaPlayer.GetLength())
-        self.MediaSlider.SetRange(0, self.MediaPlayer.GetLength())
-        self.VolumeSlider.SetValue(self.MediaPlayer.Volume())
+        stat = self.MediaPlayer.GetState()
+        if stat == MediaState.Playing or stat == MediaState.Paused:
+            self.MediaPlayer.Stop()
+        else:
+            if stat == MediaState.Ended:
+                self.MediaPlayer.Stop()
+            self.MediaPlayer.Open()
+            self.MediaSlider.SetRange(0, self.MediaPlayer.GetLength())
+            self.VolumeSlider.SetValue(self.MediaPlayer.Volume())
+            self.MediaPlayer.Play()
 
         ### Change the Icons
-        (wxId, item) = EventIDs.getElementbyName('MediaOpenAndStop')
-        bitmap = item.GetNormalBitmap()
-        self.RepeaterToolbar.SetToolNormalBitmap(wxId, item.GetClientData())
-        item.SetClientData(bitmap)
+        # (wxId, item) = EventIDs.getElementbyName('MediaOpenAndStop')
+        # bitmap = item.GetNormalBitmap()
+        # self.RepeaterToolbar.SetToolNormalBitmap(wxId, item.GetClientData())
+        # item.SetClientData(bitmap)
 
-    def OnMediaLoaded(self, evt):
-        # self.playBtn.Enable()
-        pass
+    def OnUpdateMediaOpenAndStop(self, evt):
+        # evt.Check(self.rtc.IsSelectionBold())
+        evtObj = evt.GetEventObject()
+        wxId = evt.GetId()
+        button = evtObj.FindById(wxId)
+        shown = button.GetClientData()['Shown']
+        stat = self.MediaPlayer.GetState()
+        if stat == MediaState.Playing or stat == MediaState.Paused:
+            if shown != 'IconMore':
+                evtObj.SetToolNormalBitmap(wxId, button.GetClientData()['IconMore'])
+                button.GetClientData()['Shown']='IconMore'
+        else:
+            if shown != 'Icon':
+                evtObj.SetToolNormalBitmap(wxId, button.GetClientData()['Icon'])
+                button.GetClientData()['Shown']='Icon'
 
     def OnMediaPlayAndPause(self, evt):
-        self.MediaPlayer.Play()
+        stat = self.MediaPlayer.GetState()
+        if LOGWIRE:
+            log().debug("%s: info=%s", funcname(), self.MediaPlayer.info.dump())
+        if stat == MediaState.Playing:
+            self.MediaPlayer.Pause()
+        else:
+            if stat == MediaState.Ended:
+                self.MediaPlayer.Stop()
+                # self.MediaPlayer.Seek(0)
+            self.MediaPlayer.Play()
 
-        ### Change the Icons
-        (wxId, elem) = EventIDs.getElementbyName('MediaPlayAndPause')
-        bitmap = elem.GetNormalBitmap()
-        self.RepeaterToolbar.SetToolNormalBitmap(wxId, elem.GetClientData())
-        elem.SetClientData(bitmap)
 
-    def OnPauseAndResume(self, evt):
-        pass
+    def OnUpdateMediaPlayAndPause(self, evt):
+        # if LOGWIRE:
+        #     log().debug("%s: info=%s", funcname(), self.MediaPlayer.info.dump())
+        evt.Enable(self.MediaPlayer.GetState() >= MediaState.Opened)
+        evtObj = evt.GetEventObject()
+        wxId = evt.GetId()
+        button = evtObj.FindById(wxId)
+        shown = button.GetClientData()['Shown']
+        stat = self.MediaPlayer.GetState()
+        if stat == MediaState.Playing:
+            if shown != 'IconMore':
+                evtObj.SetToolNormalBitmap(wxId, button.GetClientData()['IconMore'])
+                button.GetClientData()['Shown']='IconMore'
+        else:
+            if shown != 'Icon':
+                evtObj.SetToolNormalBitmap(wxId, button.GetClientData()['Icon'])
+                button.GetClientData()['Shown']='Icon'
+    # def OnUpdateMediaBegin(self, evt):
+    #     evt.Enable(self.MediaPlayer)
 
-    def OnMediaStop(self, evt):
-        self.MediaPlayer.Stop()
+    # def OnMediaStop(self, evt):
+    #     self.MediaPlayer.Stop()
 
     def OnMediaBegin(self, evt):
         print 'OnMediaBegin'
         pass
 
+    def OnUpdateMediaBegin(self, evt):
+        # if LOGWIRE:
+        #     log().debug("%s: info=%s", funcname(), self.MediaPlayer.info.dump())
+        evt.Enable(self.MediaPlayer.GetState() >= MediaState.Opened)
+
     def OnMediaEnd(self, evt):
         print 'OnMediaEnd'
         pass
+
+    def OnUpdateMediaEnd(self, evt):
+        # if LOGWIRE:
+        #     log().debug("%s: info=%s", funcname(), self.MediaPlayer.info.dump())
+        evt.Enable(self.MediaPlayer.GetState() >= MediaState.Opened)
 
     def OnMediaVolumeLow(self, evt):
         self.MediaPlayer.Volume(0)
@@ -299,12 +357,14 @@ class Repeater(wx.Panel):
         self.MediaPlayer.Volume(offset)
 
     def OnSeek(self, evt):
-        self.MediaPlayer.info.SeekPoint = self.MediaSlider.GetValue()
-        self.MediaPlayer.Seek()
+        timpos = self.MediaSlider.GetValue()
+        self.MediaPlayer.Seek(timpos)
 
     def OnTimer(self, evt):
         offset = self.MediaPlayer.GetCurrTime()
         self.MediaSlider.SetValue(offset)
+        # if LOGWIRE:
+        #     log().debug("%s: state=%s", funcname(), self.MediaPlayer.ctrl.getState())
         # ct = time.gmtime(offset/1000)
         # print_time = (ct[0], ct[1], ct[2], ct[3], ct[4], ct[5], ct[6], ct[7], -1)
         # self.MediaSlider.SetLabel(time.strftime("%H:%M:%S", ct))
