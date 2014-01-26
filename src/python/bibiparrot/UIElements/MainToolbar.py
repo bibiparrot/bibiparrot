@@ -45,7 +45,8 @@ def dataFuncToolbar(ele, val):
 
 
 class ToolbarBean(Bean):
-    __slots__ = ["__conf__", "Section", "Id", "Position", "Size", "Style", "Enabled", "Name", "Label", "Icon", "Help", "More"]
+    __slots__ = ["__conf__", "Section", "Id", "Position", "Size", "Style", "Enabled", "Name", "Label", "Icon",
+                 "IconMore", "Help", "More"]
     def __init__(self, sec, conf, func):
         self.Section = sec
         self.__conf__ = conf
@@ -61,7 +62,7 @@ class ToolbarBean(Bean):
             if not val is None and not val == "":
                 if key in ["More"] and not func is None:
                     setattr(self, key, func(self, val))
-                elif key in ["Name", "Label", "Help", "Style", "Icon", "Id"]:
+                elif key in ["Name", "Label", "Help", "Style", "Icon", "Id", "IconMore"]:
                     setattr(self, key, val)
                 # elif key in ["Id"] and not val is None:
                 #     setattr(self, key, str2long(val))
@@ -145,15 +146,20 @@ class Toolbar (wx.ToolBar):
                 self.ctrls[toolbar.Name] = selfctrl
         else:
             if toolbar.isEnabled():
-                id = getIDbyElement(toolbar)
+                wxid = getIDbyElement(toolbar)
                 # print toolbar.Name
                 try:
                     pos = toolbar.Position[0]
-                    item = self.InsertTool(pos, id, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
+                    item = self.InsertTool(pos, wxid, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
                 except AttributeError:
-                    item = self.AddTool(id, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
+                    item = self.AddTool(wxid, bitmap(toolbar.Icon), isToggle=toolbar.isToggle())
+                ### IconMore ###
+                iconMore = toolbar.getAttr('IconMore', None)
+                if iconMore is not None:
+                    item.SetClientData(bitmap(iconMore))
                 ### Bind tool ids ##
-                self.binds[id] = (toolbar, item)
+                self.binds[wxid] = (toolbar, item)
+                uielementnames[toolbar.Name] = (wxid, item)
 
         if toolbar.hasSeparator():
             self.AddSeparator()

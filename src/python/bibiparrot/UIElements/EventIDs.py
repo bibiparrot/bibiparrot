@@ -154,17 +154,16 @@ def getIDbyLong(selfid):
     return wxId
 
 
-def getIDbyElement(elem):
-    selfid = getattr(elem, 'Id', -1)
+def getIDbyElement(element):
+    selfid = getattr(element, 'Id', -1)
     if selfid == -1:
-        error = "Unknown type: %s" % type(elem)
+        error = "Unknown type: %s" % type(element)
         raise BibiException(error)
     wxId, tmp = eventids.get(selfid, (-1, None))
     if wxId == -1:
-        selfname = getattr(elem, 'Name', '')
+        selfname = getattr(element, 'Name', '')
         wxId = FixedIDs.get(selfname.upper(), wx.NewId())
-        eventids[selfid] = (wxId, elem)
-        uielementnames[selfname] = (wxId, elem)
+        eventids[selfid] = (wxId, element)
     return wxId
 
 

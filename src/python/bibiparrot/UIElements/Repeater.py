@@ -143,8 +143,6 @@ class MediaPlayer(wx.MiniFrame):
                               wx.ICON_ERROR | wx.OK)
             else:
                 self.ctrl.SetInitialSize()
-                # self.GetSizer().Layout()
-                # self.slider.SetRange(0, self.mc.Length())
         self.Show(True)
 
     def Pause(self):
@@ -225,10 +223,10 @@ class Repeater(wx.Panel):
         self.MediaSlider.Bind(wx.EVT_SLIDER, self.OnSeek, self.MediaSlider)
         self.VolumeSlider.Bind(wx.EVT_SLIDER, self.OnVolume, self.VolumeSlider)
         self.Bind(wx.EVT_TIMER, self.OnTimer)
-
+        print "binds"
         for id in self.RepeaterToolbar.binds.keys():
             (toolbar, item) = self.RepeaterToolbar.binds[id]
-            # print "On%s"%(toolbar.Name)
+            print "On%s"%(toolbar.Name)
             handler = getattr(self, "On%s"%(toolbar.Name))
             # print handler
             # print item
@@ -237,19 +235,31 @@ class Repeater(wx.Panel):
             if toolbar.needsUpdate():
                 updatehandler = getattr(self, "OnUpdate%s"%(toolbar.Name), handler)
                 # print updatehandler
-                # print "OnUpdate%s"%(toolbar.Name)
-                self.Bind(wx.EVT_UPDATE_UI, updatehandler, item)
+                print "OnUpdate%s"%(toolbar.Name)
+                # self.Bind(wx.EVT_UPDATE_UI, updatehandler, item)
 
         ### start time after bindings ###
         self.timer.Start(200)
 
+    def OnUpdateMediaOpenAndStop(self, evt):
+        # evt.Check(self.rtc.IsSelectionBold())
+        pass
 
-    def OnMediaOpen(self, evt):
+    def OnUpdateMediaBegin(self, evt):
+        evt.Enable(self.MediaPlayer)
+
+    def OnMediaOpenAndStop(self, evt):
         self.MediaPlayer.Open()
         if LOGWIRE:
             log().debug("%s: Length=%s", funcname(), self.MediaPlayer.GetLength())
         self.MediaSlider.SetRange(0, self.MediaPlayer.GetLength())
         self.VolumeSlider.SetValue(self.MediaPlayer.Volume())
+
+        ### Change the Icons
+        (wxId, item) = EventIDs.getElementbyName('MediaOpenAndStop')
+        bitmap = item.GetNormalBitmap()
+        self.RepeaterToolbar.SetToolNormalBitmap(wxId, item.GetClientData())
+        item.SetClientData(bitmap)
 
     def OnMediaLoaded(self, evt):
         # self.playBtn.Enable()
@@ -257,8 +267,12 @@ class Repeater(wx.Panel):
 
     def OnMediaPlayAndPause(self, evt):
         self.MediaPlayer.Play()
+
+        ### Change the Icons
         (wxId, elem) = EventIDs.getElementbyName('MediaPlayAndPause')
-        self.RepeaterToolbar.SetToolNormalBitmap(wxId, Images.bitmap('media_pause_32x32'))
+        bitmap = elem.GetNormalBitmap()
+        self.RepeaterToolbar.SetToolNormalBitmap(wxId, elem.GetClientData())
+        elem.SetClientData(bitmap)
 
     def OnPauseAndResume(self, evt):
         pass
