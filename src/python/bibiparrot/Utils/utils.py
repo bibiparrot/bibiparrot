@@ -108,8 +108,9 @@ def str2bool(str):
 class Bean(object):
     def __init__(self,**kwargs):
         self.clear()
-        for item in self.__slots__:
-            setattr(self, item, kwargs.get(item, None))
+        if kwargs is not None:
+            for item in kwargs.keys():
+                setattr(self, item, kwargs[item])
 
     def clear(self):
         pass
