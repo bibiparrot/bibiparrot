@@ -83,11 +83,12 @@ class MediaPlayControl(object):
     ### prepare the target file ###
     def open(self, curmd=None):
         ### allow always,  if is loaded ###
-        if self.info.state >= MediaState.Loaded and os.path.exists(curmd):
+        # if self.info.state >= MediaState.Loaded and os.path.exists(curmd):
+        if self.info.state >= MediaState.Loaded:
             if self.open_(curmd):
                 self.info.state = MediaState.Opened
                 ### prepare
-                self.info.fpath = os.path.abspath(curmd)
+                self.info.fpath = os.path.abspath(curmd) ## TODO URL:
                 self.info.videosize = self.getVideoSize_()
                 self.info.type = self.getMediaType_()
                 self.info.length = self.getMediaLength_()

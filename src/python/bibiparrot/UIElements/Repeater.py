@@ -53,7 +53,6 @@ class MediaSlider(wx.Slider):
 #         self.SeekPoint = 0
 
 
-
 # class MediaPlayer(wx.Panel):
 #     def __init__(self, parent,  *args, **kwargs):
 #         wx.Panel.__init__(self, parent,  *args, **kwargs)
@@ -111,6 +110,7 @@ class MediaPlayer(wx.MiniFrame):
                             style=wx.OPEN | wx.CHANGE_DIR )
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
+            path = path2url(path)
             self.LoadFile(path)
         dlg.Destroy()
 
@@ -241,7 +241,7 @@ class Repeater(wx.Panel):
         print "binds"
         for id in self.RepeaterToolbar.binds.keys():
             (toolbar, item) = self.RepeaterToolbar.binds[id]
-            print "On%s"%(toolbar.Name)
+            # print "On%s"%(toolbar.Name)
             handler = getattr(self, "On%s"%(toolbar.Name))
             # print handler
             # print item

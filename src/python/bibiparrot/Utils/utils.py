@@ -31,6 +31,18 @@ def funcname():
     return name
 
 
+__urllib_imported__ = False
+def path2url(path):
+    """Return file:// URL from a filename."""
+    path = os.path.abspath(path)
+    if isinstance(path, unicode):
+        path = path.encode('utf8')
+    global __urllib_imported__
+    if not __urllib_imported__:
+        import urllib
+        __urllib_imported__ = True
+    return 'file://' + urllib.pathname2url(path)
+
 def split2array(str, sep):
     arr = []
     if not str is None and not str.strip() == "":
@@ -136,3 +148,4 @@ class Bean(object):
         for n in dict.iterkeys():
              result.append("%s = %s" % (n, dict.get(n)))
         return "{\n\t\t"+"\n\t\t".join(result)+"\n}"
+
