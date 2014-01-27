@@ -45,18 +45,6 @@ class MediaSlider(wx.Slider):
         wx.Slider.__init__(self, parent,  size = self.element.Size,
                            *args, **kwargs)
 
-
-# class PlayerInfo(object):
-#     __slots__= ['Volume', 'SeekPoint']
-#     def __init__(self):
-#         self.Volume = 0
-#         self.SeekPoint = 0
-
-
-# class MediaPlayer(wx.Panel):
-#     def __init__(self, parent,  *args, **kwargs):
-#         wx.Panel.__init__(self, parent,  *args, **kwargs)
-
 class MediaPlayer(wx.MiniFrame):
     TYPE_WX = 0
     TYPE_VLC = 1
@@ -110,6 +98,7 @@ class MediaPlayer(wx.MiniFrame):
                             style=wx.OPEN | wx.CHANGE_DIR )
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
+            ### window xp will give problem without encoding as uri.###
             path = path2url(path)
             self.LoadFile(path)
         dlg.Destroy()
@@ -351,9 +340,11 @@ class Repeater(wx.Panel):
 
     def OnMediaVolumeLow(self, evt):
         self.MediaPlayer.Volume(0)
+        self.VolumeSlider.SetValue(0)
 
     def OnMediaVolumeHigh(self, evt):
         self.MediaPlayer.Volume(100)
+        self.VolumeSlider.SetValue(100)
 
     def OnVolume(self, evt):
         offset = self.VolumeSlider.GetValue()
