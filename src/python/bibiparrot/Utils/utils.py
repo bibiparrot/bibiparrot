@@ -31,17 +31,16 @@ def funcname():
     return name
 
 
-__urllib_imported__ = False
+###
+##  http://stackoverflow.com/questions/11687478/convert-a-filename-to-a-file-url
+#
+import urllib, urlparse
 def path2url(path):
     """Return file:// URL from a filename."""
     path = os.path.abspath(path)
     if isinstance(path, unicode):
         path = path.encode('utf8')
-    global __urllib_imported__
-    if not __urllib_imported__:
-        import urllib
-        __urllib_imported__ = True
-    return 'file://' + urllib.pathname2url(path)
+    return urlparse.urljoin('file:', urllib.pathname2url(path))
 
 def split2array(str, sep):
     arr = []
