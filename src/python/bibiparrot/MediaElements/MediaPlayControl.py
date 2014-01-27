@@ -335,9 +335,6 @@ class VLCMediaPlayCtrl(MediaPlayControl):
         self.media = self.instance.media_new(unicode(curmd))
         self.player.set_media(self.media)
         self.media.parse()
-        print
-        print self.player.video_get_track_description()
-        print
         if LOGWIRE:
             log().debug("VLCMediaPlayCtrl %s: track=%s, info=%s", funcname(), str(self.player.video_get_track_description()), self.info.dump())
         return True

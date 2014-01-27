@@ -135,18 +135,21 @@ class MediaPlayer(wx.MiniFrame):
         ## Show my self. ##
 
     def Play(self):
-        played = False
+        willShow = False
         if self.ctrlType == MediaPlayer.TYPE_VLC:
-            played = self.ctrl.play()
+            willShow = self.ctrl.play()
         elif self.ctrlType == MediaPlayer.TYPE_WX:
-            played = self.ctrl.Play()
-            if not played:
+            willShow = self.ctrl.Play()
+            if not willShow:
                 wx.MessageBox("Unable to Play media : Unsupported format?",
                               "ERROR",
                               wx.ICON_ERROR | wx.OK)
             else:
                 self.ctrl.SetInitialSize()
-        self.Show(played)
+        ### if it is audio without video size ###
+        if self.info.videosize ==(0,0):
+            willShow = False
+        self.Show(willShow)
 
     def Pause(self):
         if self.ctrlType == MediaPlayer.TYPE_VLC:
