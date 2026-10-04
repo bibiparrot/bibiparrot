@@ -125,7 +125,7 @@ mod tests {
         }
         assert_eq!(
             split(&pcm, &SegmentationConfig::default()).unwrap(),
-            [1600..17600, 25600..35200]
+            [0..19200, 24000..36800]
         );
     }
 
@@ -143,7 +143,7 @@ mod tests {
         }
         let spans = split(&pcm, &SegmentationConfig::default()).unwrap();
         assert_eq!(spans.len(), 1);
-        assert_eq!(spans[0], 21120..30720);
+        assert_eq!(spans[0], 19520..32320);
         assert!(split(&vec![0.0; 16000], &SegmentationConfig::default())
             .unwrap()
             .is_empty());

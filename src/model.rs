@@ -342,7 +342,7 @@ fn media_path_key(path: &Path) -> String {
     }
     #[cfg(not(windows))]
     {
-        key.into_owned()
+        key
     }
 }
 

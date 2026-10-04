@@ -26,7 +26,7 @@ whisper_threads = 0
 use_vad = true
 silence_gap_ms = 650
 vad_min_silence_ms = 550
-speech_padding_ms = 100
+speech_padding_ms = 200
 # Maximum release tail at DTW word boundaries; shortened for adjacent short words.
 word_boundary_padding_ms = 80
 max_sentence_ms = 15000

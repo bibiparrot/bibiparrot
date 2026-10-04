@@ -101,7 +101,7 @@ impl Default for SegmentationConfig {
             use_vad: true,
             silence_gap_ms: 650,
             vad_min_silence_ms: 550,
-            speech_padding_ms: 100,
+            speech_padding_ms: 200,
             word_boundary_padding_ms: 80,
             max_sentence_ms: 15_000,
         }
