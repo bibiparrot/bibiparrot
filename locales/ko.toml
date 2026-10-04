@@ -1,0 +1,109 @@
+_version = 1
+
+[menu]
+file = "파일"
+view = "보기"
+tools = "도구"
+language = "언어"
+help = "도움말"
+
+[actions]
+open_media = "미디어 열기…"
+save_dictation_as = "받아쓰기 다른 이름으로 저장…"
+save_workspace = "작업 공간 저장"
+quit = "종료"
+restore_default_layout = "기본 도크 배치 복원"
+maximize_dock = "%{dock} 최대화"
+intelligent_segmentation = "지능형 구간 분석"
+rerun_segmentation = "지능형 구간 분석 다시 실행"
+open_workspace = "현재 작업 공간 열기"
+open_config = "bibiparrot.toml 위치 열기"
+about = "BibiParrot 정보"
+drag_docks = "도크 탭을 끌어 이동, 크기 조절 또는 분리"
+save_project = "받아쓰기와 작업 공간 저장"
+analysis_running = "Whisper가 구간을 분석 중입니다"
+previous_sentence = "이전 문장"
+next_sentence = "다음 문장"
+show_media_library = "미디어 라이브러리 표시"
+show_segmentation = "구간 트리 표시"
+show_assistant = "AI 도우미 표시"
+restore_layout = "도크 배치 복원"
+hide_video = "비디오 화면 숨기기"
+show_video = "비디오 화면 표시"
+hide_left = "왼쪽으로 접기"
+hide_right = "오른쪽으로 접기"
+link_segment = "현재 구간 연결"
+asr_audio = "음성 인식 파일…"
+speak_response = "응답 읽기"
+send_message = "메시지 보내기(Ctrl+Enter)"
+
+[dock]
+player = "미디어 플레이어"
+media_library = "미디어 라이브러리"
+segmentation = "구간 트리"
+dictation = "Markdown 받아쓰기"
+assistant = "AI 도우미"
+
+[common]
+saved = "저장됨"
+unsaved = "저장 안 됨"
+system_locale = "시스템 설정"
+
+[player]
+loop = "반복"
+not_loop = "반복 안 함"
+loop_mode = "재생 반복 모드"
+speed = "재생 속도"
+volume_level = "볼륨"
+mute = "음소거"
+unmute = "음소거 해제"
+no_media = "선택된 미디어 없음"
+seek = "클릭하거나 끌어 해당 시간부터 재생"
+sentence_timeline = "문장 타임라인"
+word_timeline = "단어 타임라인"
+back_3 = "3초 뒤로"
+forward_3 = "3초 앞으로"
+
+[media]
+whisper_analyzing = "Whisper 분석 중…"
+whisper_analyzed = "Whisper 분석 완료"
+not_analyzed = "분석 안 됨"
+delete = "라이브러리에서 삭제"
+analysis_required = "Whisper 분석 완료 후 사용 가능"
+files_kept = "원본 미디어와 작업 공간은 유지됩니다"
+
+[segmentation]
+analyzing = "Whisper 분석 중…"
+another_analyzing = "다른 미디어 분석 중…"
+analyzing_media = "분석 중: %{media}"
+tip = "팁: %{tip}"
+failed = "구간 분석 실패: %{error}"
+not_analyzed = "아직 분석되지 않았습니다. 임시 구간은 표시되지 않습니다."
+no_media = "미디어 없음"
+
+[dictation]
+help = "텍스트 선택 후 연결 · 파란 링크를 두 번 클릭하여 재생"
+show_source = "Markdown 소스 표시"
+show_wysiwyg = "WYSIWYG 편집기 표시"
+
+[assistant]
+companion = "Bibi AI 학습 도우미"
+listening = "Whisper로 듣는 중…"
+ready = "연습 준비 완료"
+you = "나"
+input_hint = "선택한 문장, 어휘 또는 발음 질문…"
+no_sentence = "선택된 문장 없음"
+welcome = "안녕하세요! 문장이나 단어를 선택하면 듣기, 받아쓰기와 연습을 도와드릴게요."
+
+[about]
+title = "BibiParrot 정보"
+heading = "네이티브 언어 학습 스튜디오"
+stack = "Rust + egui + egui_dock · 설정 가능한 FFmpeg / Whisper.cpp · 로컬 우선 작업 공간"
+config = "설정: %{path}"
+support = "BibiParrot 후원"
+
+[status]
+ready = "준비됨 · %{backend} · 설정 %{path}"
+language_changed = "언어: %{language}"
+audio_muted = "음소거됨"
+volume = "볼륨 %{volume}%"

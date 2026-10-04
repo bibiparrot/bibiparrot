@@ -1,0 +1,9 @@
+/target/
+/dist/
+/package-work/
+/thirdparty/
+/tools/release-check/target/
+/docs/screenshots/*.playback.json
+*.log
+**/tests/snapshots/**/*.diff.png
+**/tests/snapshots/**/*.new.png

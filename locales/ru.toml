@@ -1,0 +1,109 @@
+_version = 1
+
+[menu]
+file = "Файл"
+view = "Вид"
+tools = "Инструменты"
+language = "Язык"
+help = "Справка"
+
+[actions]
+open_media = "Открыть медиа…"
+save_dictation_as = "Сохранить диктант как…"
+save_workspace = "Сохранить рабочую область"
+quit = "Выход"
+restore_default_layout = "Восстановить расположение панелей"
+maximize_dock = "Развернуть: %{dock}"
+intelligent_segmentation = "Интеллектуальная сегментация"
+rerun_segmentation = "Повторить интеллектуальную сегментацию"
+open_workspace = "Открыть текущую рабочую область"
+open_config = "Открыть папку bibiparrot.toml"
+about = "О BibiParrot"
+drag_docks = "Перетаскивайте вкладки, чтобы перемещать и изменять панели"
+save_project = "Сохранить диктант и рабочую область"
+analysis_running = "Whisper выполняет сегментацию"
+previous_sentence = "Предыдущее предложение"
+next_sentence = "Следующее предложение"
+show_media_library = "Показать медиатеку"
+show_segmentation = "Показать дерево сегментов"
+show_assistant = "Показать ИИ-помощника"
+restore_layout = "Восстановить панели"
+hide_video = "Скрыть видео"
+show_video = "Показать видео"
+hide_left = "Свернуть влево"
+hide_right = "Свернуть вправо"
+link_segment = "Связать текущий сегмент"
+asr_audio = "Распознать аудиофайл…"
+speak_response = "Озвучить ответ"
+send_message = "Отправить сообщение (Ctrl+Enter)"
+
+[dock]
+player = "Медиаплеер"
+media_library = "Медиатека"
+segmentation = "Дерево сегментов"
+dictation = "Markdown-диктант"
+assistant = "ИИ-помощник"
+
+[common]
+saved = "СОХРАНЕНО"
+unsaved = "НЕ СОХРАНЕНО"
+system_locale = "Системный"
+
+[player]
+loop = "Повтор"
+not_loop = "Без повтора"
+loop_mode = "Режим повтора"
+speed = "Скорость воспроизведения"
+volume_level = "Громкость"
+mute = "Выключить звук"
+unmute = "Включить звук"
+no_media = "Медиа не выбрано"
+seek = "Нажмите или перетащите для воспроизведения с этого времени"
+sentence_timeline = "Шкала предложений"
+word_timeline = "Шкала слов"
+back_3 = "Назад на 3 секунды"
+forward_3 = "Вперёд на 3 секунды"
+
+[media]
+whisper_analyzing = "Whisper анализирует…"
+whisper_analyzed = "Whisper: анализ завершён"
+not_analyzed = "Не проанализировано"
+delete = "Удалить из медиатеки"
+analysis_required = "Доступно после анализа Whisper"
+files_kept = "Исходный файл и рабочая область будут сохранены"
+
+[segmentation]
+analyzing = "Whisper анализирует…"
+another_analyzing = "Анализируется другое медиа…"
+analyzing_media = "Анализ: %{media}"
+tip = "Совет: %{tip}"
+failed = "Ошибка сегментации: %{error}"
+not_analyzed = "Анализ ещё не выполнен — временный сегмент не показывается."
+no_media = "Нет медиа"
+
+[dictation]
+help = "Выделите текст и свяжите · Двойной щелчок по синей ссылке запускает воспроизведение"
+show_source = "Показать исходный Markdown"
+show_wysiwyg = "Показать WYSIWYG-редактор"
+
+[assistant]
+companion = "Учебный ИИ-помощник Bibi"
+listening = "Whisper слушает…"
+ready = "Готов к практике"
+you = "Вы"
+input_hint = "Спросите о выбранном предложении, словах или произношении…"
+no_sentence = "Предложение не выбрано"
+welcome = "Здравствуйте! Выберите предложение или слово — я помогу слушать, расшифровывать и практиковаться."
+
+[about]
+title = "О BibiParrot"
+heading = "Нативная студия изучения языков"
+stack = "Rust + egui + egui_dock · настраиваемые FFmpeg и Whisper.cpp · локальные рабочие области"
+config = "Конфигурация: %{path}"
+support = "Поддержать BibiParrot"
+
+[status]
+ready = "Готово · %{backend} · конфигурация %{path}"
+language_changed = "Язык: %{language}"
+audio_muted = "Звук выключен"
+volume = "Громкость %{volume}%"

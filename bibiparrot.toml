@@ -1,0 +1,43 @@
+[tools]
+ffmpeg = "thirdparty/ffmpeg-n9.0-latest-win64-lgpl-shared-9.0/bin/ffmpeg.exe"
+ffprobe = ""
+whisper_model = "thirdparty/models/whisper/ggml-base.bin"
+vad_model = "thirdparty/models/whisper-vad/ggml-silero-v6.2.0.bin"
+mpv = ""
+
+[workspace]
+suffix = "_bp"
+audio_directory = "audio"
+segmentation_directory = "segmentations"
+dictation_directory = "dictations"
+
+[segmentation]
+language = "en"
+# Fast path: decode once, split by sustained low RMS energy, recognize in parallel.
+use_volume_segmentation = true
+silence_relative_db = 16.0
+# Optional fixed dBFS threshold (otherwise relative to the recording RMS):
+# silence_threshold_db = -35.0
+min_speech_ms = 80
+whisper_workers = 2
+# 0 divides an automatic CPU budget between workers.
+whisper_threads = 0
+# VAD settings apply to the legacy path (use_volume_segmentation = false).
+use_vad = true
+silence_gap_ms = 650
+vad_min_silence_ms = 550
+speech_padding_ms = 100
+# Maximum release tail at DTW word boundaries; shortened for adjacent short words.
+word_boundary_padding_ms = 80
+max_sentence_ms = 15000
+
+[playback]
+default_volume = 80
+default_rate = 1.0
+# Listening context on each side of a word; never changes analysis timestamps.
+word_padding_ms = 80
+
+[ui]
+# "system" follows the operating-system locale. Other supported values:
+# en, zh-CN, ja, la, ko, ru, fr, es
+locale = "system"

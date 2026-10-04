@@ -1,0 +1,109 @@
+_version = 1
+
+[menu]
+file = "Archivo"
+view = "Ver"
+tools = "Herramientas"
+language = "Idioma"
+help = "Ayuda"
+
+[actions]
+open_media = "Abrir medio…"
+save_dictation_as = "Guardar dictado como…"
+save_workspace = "Guardar espacio de trabajo"
+quit = "Salir"
+restore_default_layout = "Restaurar disposición de paneles"
+maximize_dock = "Maximizar %{dock}"
+intelligent_segmentation = "Segmentación inteligente"
+rerun_segmentation = "Repetir segmentación inteligente"
+open_workspace = "Abrir espacio de trabajo actual"
+open_config = "Abrir ubicación de bibiparrot.toml"
+about = "Acerca de BibiParrot"
+drag_docks = "Arrastra las pestañas para mover, cambiar tamaño o separar paneles"
+save_project = "Guardar dictado y espacio de trabajo"
+analysis_running = "Whisper está segmentando"
+previous_sentence = "Frase anterior"
+next_sentence = "Frase siguiente"
+show_media_library = "Mostrar biblioteca multimedia"
+show_segmentation = "Mostrar árbol de segmentos"
+show_assistant = "Mostrar asistente IA"
+restore_layout = "Restaurar paneles"
+hide_video = "Ocultar vídeo"
+show_video = "Mostrar vídeo"
+hide_left = "Contraer a la izquierda"
+hide_right = "Contraer a la derecha"
+link_segment = "Vincular segmento actual"
+asr_audio = "Reconocer archivo de audio…"
+speak_response = "Leer respuesta"
+send_message = "Enviar mensaje (Ctrl+Enter)"
+
+[dock]
+player = "Reproductor multimedia"
+media_library = "Biblioteca multimedia"
+segmentation = "Árbol de segmentos"
+dictation = "Dictado Markdown"
+assistant = "Asistente IA"
+
+[common]
+saved = "GUARDADO"
+unsaved = "SIN GUARDAR"
+system_locale = "Sistema"
+
+[player]
+loop = "Repetir"
+not_loop = "Sin repetición"
+loop_mode = "Modo de repetición"
+speed = "Velocidad de reproducción"
+volume_level = "Volumen"
+mute = "Silenciar"
+unmute = "Activar sonido"
+no_media = "No hay medio seleccionado"
+seek = "Haz clic o arrastra para reproducir desde este momento"
+sentence_timeline = "Línea de frases"
+word_timeline = "Línea de palabras"
+back_3 = "Retroceder 3 segundos"
+forward_3 = "Avanzar 3 segundos"
+
+[media]
+whisper_analyzing = "Whisper analizando…"
+whisper_analyzed = "Whisper analizado"
+not_analyzed = "Sin analizar"
+delete = "Eliminar de la biblioteca"
+analysis_required = "Disponible tras el análisis de Whisper"
+files_kept = "El medio original y el espacio de trabajo se conservarán"
+
+[segmentation]
+analyzing = "Whisper analizando…"
+another_analyzing = "Se está analizando otro medio…"
+analyzing_media = "Analizando: %{media}"
+tip = "Consejo: %{tip}"
+failed = "Error de segmentación: %{error}"
+not_analyzed = "Aún no analizado; no se muestra ningún segmento temporal."
+no_media = "Sin medios"
+
+[dictation]
+help = "Selecciona texto y vincula · Doble clic en enlaces azules para reproducir"
+show_source = "Mostrar código Markdown"
+show_wysiwyg = "Mostrar editor WYSIWYG"
+
+[assistant]
+companion = "Compañero de aprendizaje IA Bibi"
+listening = "Escuchando con Whisper…"
+ready = "Listo para practicar"
+you = "Tú"
+input_hint = "Pregunta sobre la frase, vocabulario o pronunciación…"
+no_sentence = "No hay frase seleccionada"
+welcome = "¡Hola! Selecciona una frase o palabra y te ayudaré a escuchar, transcribir y practicar."
+
+[about]
+title = "Acerca de BibiParrot"
+heading = "Estudio nativo de aprendizaje de idiomas"
+stack = "Rust + egui + egui_dock · FFmpeg y Whisper.cpp configurables · espacios locales"
+config = "Configuración: %{path}"
+support = "Apoyar BibiParrot"
+
+[status]
+ready = "Listo · %{backend} · configuración %{path}"
+language_changed = "Idioma: %{language}"
+audio_muted = "Audio silenciado"
+volume = "Volumen %{volume}%"

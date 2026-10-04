@@ -1,0 +1,109 @@
+_version = 1
+
+[menu]
+file = "ファイル"
+view = "表示"
+tools = "ツール"
+language = "言語"
+help = "ヘルプ"
+
+[actions]
+open_media = "メディアを開く…"
+save_dictation_as = "書き取りを別名で保存…"
+save_workspace = "ワークスペースを保存"
+quit = "終了"
+restore_default_layout = "既定のドック配置に戻す"
+maximize_dock = "%{dock}を最大化"
+intelligent_segmentation = "インテリジェント分割"
+rerun_segmentation = "インテリジェント分割を再実行"
+open_workspace = "現在のワークスペースを開く"
+open_config = "bibiparrot.toml の場所を開く"
+about = "BibiParrot について"
+drag_docks = "タブをドラッグして移動、サイズ変更、フロート"
+save_project = "書き取りとワークスペースを保存"
+analysis_running = "Whisper が分割中です"
+previous_sentence = "前の文"
+next_sentence = "次の文"
+show_media_library = "メディアライブラリを表示"
+show_segmentation = "分割ツリーを表示"
+show_assistant = "AI アシスタントを表示"
+restore_layout = "ドック配置を復元"
+hide_video = "ビデオ表示を隠す"
+show_video = "ビデオ表示を表示"
+hide_left = "左に折りたたむ"
+hide_right = "右に折りたたむ"
+link_segment = "現在の区間にリンク"
+asr_audio = "音声認識ファイル…"
+speak_response = "応答を読み上げ"
+send_message = "メッセージを送信（Ctrl+Enter）"
+
+[dock]
+player = "メディアプレーヤー"
+media_library = "メディアライブラリ"
+segmentation = "分割ツリー"
+dictation = "Markdown 書き取り"
+assistant = "AI アシスタント"
+
+[common]
+saved = "保存済み"
+unsaved = "未保存"
+system_locale = "システム設定"
+
+[player]
+loop = "ループ"
+not_loop = "ループなし"
+loop_mode = "再生ループモード"
+speed = "再生速度"
+volume_level = "音量"
+mute = "ミュート"
+unmute = "ミュート解除"
+no_media = "メディアが選択されていません"
+seek = "クリックまたはドラッグした時刻から再生"
+sentence_timeline = "文のタイムライン"
+word_timeline = "単語のタイムライン"
+back_3 = "3 秒戻る"
+forward_3 = "3 秒進む"
+
+[media]
+whisper_analyzing = "Whisper 解析中…"
+whisper_analyzed = "Whisper 解析済み"
+not_analyzed = "未解析"
+delete = "ライブラリから削除"
+analysis_required = "Whisper 解析完了後に利用可能"
+files_kept = "元のメディアとワークスペースは保持されます"
+
+[segmentation]
+analyzing = "Whisper 解析中…"
+another_analyzing = "別のメディアを解析中…"
+analyzing_media = "解析中：%{media}"
+tip = "ヒント：%{tip}"
+failed = "分割に失敗：%{error}"
+not_analyzed = "未解析です。仮の区間は表示されません。"
+no_media = "メディアなし"
+
+[dictation]
+help = "文字を選択してリンク · 青いリンクをダブルクリックして再生"
+show_source = "Markdown ソースを表示"
+show_wysiwyg = "WYSIWYG エディターを表示"
+
+[assistant]
+companion = "Bibi AI 学習パートナー"
+listening = "Whisper で聞き取り中…"
+ready = "練習できます"
+you = "あなた"
+input_hint = "選択した文、語彙、発音について質問…"
+no_sentence = "文が選択されていません"
+welcome = "こんにちは！文または単語を選ぶと、聞き取り、文字起こし、練習をお手伝いします。"
+
+[about]
+title = "BibiParrot について"
+heading = "ネイティブ言語学習スタジオ"
+stack = "Rust + egui + egui_dock · 設定可能な FFmpeg / Whisper.cpp · ローカル優先"
+config = "設定：%{path}"
+support = "BibiParrot を支援"
+
+[status]
+ready = "準備完了 · %{backend} · 設定 %{path}"
+language_changed = "言語：%{language}"
+audio_muted = "ミュートしました"
+volume = "音量 %{volume}%"

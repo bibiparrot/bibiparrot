@@ -1,0 +1,109 @@
+_version = 1
+
+[menu]
+file = "Fasciculus"
+view = "Aspectus"
+tools = "Instrumenta"
+language = "Lingua"
+help = "Auxilium"
+
+[actions]
+open_media = "Medium aperire…"
+save_dictation_as = "Dictationem servare ut…"
+save_workspace = "Spatium laboris servare"
+quit = "Exire"
+restore_default_layout = "Ordinem tabularum restituere"
+maximize_dock = "%{dock} amplificare"
+intelligent_segmentation = "Segmentatio intellegens"
+rerun_segmentation = "Segmentatio intellegens iterum"
+open_workspace = "Spatium laboris hodiernum aperire"
+open_config = "Locum bibiparrot.toml aperire"
+about = "De BibiParrot"
+drag_docks = "Titulos trahe ut tabulas moveas, mutes aut liberes"
+save_project = "Dictationem et spatium laboris servare"
+analysis_running = "Whisper segmenta examinat"
+previous_sentence = "Sententia prior"
+next_sentence = "Sententia proxima"
+show_media_library = "Bibliothecam mediorum ostendere"
+show_segmentation = "Arborem segmentorum ostendere"
+show_assistant = "Adiutorem AI ostendere"
+restore_layout = "Ordinem tabularum restituere"
+hide_video = "Imaginem video celare"
+show_video = "Imaginem video ostendere"
+hide_left = "Ad sinistram contrahere"
+hide_right = "Ad dextram contrahere"
+link_segment = "Segmentum praesens conectere"
+asr_audio = "Vocem e fasciculo agnoscere…"
+speak_response = "Responsum pronuntiare"
+send_message = "Nuntium mittere (Ctrl+Enter)"
+
+[dock]
+player = "Lector mediorum"
+media_library = "Bibliotheca mediorum"
+segmentation = "Arbor segmentorum"
+dictation = "Dictatio Markdown"
+assistant = "Adiutor AI"
+
+[common]
+saved = "SERVATUM"
+unsaved = "NON SERVATUM"
+system_locale = "Systema"
+
+[player]
+loop = "Iterare"
+not_loop = "Non iterare"
+loop_mode = "Modus iterationis"
+speed = "Celeritas reproductionis"
+volume_level = "Volumen"
+mute = "Sonum claudere"
+unmute = "Sonum aperire"
+no_media = "Nullum medium selectum"
+seek = "Preme aut trahe ut ab hoc tempore agatur"
+sentence_timeline = "Linea sententiarum"
+word_timeline = "Linea verborum"
+back_3 = "Retro 3 secunda"
+forward_3 = "Porro 3 secunda"
+
+[media]
+whisper_analyzing = "Whisper examinat…"
+whisper_analyzed = "Whisper examinavit"
+not_analyzed = "Nondum examinatum"
+delete = "E bibliotheca delere"
+analysis_required = "Post examen Whisper praesto"
+files_kept = "Medium originale et spatium laboris servantur"
+
+[segmentation]
+analyzing = "Whisper examinat…"
+another_analyzing = "Aliud medium examinatur…"
+analyzing_media = "Examinatur: %{media}"
+tip = "Consilium: %{tip}"
+failed = "Segmentatio defecit: %{error}"
+not_analyzed = "Nondum examinatum — segmentum temporarium non ostenditur."
+no_media = "Nullum medium"
+
+[dictation]
+help = "Textum selige deinde conecta · Vinculum caeruleum bis preme ut agatur"
+show_source = "Fontem Markdown ostende"
+show_wysiwyg = "Editorem WYSIWYG ostende"
+
+[assistant]
+companion = "Socius discendi AI Bibi"
+listening = "Whisper auscultat…"
+ready = "Paratus ad exercendum"
+you = "Tu"
+input_hint = "Quaere de sententia, vocabulis aut pronuntiatione…"
+no_sentence = "Nulla sententia selecta"
+welcome = "Salve! Sententiam aut verbum selige; te in audiendo, transcribendo et exercendo adiuvabo."
+
+[about]
+title = "De BibiParrot"
+heading = "Officina linguarum discendarum"
+stack = "Rust + egui + egui_dock · FFmpeg et Whisper.cpp configurabilia · spatia localia"
+config = "Configuratio: %{path}"
+support = "BibiParrot sustinere"
+
+[status]
+ready = "Paratum · %{backend} · configuratio %{path}"
+language_changed = "Lingua: %{language}"
+audio_muted = "Sonus clausus"
+volume = "Sonus %{volume}%"
